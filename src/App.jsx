@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import SignUp from './SignUp';
 import catAvatar from './assets/pisica.png';
 import logoStuddle from './assets/logoStuddle.png';
 import bgPerson from './assets/backgroundPerson.png';
@@ -26,6 +27,7 @@ function App() {
     <a href="#" className="hover:text-blue-900 transition-colors">MATERIALE DE STUDIU</a>
     <a href="#" className="hover:text-blue-900 transition-colors">PRIETENI</a>
     <a href="#" className="hover:text-blue-900 transition-colors">SETĂRI</a>
+     <a href="#" className="hover:text-blue-900 transition-colors">TIMER</a>
 
     <Link
   to="/login"
@@ -45,30 +47,37 @@ function App() {
   <div className="relative w-full max-w-7xl mx-auto h-[calc(100vh-7rem)]">
     
     {/* Partea Stângă: Ilustrația ca element absolut */}
-    <img
-      src={bgPerson}
-      alt=""
-      aria-hidden="true"
-      className="absolute left-5 bottom-30 h-[80%] w-auto object-contain object-left-bottom pointer-events-none select-none z-0" 
-      /* h-[80%] o face să ocupe mult spațiu vertical, pornind de jos */
-    />
+    {/* Imaginea — ridicată mai sus */}
+<img
+  src={bgPerson}
+  alt=""
+  aria-hidden="true"
+  className="absolute h-[82%] w-auto object-contain pointer-events-none select-none z-0"
+  style={{ left: '10%', bottom: '18%' }}
+/>
 
-    {/* Partea Dreaptă: Conținut text + butoane ca element absolut, suprapus */}
-    <div className="absolute right-20 bottom-60 w-1/2 flex flex-col items-center text-center pr-10 z-10">
-      <h1 className="text-3xl font-extrabold text-blue-950 mb-8 leading-tight">
-        Transformă învățatul într-o<br />
-        aventură cu Studdle
-      </h1>
-
-      <div className="flex justify-center gap-4">
-        <button className="bg-gradient-to-br from-sky-400 to-blue-500 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-blue-200 transition-all whitespace-nowrap">
-          Add assignment
-        </button>
-        <button className="bg-gradient-to-br from-indigo-400 to-purple-600 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-purple-200 transition-all whitespace-nowrap">
-          View calendar
-        </button>
-      </div>
-    </div>
+{/* Textul — mai jos, în golul dintre mână și linie */}
+<div
+  className="absolute z-10 flex flex-col items-center text-center"
+ style={{
+  left: '35%',
+  right: '21%',
+  top: '35%',
+}}
+>
+  <h1 className="text-3xl font-extrabold text-blue-950 mb-8 leading-tight">
+    Transformă învățatul într-o<br />
+    aventură cu Studdle
+  </h1>
+  <div className="flex justify-center gap-4">
+    <button className="bg-gradient-to-br from-sky-400 to-blue-500 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-blue-200 transition-all whitespace-nowrap">
+      Add assignment
+    </button>
+    <button className="bg-gradient-to-br from-indigo-400 to-purple-600 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-purple-200 transition-all whitespace-nowrap">
+      View calendar
+    </button>
+  </div>
+</div>
   </div>
 </main>
       
