@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import logoStuddle from './assets/logoStuddle.png';
 import pozacarti from './assets/pozaCarti.png';
 
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -15,10 +16,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/auth/login', {
+      const res = await fetch('/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ username, email, password }),
       });
 
       const data = await res.json();
@@ -35,6 +36,25 @@ const Login = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const inputStyle = {
+    width: '100%',
+    padding: '1rem 1.25rem',
+    borderRadius: '1rem',
+    border: 'none',
+    outline: 'none',
+    background: 'rgba(10, 56, 117, 0.35)',
+    color: '#1e3a8a',
+    fontSize: '0.95rem',
+    boxSizing: 'border-box'
+  };
+
+  const labelStyle = {
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    color: '#1e3a8a',
+    marginLeft: '4px'
   };
 
   return (
@@ -55,7 +75,7 @@ const Login = () => {
 
       {/* FORMULAR */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '13rem' }}>
-        <div style={{ width: '100%', maxWidth: '360px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
           {/* Error message */}
           {error && (
@@ -75,45 +95,35 @@ const Login = () => {
 
           {/* Email */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <label style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e3a8a', marginLeft: '4px' }}>Adresa de e-mail</label>
+            <label style={labelStyle}>Adresa de e-mail</label>
             <input
               type="email"
-              placeholder="nume@student.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '1rem 1.25rem',
-                borderRadius: '1rem',
-                border: 'none',
-                outline: 'none',
-                background: 'rgba(10, 56, 117, 0.35)',
-                color: '#1e3a8a',
-                fontSize: '0.95rem',
-                boxSizing: 'border-box'
-              }}
+              style={inputStyle}
+            />
+          </div>
+
+          {/* Username */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
+            <label style={labelStyle}>Nume de utilizator</label>
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              style={inputStyle}
             />
           </div>
 
           {/* Parola */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-            <label style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e3a8a', marginLeft: '4px' }}>Parola</label>
+            <label style={labelStyle}>Parola</label>
             <input
               type="password"
               placeholder="••••••••"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '1rem 1.25rem',
-                borderRadius: '1rem',
-                border: 'none',
-                outline: 'none',
-                background: 'rgba(10, 56, 117, 0.35)',
-                color: '#1e3a8a',
-                fontSize: '0.95rem',
-                boxSizing: 'border-box'
-              }}
+              style={inputStyle}
             />
           </div>
 
@@ -138,22 +148,23 @@ const Login = () => {
               transition: 'all 0.2s ease'
             }}
           >
-            {loading ? 'Se încarcă...' : 'Conectează-te'}
+            {loading ? 'Se încarcă...' : 'Creează cont'}
           </button>
 
           <p style={{ textAlign: 'center', fontSize: '0.875rem', color: '#3b6fa0' }}>
-            Nu ai cont?{' '}
+            Ai deja cont?{' '}
             <span
-              onClick={() => navigate('/signup')}
+              onClick={() => navigate('/login')}
               style={{ fontWeight: '700', cursor: 'pointer', textDecoration: 'underline' }}
             >
-              Creează unul
+              Conectează-te
             </span>
           </p>
 
         </div>
       </div>
 
+      {/* ILUSTRAȚIA */}
       <div style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)', width: '550px', pointerEvents: 'none' }}>
         <img src={pozacarti} alt="" style={{ width: '100%', objectFit: 'contain' }} />
       </div>
@@ -162,4 +173,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
