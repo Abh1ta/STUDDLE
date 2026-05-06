@@ -29,7 +29,85 @@ export const searchUsers = async (req, res) => {
         res.status(500).json({ message: "Eroare la căutare", error: error.message });
     }
 };
+export const deleteFriendship = async (req, res) => {
 
+    try {
+
+        const { id } = req.params; // Luăm ID-ul prieteniei din URL
+
+        const userId = req.userId;
+
+
+
+       
+
+        const friendship = await friendshipModel.findById(id);
+
+
+
+        if (!friendship) {
+
+            return res.status(404).json({ message: "Prietenia nu a fost găsită." });
+
+        }
+
+
+
+       
+
+        if (friendship.user_a_id.toString() !== userId && friendship.user_b_id.toString() !== userId) {
+
+            return res.status(403).json({ message: "Nu ai permisiunea să ștergi această prietenie." });
+
+        }
+
+
+
+        await friendshipModel.findByIdAndDelete(id);
+
+        res.status(200).json({ message: "Prietenia a fost eliminată." });
+
+    } catch (error) {
+
+        res.status(500).json({ message: "Eroare la ștergere", error: error.message });
+
+    }
+
+};
+
+
+
+// Vezi cererile de prietenie primite care așteaptă răspuns( daca facem pagina de notificari)
+
+
+
+export const getPendingRequests = async (req, res) => {
+
+    try {
+
+        const userId = req.userId;
+
+
+
+        const requests = await friendshipModel.find({
+
+            user_b_id: userId,
+
+            status: "pending"
+
+        }).populate("user_a_id", "username avatar_url level");
+
+
+
+        res.status(200).json(requests);
+
+    } catch (error) {
+
+        res.status(500).json({ message: "Eroare la obținerea cererilor", error: error.message });
+
+    }
+
+};
 export const sendFriendRequest = async (req, res) => {
     try {
         const { recipientId } = req.body; 
@@ -93,85 +171,7 @@ export const acceptFriendRequest = async (req, res) => {
     }
 };
 
-export const deleteFriendship = async (req, res) => {
 
-    try {
-
-        const { id } = req.params; // Luăm ID-ul prieteniei din URL
-
-        const userId = req.userId;
-
-
-
-       
-
-        const friendship = await friendshipModel.findById(id);
-
-
-
-        if (!friendship) {
-
-            return res.status(404).json({ message: "Prietenia nu a fost găsită." });
-
-        }
-
-
-
-       
-
-        if (friendship.user_a_id.toString() !== userId && friendship.user_b_id.toString() !== userId) {
-
-            return res.status(403).json({ message: "Nu ai permisiunea să ștergi această prietenie." });
-
-        }
-
-
-
-        await friendshipModel.findByIdAndDelete(id);
-
-        res.status(200).json({ message: "Prietenia a fost eliminată." });
-
-    } catch (error) {
-
-        res.status(500).json({ message: "Eroare la ștergere", error: error.message });
-
-    }
-
-};
-
-
-
-//    Vezi cererile de prietenie primite care așteaptă răspuns( daca facem pagina de notificari)
-
-
-
-export const getPendingRequests = async (req, res) => {
-
-    try {
-
-        const userId = req.userId;
-
-
-
-        const requests = await friendshipModel.find({
-
-            user_b_id: userId,
-
-            status: "pending"
-
-        }).populate("user_a_id", "username avatar_url level");
-
-
-
-        res.status(200).json(requests);
-
-    } catch (error) {
-
-        res.status(500).json({ message: "Eroare la obținerea cererilor", error: error.message });
-
-    }
-
-};
 export const getFriendsList = async (req, res) => {
     try {
         const userId = req.userId;

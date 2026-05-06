@@ -5,8 +5,4 @@ npm-debug.log*
 yarn-error.log*
 dist/
 build/
-<<<<<<< HEAD
 .DS_Store
-=======
-.DS_Store
->>>>>>> 49333f4595e6bd0374aa1cfcc7a30a2190734d95
