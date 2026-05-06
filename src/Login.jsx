@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import logoStuddle from './assets/logoStuddle.png';
 import pozacarti from './assets/pozaCarti.png';
+import { useAuth } from "./context/AuthContext";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -9,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { login } = useAuth();
 
   const handleSubmit = async () => {
     setError('');
@@ -26,9 +28,7 @@ const Login = () => {
       if (!res.ok) {
         setError(data.message || 'Ceva nu a mers bine.');
       } else {
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        navigate('/dashboard');
+        login(data.token, data.user);
       }
     } catch (err) {
       setError('Nu s-a putut conecta la server.');
