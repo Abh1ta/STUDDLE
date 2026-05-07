@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -24,6 +25,8 @@ dist-ssr
 *.sln
 *.sw?
 =======
+=======
+>>>>>>> origin/settings-avatar_settings
 node_modules/
 .env
 .env.*
@@ -31,5 +34,9 @@ npm-debug.log*
 yarn-error.log*
 dist/
 build/
+<<<<<<< HEAD
 .DS_Store
 >>>>>>> origin/backend-setup
+=======
+.DS_Store
+>>>>>>> origin/settings-avatar_settings

@@ -10,4 +10,8 @@ const achievementSchema = new mongoose.Schema({
 });
  
 const achievementModel = mongoose.models.achievementModel || mongoose.model("achievementModel", achievementSchema);
+<<<<<<< HEAD
 export default achievementModel;
+=======
+export default achievementModel;
+>>>>>>> origin/settings-avatar_settings
