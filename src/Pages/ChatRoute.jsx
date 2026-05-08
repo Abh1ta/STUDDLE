@@ -1,5 +1,5 @@
-import { useAuth } from './context/AuthContext';
-import ChatPage from './Pages/ChatPage';
+import { useAuth } from '../context/AuthContext';
+import ChatPage from './ChatPage';
 
 export default function ChatRoute() {
   const { token, user } = useAuth();

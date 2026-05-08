@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useSocket } from "./context/SocketContext";
+import { useSocket } from "../context/SocketContext";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
