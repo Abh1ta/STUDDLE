@@ -1,0 +1,570 @@
+@import url('https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Zilla Slab', serif;
+}
+
+.pagina-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #fff;
+}
+
+/* sectiunea 1 - materii */
+.container-materii-border {
+  background-color: #e3f1ff;
+  padding: 60px 8%;
+  border-top: 1.5px solid #000;
+  border-bottom: 1.5px solid #000;
+  min-height: 350px;
+  margin-top: 20px;
+}
+
+.titlu-sectiune {
+  padding-left: 8%;
+  color: #2a3b8f;
+  font-weight: 800;
+  font-size: 36px;
+  margin: 60px 0 -18px;
+}
+
+/* sectiunea 2 - carduri */
+.grid-materii,
+.grid-teme {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.card-materie,
+.caiet-card {
+  width: 300px;
+  height: 340px;
+  background-color: #fff;
+  border: 0.1rem solid #333;
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+}
+
+.card-materie {
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.card-header {
+  height: 70px;
+  padding: 0 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 500;
+  border-bottom: 1px solid #333;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-body {
+  flex-grow: 1;
+  background-color: #fff;
+}
+
+.nume-materie-text {
+  max-width: 85%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.caiet-card {
+  position: relative;
+}
+
+.caiet-coton {
+  width: 45px;
+  height: 100%;
+  border-right: 0.1rem solid #333;
+  border-radius: 14px 0 0 14px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 5px 0 8px rgba(0, 0, 0, 0.15);
+}
+
+.caiet-body {
+  flex-grow: 1;
+  padding: 25px 20px;
+  color: #333;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.nume-tema-text {
+  font-weight: 500;
+}
+
+.imagine-spirale {
+  position: absolute;
+  left: -22px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 80%;
+  width: auto;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* sectiunea 3 - butoane */
+.zona-click-tema {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.zona-click-tema:hover {
+  font-weight: 600;
+}
+
+.icon-plus-tema {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  border: 0.12rem solid currentColor;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  line-height: 1;
+  padding-bottom: 2px;
+}
+
+.icon-sterge {
+  cursor: pointer;
+  font-size: 32px;
+  line-height: 1;
+  margin-bottom: 6px;
+  opacity: 0.6;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.icon-sterge:hover {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* sectiunea 4 - examene si calendar */
+.layout-examene {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 30px;
+  gap: 40px;
+}
+
+.stanga-examene {
+  flex: 1;
+  max-width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.margin-jos-mare {
+  margin-bottom: 40px;
+}
+
+.lista-examene-adaugate {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+}
+
+.item-examen-real {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  max-width: 450px;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  position: relative;
+}
+
+.detalii-examen {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.nume-ex {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+}
+
+.data-ex {
+  font-size: 15px;
+  color: #666;
+  margin-top: 2px;
+}
+
+.item-examen-real .icon-sterge {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 22px;
+  color: #ccc;
+  margin-bottom: 0;
+}
+
+.item-examen-real .icon-sterge:hover {
+  color: #f03a17;
+}
+
+.patrat-culoare {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: help;
+}
+
+.dreapta-examene {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.calendar-static-card {
+  width: 450px;
+  padding: 20px 40px 30px;
+  background-color: #fff;
+  border: 0.1rem solid #333;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.calendar-header {
+  width: 100%;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.luna-titlu {
+  margin: 0;
+  color: #000;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.sageata-cal {
+  padding: 5px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.sageata-cal:hover {
+  background-color: #eee;
+}
+
+.zile-saptamana {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  padding-bottom: 10px;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #333;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.zile-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(6, 40px);
+  gap: 8px 0;
+  align-items: center;
+  color: #000;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.zi-cerc-dinamic {
+  width: 34px;
+  height: 34px;
+  margin: 0 auto;
+  border: 3px solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 800 !important;
+}
+
+.placeholder-examene {
+  margin-top: -30px;
+  color: #888;
+  font-size: 20px;
+  font-style: italic;
+  margin-top: -8px;
+}
+
+/* sectiunea 5 - popup uri */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.popup-container,
+.popup-container-examen {
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.popup-container {
+  width: 400px;
+  padding: 40px 20px;
+  background-color: #5c6186;
+  color: #e9e4f1;
+}
+
+.popup-container-examen {
+  width: 490px;
+  padding: 40px 30px;
+  background-color: #6a6e94;
+  color: #333;
+}
+
+.popup-text,
+.popup-incarca {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.popup-text {
+  line-height: 1.2;
+  margin-bottom: 25px;
+}
+
+.popup-sau {
+  font-size: 26px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.popup-incarca {
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.popup-incarca:hover,
+.adaugaexamen:hover {
+  text-decoration: underline;
+}
+
+.popup-label {
+  width: 85%;
+  margin: 0 auto 12px;
+  color: #2b2b3c;
+  font-size: 20px;
+  font-weight: 600;
+  text-align: left;
+}
+
+.popup-input,
+.popup-input-examen {
+  width: 85%;
+  height: 45px;
+  padding: 0 15px;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+  margin: 0 auto;
+  font-family: 'Zilla Slab', serif;
+}
+
+.popup-input {
+  margin-bottom: 20px;
+  background-color: #969fca;
+  border-radius: 15px 5px 15px 5px;
+  color: #1b2450;
+  font-size: 20px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.popup-input-examen {
+  margin-bottom: 30px;
+  background-color: #888cbd;
+  border-radius: 10px;
+  color: #fff;
+  font-size: 18px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.selector-culori {
+  width: 85%;
+  margin: 0 auto 30px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+}
+
+.patrat-culoare-selectabil {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.3);
+  transition: transform 0.2s;
+}
+
+.patrat-culoare-selectabil:hover,
+.patrat-culoare-selectabil.activ {
+  transform: scale(1.1);
+}
+
+.patrat-culoare-selectabil.activ {
+  border: 3px solid #fff;
+}
+
+.btn-adauga-examen {
+  display: block;
+  margin: 20px auto 0;
+  padding: 15px 40px;
+  background-color: #3a3b58;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  font-size: 20px;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btn-adauga-examen:hover {
+  opacity: 0.8;
+}
+
+::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(1);
+}
+
+.adaugaexamen {
+  font-size: 22px;
+  font-weight: 500;
+}
+
+/* sectiunea 6 - statistici */
+.statistics-clean-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 40px 0 40px 80px !important;
+  margin-bottom: 50px;
+}
+
+.zona-grafice-simpla {
+  width: 100%;
+  margin-left: 70px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.stat-chart-item {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.stat-subtitle {
+  padding-left: 10px;
+  margin-bottom: 40px;
+  color: #000;
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.chart-line-container {
+  width: 100%;
+  max-width: 850px;
+  height: 2px;
+}
+
+.chart-baseline {
+  width: 100%;
+  height: 2px;
+  background-color: #333;
+}
+
+/* sectiunea 7 - tooltip */
+.color-wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tooltip-dificultate {
+  visibility: hidden;
+  position: absolute;
+  left: 50%;
+  bottom: 50px;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  z-index: 100;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.tooltip-dificultate::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: inherit transparent transparent transparent;
+}
+
+.color-wrapper:hover .tooltip-dificultate {
+  visibility: visible;
+  opacity: 1;
+}
