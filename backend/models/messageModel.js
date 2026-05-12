@@ -12,11 +12,13 @@ const messageSchema = new mongoose.Schema(
       ref: "User",
       required: true,
     },
+    // For text messages
     content: {
       type: String,
       default: "",
       trim: true,
     },
+    // "text" | "file" | "note"
     type: {
       type: String,
       enum: ["text", "file", "note"],

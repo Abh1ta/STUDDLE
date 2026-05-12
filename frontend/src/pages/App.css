@@ -18,7 +18,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10%;
+  padding: 0 3%;
   background-color: #e3f2ff;
   border-bottom: 1px solid #dce8ff;
   position: relative; 
@@ -34,13 +34,10 @@
 }
 
 .logo img, .imglogo {
+  height: 70px;
   width: auto;
-  height: 140px; 
-  margin: -15px;
-  position: absolute;
-  top: 50%; 
-  transform: translateY(-32%); 
-  margin-left: -100px;
+  display: block;
+  padding-right: 100px;
 }
 
 .nav-links {

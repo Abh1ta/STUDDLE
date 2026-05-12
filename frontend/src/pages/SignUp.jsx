@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import logoStuddle from '../assets/logoStuddle.png';
@@ -11,7 +13,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+const { login, user } = useAuth();
 
 
   const handleSubmit = async () => {
@@ -71,7 +73,7 @@ const SignUp = () => {
 
       {/* HEADER */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 5rem 1.5rem 2.5rem' }}>
-        <Link to="/">
+    <Link to={user ? '/home' : '/'}>
           <img src={logoStuddle} alt="Studdle logo" className="h-16 w-auto object-contain" />
         </Link>
         <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.875rem', fontWeight: '700', color: '#1e40af' }} />

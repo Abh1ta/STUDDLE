@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -12,12 +13,14 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
+  // Call this after a successful login or signup response
   const login = (token, user) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));
     setToken(token);
     setUser(user);
-    navigate("/home");  };
+    navigate("/home");
+  };
 
   const logout = () => {
     localStorage.removeItem("token");

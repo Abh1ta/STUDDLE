@@ -6,6 +6,6 @@ const leaderboardRouter = express.Router();
 
 leaderboardRouter.get('/global', protect, getGlobalLeaderboard);
 leaderboardRouter.get('/friends', protect, getFriendsLeaderboard);
-leaderboardRouter.get('/my-rank', protect, getMyGlobalRank); 
+leaderboardRouter.get('/my-rank', protect, getMyGlobalRank); // Noua rută!
 
 export default leaderboardRouter;

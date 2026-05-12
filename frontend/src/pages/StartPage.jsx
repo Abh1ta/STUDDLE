@@ -1,8 +1,10 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import './App.css';
+import '../Components/Header.css'
 import { Link } from 'react-router-dom';
 
-import logoStuddle from '../assets/logostuddle.png';
+import logoStuddle from '../assets/logoStuddle.png';
 import pozaBaiat from '../assets/pozabaiat.png';
 import pisica from '../assets/Siameza ochi albastri (1).png';
 
@@ -26,7 +28,17 @@ const featuresData = [
 function StartPage() {
   return (
     <div className="app-container">
-      
+       <header className="header">
+      <div className="logo">
+    <Link to="/">
+<img src={logoStuddle} className="imglogo" alt="Logo Studdle" />
+    </Link>
+    </div>
+        <div className="nav-links">
+          <Link to="/login">SIGN IN</Link>
+<Link to="/signup">SIGN UP</Link>
+        </div>
+      </header>
 
       {/* sectiunea 1 - hero */}
       <main className="hero">

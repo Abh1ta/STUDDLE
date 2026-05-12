@@ -10,7 +10,7 @@ export const initSocket = (httpServer, io) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      socket.user = decoded; 
+      socket.user = decoded; // { id, username, ... }
       next();
     } catch {
       next(new Error("Invalid token"));
@@ -21,8 +21,10 @@ export const initSocket = (httpServer, io) => {
     const userId = socket.user.id;
     console.log(` Socket connected: ${userId}`);
 
+    // Join personal room so we can push notifications to this user
     socket.join(userId);
 
+    // Client emits this when opening a conversation window
     socket.on("join_chat", ({ friendId }) => {
       const roomId = getRoomId(userId, friendId);
       socket.join(roomId);
@@ -50,6 +52,7 @@ export const initSocket = (httpServer, io) => {
         const roomId = getRoomId(userId, receiverId);
         io.to(roomId).emit("new_message", populated);
 
+        // Also push to receiver's personal room for sidebar badge
         io.to(receiverId).emit("conversation_updated", {
           fromUserId: userId,
           lastMessage: populated,
@@ -60,11 +63,12 @@ export const initSocket = (httpServer, io) => {
       }
     });
 
+    // Client sends a fileId from the user's existing Cloudinary files
     socket.on("share_file", async ({ receiverId, fileId, caption }) => {
       try {
         const file = await fileModel.findOne({
           _id:     fileId,
-          user_id: userId, 
+          user_id: userId, // ensure ownership
         });
 
         if (!file) {
@@ -130,4 +134,5 @@ export const initSocket = (httpServer, io) => {
 };
 
 
+/** Deterministic room ID so both users always join the same room */
 const getRoomId = (a, b) => [a, b].sort().join("_");

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+// eslint-disable-next-line no-unused-vars
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 

@@ -1,10 +1,11 @@
 import userModel from "../models/userModel.js";
 import friendshipModel from "../models/friendshipModel.js";
 
-
+// @desc    Căutare utilizatori după username sau email
+// @route   GET /api/friends/search
 export const searchUsers = async (req, res) => {
     try {
-        const { query } = req.query; 
+        const { query } = req.query; // Luăm ce scrie userul în bara de căutare
 
         if (!query) {
             return res.status(400).json({ message: "Introdu un nume pentru căutare." });
@@ -32,20 +33,36 @@ export const deleteFriendship = async (req, res) => {
 
     try {
 
-        const { id } = req.params; 
+        const { id } = req.params; // Luăm ID-ul prieteniei din URL
+
         const userId = req.userId;
+
+
+
+       
+
         const friendship = await friendshipModel.findById(id);
+
+
 
         if (!friendship) {
 
             return res.status(404).json({ message: "Prietenia nu a fost găsită." });
 
         }
+
+
+
+       
+
         if (friendship.user_a_id.toString() !== userId && friendship.user_b_id.toString() !== userId) {
 
             return res.status(403).json({ message: "Nu ai permisiunea să ștergi această prietenie." });
 
         }
+
+
+
         await friendshipModel.findByIdAndDelete(id);
 
         res.status(200).json({ message: "Prietenia a fost eliminată." });
@@ -57,6 +74,12 @@ export const deleteFriendship = async (req, res) => {
     }
 
 };
+
+
+
+// Vezi cererile de prietenie primite care așteaptă răspuns( daca facem pagina de notificari)
+
+
 
 export const getPendingRequests = async (req, res) => {
 
@@ -123,8 +146,8 @@ export const sendFriendRequest = async (req, res) => {
 
 export const acceptFriendRequest = async (req, res) => {
     try {
-        const { requestId } = req.body; 
-        const userId = req.userId;      
+        const { requestId } = req.body; // idul cererii de prietenie 
+        const userId = req.userId;      // id care acceptă 
 
        
         const friendship = await friendshipModel.findById(requestId);
@@ -138,7 +161,7 @@ export const acceptFriendRequest = async (req, res) => {
             return res.status(403).json({ message: "Nu poți accepta o cerere care nu ți-a fost adresată." });
         }
 
-        
+        // Actualizăm statusul
         friendship.status = "accepted";
         await friendship.save();
 
@@ -167,6 +190,7 @@ export const getFriendsList = async (req, res) => {
                 ? friendship.user_b_id 
                 : friendship.user_a_id;
 
+            //  LOGICA PENTRU BULINA VERDE (Online Status) 
             const now = new Date();
             const lastActive = new Date(friend.last_active);
             const diffInMinutes = (now - lastActive) / 1000 / 60;
