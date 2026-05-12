@@ -4,6 +4,7 @@ import xpLogModel from "../models/xpLogModel.js";
 import achievementModel from "../models/achievementModel.js";
 import userAchievementModel from "../models/userAchievementModel.js";
 
+// @desc    Pornește o sesiune de studiu
 export const startStudySession = async (req, res) => {
     try {
         const userId = req.userId;
@@ -27,6 +28,7 @@ export const startStudySession = async (req, res) => {
     }
 };
 
+// @desc    Oprește sesiunea și calculează XP-ul
 export const stopStudySession = async (req, res) => {
     try {
         const userId = req.userId;
@@ -40,6 +42,7 @@ export const stopStudySession = async (req, res) => {
         const diffMs = endTime - session.start_time;
         const diffMins = Math.floor(diffMs / 60000);
 
+        // FIX: Sesiunile sub 1 minut nu primesc XP
         if (diffMins < 1) {
             session.status = "completed";
             session.end_time = endTime;
@@ -61,6 +64,7 @@ export const stopStudySession = async (req, res) => {
         session.status = "completed";
         await session.save();
 
+        // FIX: Folosim findByIdAndUpdate pentru a evita race conditions
         const updatedUser = await userModel.findByIdAndUpdate(
             userId,
             { 
@@ -70,6 +74,7 @@ export const stopStudySession = async (req, res) => {
             { new: true }
         );
 
+        // Calculăm noul level după ce avem XP-ul actualizat
         const newLevel = Math.floor(updatedUser.xp / 500) + 1;
         if (newLevel !== updatedUser.level) {
             updatedUser.level = newLevel;
@@ -95,10 +100,12 @@ export const stopStudySession = async (req, res) => {
     }
 };
 
+// @desc    Obține istoricul sesiunilor (cu paginare)
 export const getStudyHistory = async (req, res) => {
     try {
         const userId = req.userId;
 
+        // FIX: Paginare adăugată
         const page = parseInt(req.query.page) || 1;
         const limit = 20;
         const skip = (page - 1) * limit;

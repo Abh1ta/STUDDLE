@@ -22,6 +22,7 @@ export const getConversation = async (req, res) => {
       .populate("receiver", "username avatar")
       .populate("file",     "title file_type url size_bytes cloudinary_id");
 
+    // Return in chronological order for the UI
     res.status(200).json({ messages: messages.reverse(), page });
   } catch (error) {
     console.error("getConversation error:", error);
@@ -50,6 +51,7 @@ export const getConversationList = async (req, res) => {
   try {
     const userId = req.user._id;
 
+    // Find all messages involving the current user
     const messages = await Message.find({
       $or: [{ sender: userId }, { receiver: userId }],
     })
@@ -57,6 +59,7 @@ export const getConversationList = async (req, res) => {
       .populate("sender",   "username avatar")
       .populate("receiver", "username avatar");
 
+    // Deduplicate — keep only the latest message per friend
     const seen = new Map();
     for (const msg of messages) {
       const otherId = msg.sender._id.toString() === userId.toString()

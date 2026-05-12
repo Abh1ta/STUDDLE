@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { sendWelcomeEmail } from "../utils/sendEmail.js";
 
+// SIGN UP
 export const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -24,6 +25,7 @@ export const register = async (req, res) => {
   }
 };
 
+// LOGIN
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -38,13 +40,5 @@ export const login = async (req, res) => {
     res.status(200).json({ token, user: { id: user._id, username: user.username, email: user.email } });
   } catch (err) {
     res.status(500).json({ message: "Eroare server", error: err.message });
-  }
-};
-export const deleteAccount = async (req, res) => {
-  try {
-    await userModel.findByIdAndDelete(req.userId);
-    res.status(200).json({ message: "Cont șters cu succes." });
-  } catch (error) {
-    res.status(500).json({ message: "Eroare la ștergere", error: error.message });
   }
 };

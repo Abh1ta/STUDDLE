@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import './PaginaMateriale.css';
 import spiraleImg from "../assets/Group 24.png";
