@@ -1,9 +1,10 @@
-import Header from './components/Header.jsx'  // adjust path
+
+import Header from './components/Header.jsx' 
 import { useLocation } from 'react-router-dom'
 
 const Layout = () => {
   const location = useLocation();
-  const hideHeader = ['/login', '/signup'].includes(location.pathname);
+  const hideHeader = ['/login', '/signup', '/', '/Signup'].includes(location.pathname);
   
   return !hideHeader ? <Header /> : null;
 }

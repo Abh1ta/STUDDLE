@@ -12,15 +12,16 @@ const Header = () => {
   return (
     <header className="header-studdle">
   <div className="logo-box">
-    <Link to="/">
+    <Link to="/home">
       <img src={logoImg} alt="Studdle Logo" className="logo-studiu" />
     </Link>
   </div>
 
   <nav className="nav-meniu">
-    <Link to="/" className={isActive("/")}>ACASĂ</Link>
+    <Link to="/home" className={isActive("/")}>ACASĂ</Link>
     <Link to="/materiale" className={isActive("/materiale")}>MATERIALE DE STUDIU</Link>
     <Link to="/friends" className={isActive("/friends")}>PRIETENI</Link>
+    <Link to="/chat" className={isActive("/chat")}>CHAT</Link>
     <Link to="/settings" className={isActive("/settings")}>SETĂRI</Link>
     <Link to="/timer" className={isActive("/timer")}>TIMER</Link>
   </nav>

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import catAvatar from '../assets/pisica.png'; 
@@ -54,10 +55,10 @@ function App() {
             </h1>
             <div className="flex justify-center gap-4">
               <button className="bg-gradient-to-br from-sky-400 to-blue-500 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-blue-200 transition-all whitespace-nowrap">
-                Add assignment
+                Adaugă o materie
               </button>
               <button className="bg-gradient-to-br from-indigo-400 to-purple-600 hover:brightness-110 text-white text-sm font-bold py-3 px-8 rounded-full shadow-lg shadow-purple-200 transition-all whitespace-nowrap">
-                View calendar
+                Vezi calendarul
               </button>
             </div>
           </div>
