@@ -3,15 +3,16 @@ import mongoose from "mongoose";
 const messageSchema = new mongoose.Schema(
   {
     sender: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    receiver: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "userModel",
+  required: true,
+},
+
+receiver: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "userModel",
+  required: true,
+},
     content: {
       type: String,
       default: "",
@@ -24,7 +25,7 @@ const messageSchema = new mongoose.Schema(
     },
     file: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "File",
+      ref: "fileModel",
       default: null,
     },
     attachment: {

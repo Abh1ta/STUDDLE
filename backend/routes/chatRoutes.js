@@ -12,11 +12,8 @@ const router = express.Router();
 router.use(protect);
 
 router.get("/conversations", getConversationList);
-
-router.get("/:friendId", getConversation);
-
-router.put("/:friendId/read", markAsRead);
-
 router.get("/files/mine", getUserFiles);
+router.get("/:friendId", getConversation);
+router.put("/:friendId/read", markAsRead);
 
 export default router;

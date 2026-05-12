@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSocket } from "../context/SocketContext";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
@@ -27,49 +27,36 @@ function FileIcon({ type, size = 20 }) {
   const isPdf = type === "pdf";
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="2" width="13" height="17" rx="2" fill={isPdf ? "#e07ef7" : "#7eb8f7"} opacity="0.25" />
-      <rect x="3" y="2" width="13" height="17" rx="2" stroke={isPdf ? "#c855e8" : "#4a9eff"} strokeWidth="1.5" />
-      <path d="M13 2v5h5" stroke={isPdf ? "#c855e8" : "#4a9eff"} strokeWidth="1.5" strokeLinecap="round" />
-      <rect x="3" y="2" width="13" height="17" rx="2" fill="none" />
+      <rect x="3" y="2" width="13" height="17" rx="2"
+        fill={isPdf ? "#e07ef7" : "#7eb8f7"} opacity="0.25" />
+      <rect x="3" y="2" width="13" height="17" rx="2"
+        stroke={isPdf ? "#c855e8" : "#4a9eff"} strokeWidth="1.5" />
+      <path d="M13 2v5h5" stroke={isPdf ? "#c855e8" : "#4a9eff"}
+        strokeWidth="1.5" strokeLinecap="round" />
       <text x="9" y="14" textAnchor="middle" fontSize="5" fontWeight="700"
         fill={isPdf ? "#c855e8" : "#4a9eff"} fontFamily="sans-serif">
         {type?.toUpperCase()}
       </text>
-      <path d="M16 6l3 3" stroke={isPdf ? "#c855e8" : "#4a9eff"} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M16 6l3 3" stroke={isPdf ? "#c855e8" : "#4a9eff"}
+        strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
 
 function AttachmentBubble({ attachment, isMine }) {
   return (
-    <a
-      href={attachment.url}
-      target="_blank"
-      rel="noopener noreferrer"
+    <a href={attachment.url} target="_blank" rel="noopener noreferrer"
       style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "10px",
-        padding: "10px 14px",
-        borderRadius: "12px",
-        background: isMine
-          ? "rgba(255,255,255,0.15)"
-          : "rgba(139,120,221,0.1)",
-        border: isMine
-          ? "1px solid rgba(255,255,255,0.25)"
-          : "1px solid rgba(139,120,221,0.25)",
-        textDecoration: "none",
-        color: "inherit",
-        transition: "background 0.2s",
-        maxWidth: "240px",
-      }}
-    >
+        display: "flex", alignItems: "center", gap: "10px",
+        padding: "10px 14px", borderRadius: "12px",
+        background: isMine ? "rgba(255,255,255,0.15)" : "rgba(139,120,221,0.1)",
+        border: isMine ? "1px solid rgba(255,255,255,0.25)" : "1px solid rgba(139,120,221,0.25)",
+        textDecoration: "none", color: "inherit", maxWidth: "240px",
+      }}>
       <div style={{
-        width: 40, height: 40,
-        borderRadius: 8,
+        width: 40, height: 40, borderRadius: 8, flexShrink: 0,
         background: isMine ? "rgba(255,255,255,0.2)" : "rgba(139,120,221,0.15)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        flexShrink: 0,
       }}>
         <FileIcon type={attachment.file_type} size={22} />
       </div>
@@ -78,9 +65,7 @@ function AttachmentBubble({ attachment, isMine }) {
           fontSize: 13, fontWeight: 600, lineHeight: 1.3,
           whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
           color: isMine ? "#fff" : "#3d2d6b",
-        }}>
-          {attachment.title}
-        </div>
+        }}>{attachment.title}</div>
         <div style={{ fontSize: 11, opacity: 0.7, marginTop: 2,
           color: isMine ? "#fff" : "#7b6aaa" }}>
           {attachment.file_type?.toUpperCase()} · {fmt(attachment.size_bytes)}
@@ -91,7 +76,8 @@ function AttachmentBubble({ attachment, isMine }) {
 }
 
 function MessageBubble({ msg, currentUserId }) {
-  const isMine = msg.sender._id === currentUserId || msg.sender === currentUserId;
+  const senderId = msg.sender?._id || msg.sender;
+  const isMine = senderId?.toString() === currentUserId?.toString();
 
   return (
     <div style={{
@@ -101,27 +87,24 @@ function MessageBubble({ msg, currentUserId }) {
       gap: 8,
       marginBottom: 4,
     }}>
-      {/* Avatar */}
       {!isMine && (
         <div style={{
           width: 32, height: 32, borderRadius: "50%",
           background: "linear-gradient(135deg, #b09fef, #7eb3f7)",
           display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 13, fontWeight: 700, color: "#fff",
-          flexShrink: 0,
+          fontSize: 13, fontWeight: 700, color: "#fff", flexShrink: 0,
         }}>
-          {(msg.sender.username || "?")[0].toUpperCase()}
+          {(msg.sender?.username || "?")[0].toUpperCase()}
         </div>
       )}
 
-      {/* Bubble */}
-      <div style={{ maxWidth: "65%", display: "flex", flexDirection: "column",
-        alignItems: isMine ? "flex-end" : "flex-start", gap: 4 }}>
-
+      <div style={{
+        maxWidth: "65%", display: "flex", flexDirection: "column",
+        alignItems: isMine ? "flex-end" : "flex-start", gap: 4,
+      }}>
         {msg.attachment && (
           <AttachmentBubble attachment={msg.attachment} isMine={isMine} />
         )}
-
         {msg.content && (
           <div style={{
             padding: "10px 14px",
@@ -130,8 +113,7 @@ function MessageBubble({ msg, currentUserId }) {
               ? "linear-gradient(135deg, #8b6fd4, #6a5bc4)"
               : "rgba(255,255,255,0.85)",
             color: isMine ? "#fff" : "#3d2d6b",
-            fontSize: 14,
-            lineHeight: 1.5,
+            fontSize: 14, lineHeight: 1.5,
             boxShadow: isMine
               ? "0 2px 12px rgba(107,85,196,0.35)"
               : "0 2px 8px rgba(139,120,221,0.12)",
@@ -142,9 +124,10 @@ function MessageBubble({ msg, currentUserId }) {
             {msg.content}
           </div>
         )}
-
-        <div style={{ fontSize: 10, opacity: 0.5, color: "#5a4a8a",
-          display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{
+          fontSize: 10, opacity: 0.5, color: "#5a4a8a",
+          display: "flex", alignItems: "center", gap: 4,
+        }}>
           {timeStr(msg.createdAt)}
           {isMine && (
             <span style={{ color: msg.read ? "#8b6fd4" : "inherit" }}>
@@ -202,14 +185,17 @@ function FilePickerModal({ token, onSelect, onClose }) {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           style={{
-            padding: "10px 14px", borderRadius: 12, border: "1.5px solid rgba(139,120,221,0.3)",
-            background: "rgba(255,255,255,0.7)", fontSize: 14, color: "#3d2d6b",
-            outline: "none",
+            padding: "10px 14px", borderRadius: 12,
+            border: "1.5px solid rgba(139,120,221,0.3)",
+            background: "rgba(255,255,255,0.7)", fontSize: 14,
+            color: "#3d2d6b", outline: "none",
           }}
         />
 
         <div style={{ overflowY: "auto", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-          {loading && <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14 }}>Loading...</div>}
+          {loading && (
+            <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14 }}>Loading...</div>
+          )}
           {!loading && filtered.length === 0 && (
             <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14, paddingTop: 20 }}>
               No files found
@@ -219,8 +205,9 @@ function FilePickerModal({ token, onSelect, onClose }) {
             <button key={f._id} onClick={() => onSelect(f)} style={{
               display: "flex", alignItems: "center", gap: 12,
               padding: "12px 14px", borderRadius: 12, cursor: "pointer",
-              background: "rgba(255,255,255,0.7)", border: "1.5px solid rgba(139,120,221,0.2)",
-              textAlign: "left", transition: "all 0.2s", width: "100%",
+              background: "rgba(255,255,255,0.7)",
+              border: "1.5px solid rgba(139,120,221,0.2)",
+              textAlign: "left", width: "100%",
             }}
               onMouseEnter={(e) => e.currentTarget.style.background = "rgba(139,120,221,0.12)"}
               onMouseLeave={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.7)"}
@@ -233,10 +220,10 @@ function FilePickerModal({ token, onSelect, onClose }) {
                 <FileIcon type={f.file_type} size={22} />
               </div>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 600, color: "#3d2d6b",
-                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {f.title}
-                </div>
+                <div style={{
+                  fontSize: 13, fontWeight: 600, color: "#3d2d6b",
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>{f.title}</div>
                 <div style={{ fontSize: 11, color: "#9b8dc4", marginTop: 2 }}>
                   {f.file_type?.toUpperCase()} · {fmt(f.size_bytes)}
                   {f.subject_id && ` · ${f.subject_id.title}`}
@@ -250,7 +237,17 @@ function FilePickerModal({ token, onSelect, onClose }) {
   );
 }
 
-function ConversationSidebar({ conversations, activeFriendId, onSelect }) {
+// Sidebar shows friends list; conversations with messages are highlighted
+function ConversationSidebar({ friendList, conversations, activeFriendId, onSelect }) {
+  // Build a map of friendId -> conversation data
+  const convMap = {};
+  conversations.forEach(({ lastMessage, unreadCount }) => {
+    const other = lastMessage.sender?._id === activeFriendId
+      ? lastMessage.receiver
+      : lastMessage.sender;
+    if (other?._id) convMap[other._id] = { lastMessage, unreadCount };
+  });
+
   return (
     <div style={{
       width: 280, flexShrink: 0,
@@ -264,41 +261,40 @@ function ConversationSidebar({ conversations, activeFriendId, onSelect }) {
       </div>
 
       <div style={{ overflowY: "auto", flex: 1, padding: "8px 12px" }}>
-        {conversations.length === 0 && (
+        {friendList.length === 0 && (
           <div style={{ padding: "24px 8px", color: "#9b8dc4", fontSize: 13, textAlign: "center" }}>
-            No conversations yet.<br/>Find a friend to start chatting!
+            No friends yet.<br />Add friends to start chatting!
           </div>
         )}
-        {conversations.map(({ lastMessage, unreadCount }) => {
-          const other = lastMessage.sender._id === lastMessage.receiver._id
-            ? lastMessage.receiver
-            : lastMessage.sender._id !== activeFriendId
-              ? lastMessage.sender
-              : lastMessage.receiver;
-
-          const isActive = other._id === activeFriendId;
+        {friendList.map((friend) => {
+          const conv = convMap[friend.id];
+          const isActive = friend.id === activeFriendId;
 
           return (
-            <button key={other._id} onClick={() => onSelect(other)}
+            <button key={friend.id} onClick={() => onSelect(friend)}
               style={{
-                display: "flex", alignItems: "center", gap: 12, padding: "12px 10px",
-                borderRadius: 14, cursor: "pointer", width: "100%", textAlign: "left",
-                background: isActive ? "linear-gradient(135deg,rgba(139,120,221,0.18),rgba(106,91,196,0.1))" : "none",
-                border: isActive ? "1.5px solid rgba(139,120,221,0.3)" : "1.5px solid transparent",
+                display: "flex", alignItems: "center", gap: 12,
+                padding: "12px 10px", borderRadius: 14, cursor: "pointer",
+                width: "100%", textAlign: "left",
+                background: isActive
+                  ? "linear-gradient(135deg,rgba(139,120,221,0.18),rgba(106,91,196,0.1))"
+                  : "none",
+                border: isActive
+                  ? "1.5px solid rgba(139,120,221,0.3)"
+                  : "1.5px solid transparent",
                 marginBottom: 4, transition: "all 0.2s",
               }}
               onMouseEnter={(e) => { if (!isActive) e.currentTarget.style.background = "rgba(139,120,221,0.08)"; }}
               onMouseLeave={(e) => { if (!isActive) e.currentTarget.style.background = "none"; }}
             >
-              {/* Avatar */}
               <div style={{
                 width: 44, height: 44, borderRadius: "50%", flexShrink: 0,
                 background: "linear-gradient(135deg, #b09fef, #7eb3f7)",
                 display: "flex", alignItems: "center", justifyContent: "center",
                 fontSize: 17, fontWeight: 700, color: "#fff", position: "relative",
               }}>
-                {(other.username || "?")[0].toUpperCase()}
-                {unreadCount > 0 && (
+                {(friend.username || "?")[0].toUpperCase()}
+                {conv?.unreadCount > 0 && (
                   <div style={{
                     position: "absolute", top: -2, right: -2,
                     width: 18, height: 18, borderRadius: "50%",
@@ -307,27 +303,33 @@ function ConversationSidebar({ conversations, activeFriendId, onSelect }) {
                     display: "flex", alignItems: "center", justifyContent: "center",
                     border: "2px solid #f0ecff",
                   }}>
-                    {unreadCount > 9 ? "9+" : unreadCount}
+                    {conv.unreadCount > 9 ? "9+" : conv.unreadCount}
                   </div>
                 )}
               </div>
 
               <div style={{ minWidth: 0, flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "#3d2d6b",
-                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {other.username}
+                <div style={{
+                  fontSize: 14, fontWeight: 600, color: "#3d2d6b",
+                  whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                }}>
+                  {friend.username}
                 </div>
                 <div style={{ fontSize: 12, color: "#9b8dc4", marginTop: 2,
                   whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
-                  {lastMessage.type !== "text"
-                    ? `📎 ${lastMessage.attachment?.title || "Attachment"}`
-                    : lastMessage.content}
+                  {conv
+                    ? conv.lastMessage.type !== "text"
+                      ? `📎 ${conv.lastMessage.attachment?.title || "Attachment"}`
+                      : conv.lastMessage.content
+                    : friend.isOnline ? "Online" : "Offline"}
                 </div>
               </div>
 
-              <div style={{ fontSize: 11, color: "#b5a8d8", flexShrink: 0 }}>
-                {timeStr(lastMessage.createdAt)}
-              </div>
+              {conv && (
+                <div style={{ fontSize: 11, color: "#b5a8d8", flexShrink: 0 }}>
+                  {timeStr(conv.lastMessage.createdAt)}
+                </div>
+              )}
             </button>
           );
         })}
@@ -342,7 +344,6 @@ function TypingIndicator() {
       <div style={{
         width: 32, height: 32, borderRadius: "50%",
         background: "linear-gradient(135deg,#b09fef,#7eb3f7)",
-        display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0,
       }} />
       <div style={{
@@ -353,8 +354,7 @@ function TypingIndicator() {
       }}>
         {[0, 0.2, 0.4].map((delay, i) => (
           <div key={i} style={{
-            width: 6, height: 6, borderRadius: "50%",
-            background: "#8b6fd4",
+            width: 6, height: 6, borderRadius: "50%", background: "#8b6fd4",
             animation: `bounce 1.2s ${delay}s infinite`,
           }} />
         ))}
@@ -365,18 +365,22 @@ function TypingIndicator() {
 
 function ChatWindow({ friend, token, currentUserId }) {
   const { socketRef } = useSocket();
-  const [messages, setMessages]   = useState([]);
-  const [input, setInput]         = useState("");
-  const [isTyping, setIsTyping]   = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
+  const [isTyping, setIsTyping] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
-  const [loading, setLoading]     = useState(true);
-  const bottomRef                 = useRef(null);
-  const typingTimeout             = useRef(null);
+  const [loading, setLoading] = useState(true);
+  const bottomRef = useRef(null);
+  const typingTimeout = useRef(null);
 
-  // Load history
+  // The friend id may come as friend.id or friend._id depending on source
+  const friendId = friend._id || friend.id;
+
   useEffect(() => {
     setLoading(true);
-    fetch(`${API}/api/chat/${friend._id}`, {
+    setMessages([]);
+
+    fetch(`${API}/api/chat/${friendId}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
@@ -385,28 +389,27 @@ function ChatWindow({ friend, token, currentUserId }) {
     const socket = socketRef.current;
     if (!socket) return;
 
-    socket.emit("join_chat", { friendId: friend._id });
-    socket.emit("mark_read",  { senderId: friend._id });
+    socket.emit("join_chat", { friendId });
+    socket.emit("mark_read", { senderId: friendId });
 
     socket.on("new_message", (msg) => {
       setMessages((prev) => [...prev, msg]);
-      if (msg.sender._id !== currentUserId) {
-        socket.emit("mark_read", { senderId: friend._id });
+      if ((msg.sender?._id || msg.sender)?.toString() !== currentUserId?.toString()) {
+        socket.emit("mark_read", { senderId: friendId });
       }
     });
 
-    socket.on("user_typing",         () => setIsTyping(true));
+    socket.on("user_typing", () => setIsTyping(true));
     socket.on("user_stopped_typing", () => setIsTyping(false));
 
     return () => {
-      socket.emit("leave_chat", { friendId: friend._id });
+      socket.emit("leave_chat", { friendId });
       socket.off("new_message");
       socket.off("user_typing");
       socket.off("user_stopped_typing");
     };
-  }, [friend._id]);
+  }, [friendId]);
 
-  // Auto-scroll
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
@@ -414,13 +417,13 @@ function ChatWindow({ friend, token, currentUserId }) {
   const sendText = () => {
     const text = input.trim();
     if (!text) return;
-    socketRef.current?.emit("send_message", { receiverId: friend._id, content: text });
+    socketRef.current?.emit("send_message", { receiverId: friendId, content: text });
     setInput("");
     clearTyping();
   };
 
   const sendFile = (file) => {
-    socketRef.current?.emit("share_file", { receiverId: friend._id, fileId: file._id });
+    socketRef.current?.emit("share_file", { receiverId: friendId, fileId: file._id });
     setShowPicker(false);
   };
 
@@ -428,17 +431,16 @@ function ChatWindow({ friend, token, currentUserId }) {
     setInput(e.target.value);
     const socket = socketRef.current;
     if (!socket) return;
-    socket.emit("typing_start", { receiverId: friend._id });
+    socket.emit("typing_start", { receiverId: friendId });
     clearTimeout(typingTimeout.current);
     typingTimeout.current = setTimeout(() => clearTyping(), 2000);
   };
 
   const clearTyping = () => {
-    socketRef.current?.emit("typing_stop", { receiverId: friend._id });
+    socketRef.current?.emit("typing_stop", { receiverId: friendId });
     clearTimeout(typingTimeout.current);
   };
 
-  // Group messages by day
   const grouped = messages.reduce((acc, msg) => {
     const label = dayLabel(msg.createdAt);
     if (!acc[label]) acc[label] = [];
@@ -458,8 +460,7 @@ function ChatWindow({ friend, token, currentUserId }) {
           padding: "16px 24px",
           borderBottom: "1.5px solid rgba(139,120,221,0.15)",
           display: "flex", alignItems: "center", gap: 12,
-          background: "rgba(255,255,255,0.5)",
-          backdropFilter: "blur(12px)",
+          background: "rgba(255,255,255,0.5)", backdropFilter: "blur(12px)",
         }}>
           <div style={{
             width: 42, height: 42, borderRadius: "50%",
@@ -471,7 +472,9 @@ function ChatWindow({ friend, token, currentUserId }) {
           </div>
           <div>
             <div style={{ fontSize: 15, fontWeight: 700, color: "#3d2d6b" }}>{friend.username}</div>
-            <div style={{ fontSize: 12, color: "#9b8dc4" }}>Friend</div>
+            <div style={{ fontSize: 12, color: friend.isOnline ? "#4ade80" : "#9b8dc4" }}>
+              {friend.isOnline ? "Online" : "Offline"}
+            </div>
           </div>
         </div>
 
@@ -480,6 +483,11 @@ function ChatWindow({ friend, token, currentUserId }) {
           {loading && (
             <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14, paddingTop: 40 }}>
               Loading messages...
+            </div>
+          )}
+          {!loading && messages.length === 0 && (
+            <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14, paddingTop: 40 }}>
+              No messages yet. Say hello! 👋
             </div>
           )}
 
@@ -507,27 +515,22 @@ function ChatWindow({ friend, token, currentUserId }) {
         <div style={{
           padding: "16px 20px",
           borderTop: "1.5px solid rgba(139,120,221,0.15)",
-          background: "rgba(255,255,255,0.6)",
-          backdropFilter: "blur(12px)",
+          background: "rgba(255,255,255,0.6)", backdropFilter: "blur(12px)",
           display: "flex", gap: 10, alignItems: "center",
         }}>
-          {/* Attach file button */}
-          <button
-            onClick={() => setShowPicker(true)}
-            title="Share a file"
+          <button onClick={() => setShowPicker(true)} title="Share a file"
             style={{
               width: 42, height: 42, borderRadius: 12, border: "none",
               background: "rgba(139,120,221,0.12)", cursor: "pointer",
               display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.2s", flexShrink: 0,
-              color: "#8b6fd4",
+              flexShrink: 0, color: "#8b6fd4",
             }}
             onMouseEnter={(e) => e.currentTarget.style.background = "rgba(139,120,221,0.22)"}
             onMouseLeave={(e) => e.currentTarget.style.background = "rgba(139,120,221,0.12)"}
           >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.41 17.41a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66L9.41 17.41a2 2 0 0 1-2.83-2.83l8.49-8.48" />
             </svg>
           </button>
 
@@ -541,16 +544,13 @@ function ChatWindow({ friend, token, currentUserId }) {
               border: "1.5px solid rgba(139,120,221,0.25)",
               background: "rgba(255,255,255,0.8)",
               fontSize: 14, color: "#3d2d6b", outline: "none",
-              transition: "border-color 0.2s",
               fontFamily: "inherit",
             }}
             onFocus={(e) => e.target.style.borderColor = "rgba(139,120,221,0.55)"}
-            onBlur={(e)  => e.target.style.borderColor = "rgba(139,120,221,0.25)"}
+            onBlur={(e) => e.target.style.borderColor = "rgba(139,120,221,0.25)"}
           />
 
-          <button
-            onClick={sendText}
-            disabled={!input.trim()}
+          <button onClick={sendText} disabled={!input.trim()}
             style={{
               width: 42, height: 42, borderRadius: 12, border: "none",
               background: input.trim()
@@ -558,12 +558,11 @@ function ChatWindow({ friend, token, currentUserId }) {
                 : "rgba(139,120,221,0.2)",
               cursor: input.trim() ? "pointer" : "default",
               display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.2s", flexShrink: 0,
+              flexShrink: 0,
               boxShadow: input.trim() ? "0 4px 14px rgba(107,85,196,0.35)" : "none",
-            }}
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round">
+            }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff"
+              strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="22" y1="2" x2="11" y2="13" />
               <polygon points="22 2 15 22 11 13 2 9 22 2" />
             </svg>
@@ -583,19 +582,17 @@ function EmptyState() {
       <div style={{ fontSize: 52 }}>💬</div>
       <div style={{ fontSize: 18, fontWeight: 700, color: "#3d2d6b" }}>Your messages</div>
       <div style={{ fontSize: 14, color: "#9b8dc4", textAlign: "center", maxWidth: 240 }}>
-        Select a conversation or find a friend to start chatting and share study files.
+        Select a friend from the sidebar to start chatting and share study files.
       </div>
     </div>
   );
 }
 
-
 export default function ChatPage({ token, currentUserId, friendList = [] }) {
   const { socketRef } = useSocket();
   const [conversations, setConversations] = useState([]);
-  const [activeFriend,  setActiveFriend]  = useState(null);
+  const [activeFriend, setActiveFriend] = useState(null);
 
-  // Load sidebar
   useEffect(() => {
     fetch(`${API}/api/chat/conversations`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -604,21 +601,27 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
       .then((d) => setConversations(d.conversations || []));
   }, [token]);
 
-  // Live sidebar updates
   useEffect(() => {
     const socket = socketRef.current;
     if (!socket) return;
 
     socket.on("conversation_updated", ({ fromUserId, lastMessage }) => {
       setConversations((prev) => {
-        const existing = prev.find(
-          (c) => c.lastMessage.sender._id === fromUserId ||
-                 c.lastMessage.receiver._id === fromUserId
-        );
+        const existing = prev.find((c) => {
+          const other = c.lastMessage.sender?._id?.toString() === currentUserId?.toString()
+            ? c.lastMessage.receiver
+            : c.lastMessage.sender;
+          return other?._id?.toString() === fromUserId?.toString();
+        });
+
         if (existing) {
           return prev.map((c) =>
             c === existing
-              ? { ...c, lastMessage, unreadCount: activeFriend?._id === fromUserId ? 0 : c.unreadCount + 1 }
+              ? {
+                  ...c,
+                  lastMessage,
+                  unreadCount: activeFriend?._id === fromUserId ? 0 : (c.unreadCount || 0) + 1,
+                }
               : c
           );
         }
@@ -627,17 +630,19 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
     });
 
     return () => socket.off("conversation_updated");
-  }, [activeFriend]);
+  }, [activeFriend, currentUserId]);
 
   const selectFriend = (friend) => {
     setActiveFriend(friend);
-    // Reset unread badge for this friend
     setConversations((prev) =>
       prev.map((c) => {
-        const other = c.lastMessage.sender._id === currentUserId
+        const other = c.lastMessage.sender?._id?.toString() === currentUserId?.toString()
           ? c.lastMessage.receiver
           : c.lastMessage.sender;
-        return other._id === friend._id ? { ...c, unreadCount: 0 } : c;
+        const friendId = friend._id || friend.id;
+        return other?._id?.toString() === friendId?.toString()
+          ? { ...c, unreadCount: 0 }
+          : c;
       })
     );
   };
@@ -656,22 +661,22 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
       `}</style>
 
       <div style={{
-        display: "flex",
-        height: "100vh",
+        display: "flex", height: "100vh",
         background: "linear-gradient(160deg, #ede9ff 0%, #e4e0ff 40%, #dde8ff 100%)",
         fontFamily: "'Nunito', 'Segoe UI', sans-serif",
         overflow: "hidden",
       }}>
         <ConversationSidebar
+          friendList={friendList}
           conversations={conversations}
-          activeFriendId={activeFriend?._id}
+          activeFriendId={activeFriend?._id || activeFriend?.id}
           onSelect={selectFriend}
         />
 
         <div style={{ flex: 1, display: "flex", flexDirection: "column", minWidth: 0 }}>
           {activeFriend ? (
             <ChatWindow
-              key={activeFriend._id}
+              key={activeFriend._id || activeFriend.id}
               friend={activeFriend}
               token={token}
               currentUserId={currentUserId}
