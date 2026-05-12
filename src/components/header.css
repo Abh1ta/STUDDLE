@@ -1,0 +1,77 @@
+.header-studdle {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 5%;
+  background-color: #e3f2ff;
+  border-bottom: 2px solid #dce8ff;
+  position: relative;
+  z-index: 100;
+  box-sizing: border-box;
+}
+
+.logo-box {
+  width: 160px; /* Mărit de la 120px pentru a-i da mai mult spațiu în header */
+  position: relative;
+  margin-bottom: -30px;
+}
+
+.logo-studiu {
+  width: 180px; /* Mărit de la 140px - aici controlezi dimensiunea propriu-zisă */
+  height: auto;
+  position: absolute;
+  top: -45px; /* Mai negativ ca să compenseze dimensiunea mai mare */
+  left: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 50px;
+}
+
+.nav-meniu {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-meniu a {
+  text-decoration: none;
+  color: #5c6bc0;
+  font-weight: 700;
+  font-size: 16px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+
+.nav-meniu a.active {
+  color: #2f387c;
+  font-weight: 900;
+}
+
+.nav-meniu a:hover {
+  color: rgb(174, 119, 196);
+}
+
+.avatar-box {
+  display: flex;
+  align-items: center;
+}
+
+.cerc-avatar {
+  width: 85px; /* Micșorat de la 110px */
+  height: 85px; /* Micșorat de la 110px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  margin-left: 0px; /* Modificat de la -20px pentru o aliniere mai curată la dimensiuni mai mici */
+}
+
+.cerc-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}

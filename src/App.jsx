@@ -27,7 +27,7 @@ function App() {
     <a href="#" className="hover:text-blue-900 transition-colors">MATERIALE DE STUDIU</a>
     <a href="#" className="hover:text-blue-900 transition-colors">PRIETENI</a>
     <a href="#" className="hover:text-blue-900 transition-colors">SETĂRI</a>
-     <a href="#" className="hover:text-blue-900 transition-colors">TIMER</a>
+     <Link to="/timer" className="hover:text-blue-900 transition-colors">TIMER</Link>
 
     <Link
   to="/login"

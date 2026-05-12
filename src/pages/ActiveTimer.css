@@ -1,0 +1,511 @@
+/* ========================================
+   Active Timer Page — Dark Mode
+   Matches Figma "pagina pomodoro" etc.
+   ======================================== */
+
+.active-timer-page {
+  min-height: 100vh;
+  background: #2d2b52;
+  font-family: 'Inter', 'Montserrat', sans-serif;
+  color: #e0dff4;
+}
+
+/* Override header colours for dark page */
+.active-timer-page .header-studdle {
+  background-color: #3a3867;
+  border-bottom-color: #4a4878;
+}
+.active-timer-page .nav-meniu a {
+  color: #b0aed4;
+}
+.active-timer-page .nav-meniu a.active {
+  color: #ffffff;
+}
+.active-timer-page .nav-meniu a:hover {
+  color: #c9a0f0;
+}
+
+/* ── Content wrapper ── */
+.active-timer-content {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 20px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+/* ========================================
+   Back Button — top-left
+   ======================================== */
+.timer-back-btn {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 4px;
+  border-radius: 8px;
+  transition:
+    color 0.2s,
+    background 0.2s;
+}
+
+.timer-back-btn:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* ========================================
+   Main Timer Card
+   ======================================== */
+.timer-main-card {
+  width: 100%;
+  background: #6d7293;
+  border-radius: 24px;
+  padding: 60px 40px 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+}
+
+/* ── Big time display ── */
+.timer-time-display {
+  font-size: 7rem;
+  font-weight: 900;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 4px;
+  line-height: 1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .timer-time-display {
+    font-size: 4rem;
+  }
+}
+
+/* ── Phase info text ── */
+.timer-phase-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* ========================================
+   START / STOP Button
+   ======================================== */
+.timer-action-btn {
+  background: #4a4670;
+  color: #ffffff;
+  border: none;
+  padding: 14px 64px;
+  border-radius: 12px;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s,
+    box-shadow 0.2s,
+    opacity 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  text-transform: uppercase;
+}
+
+.timer-action-btn:hover:not(:disabled) {
+  background: #5c5880;
+  transform: scale(1.03);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.3);
+}
+
+.timer-action-btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.timer-action-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.timer-action-btn.stop {
+  background: #4a4670;
+}
+
+.timer-action-btn.stop:hover {
+  background: #5c5880;
+}
+
+/* ========================================
+   "Alege o materie" — Subject Picker
+   ======================================== */
+.timer-subject-wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.timer-subject-bar {
+  width: 100%;
+  background: #6d7293;
+  border-radius: 16px;
+  padding: 18px 24px;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-radius 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  user-select: none;
+}
+
+.timer-subject-bar.open {
+  border-radius: 16px 16px 0 0;
+}
+
+.timer-subject-bar:hover {
+  background: #7a7fa3;
+}
+
+.subject-chevron {
+  transition: transform 0.25s ease;
+}
+
+.timer-subject-bar.open .subject-chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown list ── */
+.subject-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #5c5f82;
+  border-radius: 0 0 16px 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.subject-option {
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.subject-option:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.subject-option.selected {
+  background: rgba(139, 92, 246, 0.25);
+  color: #c4b5fd;
+}
+
+/* Scrollbar for dropdown */
+.subject-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.subject-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.subject-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+}
+
+/* ========================================
+   Setup Screen (Flowmodoro / Custom)
+   ======================================== */
+.timer-setup-heading {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+/* Centered time row: [MM] : [00] */
+.timer-setup-time-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.timer-setup-digit-input {
+  width: 180px;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 7rem;
+  font-weight: 900;
+  color: #ffffff;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  -moz-appearance: textfield;
+  padding: 0;
+}
+
+.timer-setup-digit-input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.timer-setup-digit-input::-webkit-outer-spin-button,
+.timer-setup-digit-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.timer-setup-colon {
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  padding: 0 4px;
+}
+
+.timer-setup-digit-fixed {
+  font-size: 7rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.3);
+  line-height: 1;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  width: 180px;
+  text-align: center;
+}
+
+/* Break estimation text */
+.timer-estimate-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .timer-setup-digit-input,
+  .timer-setup-colon,
+  .timer-setup-digit-fixed {
+    font-size: 4rem;
+  }
+  .timer-setup-digit-input,
+  .timer-setup-digit-fixed {
+    width: 100px;
+  }
+}
+
+/* ========================================
+   Adăugare Materie Nouă (Dropdown)
+   ======================================== */
+.subject-add-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  margin: 10px 14px;
+  background: rgba(45, 43, 82, 0.4);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition:
+    border-color 0.2s,
+    background 0.2s;
+}
+
+.subject-add-row:focus-within {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(45, 43, 82, 0.6);
+}
+
+.subject-add-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 500;
+}
+
+.subject-add-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.subject-add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4a4670;
+  color: #ffffff;
+  border: none;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    transform 0.15s;
+  flex-shrink: 0;
+}
+
+.subject-add-btn:hover:not(:disabled) {
+  background: #625c96;
+  transform: scale(1.05);
+}
+
+.subject-add-btn:active:not(:disabled) {
+  transform: scale(0.95);
+}
+
+.subject-add-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========================================
+   Studdy Nudge Popup
+   ======================================== */
+.timer-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(13, 12, 34, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.timer-popup-card {
+  background: #3a3867;
+  border: 2px solid #5c5880;
+  border-radius: 28px;
+  width: 100%;
+  max-width: 400px;
+  padding: 40px 30px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  animation: popupScale 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.49);
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.timer-popup-title {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 20px;
+}
+
+.timer-popup-img-box {
+  width: 140px;
+  height: 140px;
+  margin: 0 auto 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 4px solid #4a4670;
+}
+
+.studdy-avatar-popup {
+  width: 90%;
+  height: 90%;
+  object-fit: contain;
+}
+
+.timer-popup-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popup-btn-yes {
+  background: #c9a0f0;
+  color: #2d2b52;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+
+.popup-btn-yes:hover {
+  background: #d8b4fe;
+  transform: translateY(-2px);
+}
+
+.popup-btn-snooze {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.popup-btn-snooze:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
