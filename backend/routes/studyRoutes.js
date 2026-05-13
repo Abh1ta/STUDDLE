@@ -4,9 +4,8 @@ import { protect } from '../middleware/authMiddleware.js';
 
 const studyRouter = express.Router();
 
-// Rutele tale
 studyRouter.post('/start', protect, startStudySession);
 studyRouter.post('/stop', protect, stopStudySession);
-studyRouter.get('/history', protect, getStudyHistory); // <--- ASTA E NOUĂ
+studyRouter.get('/history', protect, getStudyHistory); 
 
 export default studyRouter;
