@@ -88,15 +88,19 @@ function Settings() {
             <Link to="/account" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
               <div className="flex items-center justify-center flex-shrink-0">
                 <img src={contulMeu} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain ml-2 md:ml-4 transition-transform group-hover:rotate-3" />
-              </div>
-              <span className="text-lg md:text-xl font-semibold text-blue-950">Contul meu</span>
+              </div> 
+              <span className="text-lg md:text-xl font-semibold text-blue-950">
+                <Link to="/myaccount">Contul meu</Link>
+                </span>
             </Link>
 
             <Link to="/character" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
               <div className="flex items-center justify-center flex-shrink-0">
                 <img src={caracterulMeu} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain ml-2 md:ml-4 transition-transform group-hover:rotate-3" />
               </div>
-              <span className="text-lg md:text-xl font-semibold text-blue-950">Caracterul meu</span>
+              <span className="text-lg md:text-xl font-semibold text-blue-950">
+                <Link to="/character">Caracterul meu</Link>
+              </span>
             </Link>
 
             <button className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative text-left">
