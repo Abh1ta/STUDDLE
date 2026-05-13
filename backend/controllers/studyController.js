@@ -56,7 +56,7 @@ export const stopStudySession = async (req, res) => {
             });
         }
 
-        const xpGained = diffMins * 5;
+        const xpGained = diffMins * 0.1;
 
         session.end_time = endTime;
         session.duration_minutes = diffMins;
