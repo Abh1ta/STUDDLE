@@ -1,49 +1,44 @@
 .header-studdle {
   width: 100%;
-  height: 100px;
+  min-height: 100px; /* grows if needed */
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 5%;
+  justify-content: space-between; /* logo | nav | avatar in flow */
+  padding: 0 30px;
   background-color: #e3f2ff;
   border-bottom: 2px solid #dce8ff;
   position: relative;
   z-index: 100;
   box-sizing: border-box;
+  gap: 20px;
 }
 
 .logo-box {
-  width: 160px; /* Mărit de la 120px pentru a-i da mai mult spațiu în header */
-  position: relative;
-  margin-bottom: -30px;
+  flex-shrink: 0;
 }
 
 .logo-studiu {
-  width: 180px; /* Mărit de la 140px - aici controlezi dimensiunea propriu-zisă */
+  width: 150px; /* match the box */
   height: auto;
-  position: absolute;
-  top: -45px; /* Mai negativ ca să compenseze dimensiunea mai mare */
-  left: 0;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 50px;
+  display: block;
 }
 
 .nav-meniu {
+  /* in normal flow, centered via flex on parent */
   display: flex;
-  gap: 40px;
+  gap: 35px;
+  align-items: center;
+  flex: 1;
+  justify-content: center;
 }
 
 .nav-meniu a {
   text-decoration: none;
-  color: #5c6bc0;
+  color: #7b8fd4;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
   white-space: nowrap;
-  transition: color 0.2s ease;
+  letter-spacing: 0.3px;
 }
 
 .nav-meniu a.active {
@@ -52,26 +47,67 @@
 }
 
 .nav-meniu a:hover {
-  color: rgb(174, 119, 196);
+  color: #5c6bc0;
 }
 
+/* Avatar pushed all the way right, overflows header slightly */
 .avatar-box {
-  display: flex;
-  align-items: center;
+  margin-left: auto;
+  flex-shrink: 0;
 }
 
 .cerc-avatar {
-  width: 85px; /* Micșorat de la 110px */
-  height: 85px; /* Micșorat de la 110px */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-  margin-left: 0px; /* Modificat de la -20px pentru o aliniere mai curată la dimensiuni mai mici */
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 2px solid #a0b4e8;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px #e3f2ff, 0 0 0 6px #a0b4e8;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin-right: 6px;
 }
 
-.cerc-avatar img {
+.cerc-avatar a {
+  display: block;
   width: 100%;
   height: 100%;
+  position: relative;
+}
+
+.avatar-img {
+  position: absolute !important;
+  width: 900% !important;
+  height: auto !important;
+  max-width: none !important;
+  top: -300% !important;
+  left: -400% !important;
   object-fit: contain;
+  transform: none !important;
+}
+@media (max-width: 768px) {
+  .nav-meniu {
+    gap: 15px;
+  }
+
+  .nav-meniu a {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 540px) {
+  .header-studdle {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 12px 16px;
+  }
+
+  .nav-meniu {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
 }

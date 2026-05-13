@@ -449,22 +449,26 @@
 }
 
 .timer-popup-img-box {
-  width: 140px;
-  height: 140px;
+  width: 130px;
+  height: 130px;
   margin: 0 auto 24px;
-  background: rgba(255, 255, 255, 0.05);
+  background: #ffffff;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: 3px solid #c9a0f0;
+  box-shadow: 0 0 0 6px #3a3867, 0 0 0 9px #c9a0f0;
+  position: relative;
   overflow: hidden;
-  border: 4px solid #4a4670;
 }
 
 .studdy-avatar-popup {
-  width: 90%;
-  height: 90%;
+  position: absolute !important;
+  width: 900% !important;
+  height: auto !important;
+  max-width: none !important;
+  top: -300% !important;
+  left: -400% !important;
   object-fit: contain;
+  transform: none !important;
 }
 
 .timer-popup-btns {

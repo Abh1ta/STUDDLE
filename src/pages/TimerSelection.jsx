@@ -1,7 +1,6 @@
 ///o sa fie modificata :)
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from '../components/header';
 import './TimerSelection.css';
 
 const timerModes = [
@@ -47,7 +46,6 @@ function TimerSelection() {
 
   return (
     <div className="timer-selection-page">
-      <Header />
       <main className="timer-selection-content">
         <h1 className="timer-selection-title">Alege tehnica de învățare</h1>
 

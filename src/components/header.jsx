@@ -1,36 +1,53 @@
+/* eslint-disable no-unused-vars */
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; 
 import './header.css';
 import logoImg from "../assets/logoStuddle.png"; 
-import avatarImg from "../assets/pisica.png";
+import { useAvatar } from '../context/AvatarContext';
+import { getCatImage } from '../utils/catImages';
 
 const Header = () => {
+  const location = useLocation(); 
+  const { avatarData } = useAvatar();
+
+  const isActive = (path) => location.pathname === path ? "active" : "";
+
   return (
     <header className="header-studdle">
-      <div className="logo-box">
-        <NavLink to="/">
-          <img src={logoImg} alt="Studdle Logo" className="logo-studiu" />
-        </NavLink>
-      </div>
-      
-      <div className="header-right">
-        <nav className="nav-meniu">
-          <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>ACASĂ</NavLink>
-          <NavLink to="/materiale" className={({ isActive }) => isActive ? 'active' : ''}>MATERIALE DE STUDIU</NavLink>
-          <NavLink to="/prieteni" className={({ isActive }) => isActive ? 'active' : ''}>PRIETENI</NavLink>
-          <NavLink to="/setari" className={({ isActive }) => isActive ? 'active' : ''}>SETĂRI</NavLink>
-          <NavLink to="/timer" className={({ isActive }) => isActive ? 'active' : ''}>TIMER</NavLink>
-        </nav>
+  <div className="logo-box">
+    <Link to="/home">
+      <img src={logoImg} alt="Studdle Logo" className="logo-studiu" />
+    </Link>
+  </div>
 
-        <div className="avatar-box">
-          <div className="cerc-avatar">
-            <NavLink to="/login">
-              <img src={avatarImg} alt="Profil" className="avatar-img" />
-            </NavLink>
-          </div>
-        </div>
-      </div>
-    </header>
+  <nav className="nav-meniu">
+    <Link to="/home" className={isActive("/")}>ACASĂ</Link>
+    <Link to="/materiale" className={isActive("/materiale")}>MATERIALE DE STUDIU</Link>
+    <Link to="/friends" className={isActive("/friends")}>PRIETENI</Link>
+    <Link to="/chat" className={isActive("/chat")}>CHAT</Link>
+    <Link to="/settings" className={isActive("/settings")}>SETĂRI</Link>
+    <Link to="/timer" className={isActive("/timer")}>TIMER</Link>
+  </nav>
+
+  <div className="avatar-box">
+    <div className="cerc-avatar">
+      <Link to="/customization">
+        <img 
+          src={getCatImage(avatarData?.skin_color, avatarData?.eye_color)} 
+          alt="Profil" 
+          className="avatar-img" 
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'contain',
+            maxWidth: 'none',
+            transform: 'scale(3.4) translate(2.2%, 9%)'
+          }}
+        />
+      </Link>
+    </div>
+  </div>
+</header>
   );
 };
 

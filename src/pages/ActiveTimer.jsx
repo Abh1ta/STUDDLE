@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import Header from '../components/header';
 import './ActiveTimer.css';
+import { useAvatar } from '../context/AvatarContext';
+import { getCatImage } from '../utils/catImages';
 
 const API_URL_SUBJECTS = 'http://localhost:5000/api/subjects';
 const API_URL_STUDY = 'http://localhost:5000/api/study';
@@ -31,6 +32,9 @@ const formatTime = (totalSeconds) => {
 function ActiveTimer() {
   const { mode } = useParams();
   const navigate = useNavigate();
+  const { avatarData } = useAvatar();
+  const catName = avatarData?.cat_name || 'Studdy';
+  const customCatImage = getCatImage(avatarData?.skin_color, avatarData?.eye_color);
 
   // MATERII
   const [subjects, setSubjects] = useState([]);
@@ -334,14 +338,19 @@ function ActiveTimer() {
 
   return (
     <div className="active-timer-page">
-      <Header />
 
       {showPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
-            <h3 className="timer-popup-title">Studdy a obosit... luăm o pauză?</h3>
+            <h3 className="timer-popup-title">{catName} a obosit... luăm o pauză?</h3>
             <div className="timer-popup-img-box">
-              <img src="/studdy-cat.png" alt="Studdy" className="studdy-avatar-popup" />
+              <img src={customCatImage} alt={catName} className="studdy-avatar-popup" style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                maxWidth: 'none',
+                transform: 'scale(3.4) translate(2.2%, 9%)'
+              }} />
             </div>
             <div className="timer-popup-btns">
               <button
@@ -389,7 +398,13 @@ function ActiveTimer() {
               Sesiune Încheiată!
             </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
-              <img src="/studdy-cat.png" alt="Studdy Fericit" className="studdy-avatar-popup" />
+              <img src={customCatImage} alt={`${catName} Fericit`} className="studdy-avatar-popup" style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain',
+                maxWidth: 'none',
+                transform: 'scale(3.4) translate(2.2%, 9%)'
+              }} />
             </div>
             <p
               style={{
