@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -72,7 +72,7 @@ function Settings() {
   return (
     <div className="min-h-screen bg-white relative overflow-hidden" style={{ fontFamily: "'Zilla Slab', serif" }}>
 
-      {/* Background blobs */}
+      {}
       <div className="absolute -top-20 -left-20 w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full opacity-30 pointer-events-none"
         style={{ background: 'radial-gradient(circle, #a7c4da 0%, #dd95e7 60%)', filter: 'blur(60px)', zIndex: 0 }} />
       <div className="absolute -bottom-20 -right-20 w-[400px] md:w-[600px] h-[400px] md:h-[600px] rounded-full opacity-20 pointer-events-none"
@@ -82,32 +82,29 @@ function Settings() {
       <main className="relative px-6 sm:pl-20 md:pl-32 z-10 transition-all" style={{ paddingTop: '5rem' }}>
         <div className="max-w-lg w-full">
 
-          {/* Opțiuni principale */}
+          {}
           <div className="flex flex-col -mt-4">
 
-            <Link to="/account" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
+           <Link to="/account" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
               <div className="flex items-center justify-center flex-shrink-0">
                 <img src={contulMeu} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain ml-2 md:ml-4 transition-transform group-hover:rotate-3" />
-              </div>
-              <span className="text-lg md:text-xl font-semibold text-blue-950">Contul meu</span>
+              </div> 
+              <span className="text-lg md:text-xl font-semibold text-blue-950">
+                <Link to="/myaccount">Contul meu</Link>
+                </span>
             </Link>
 
-            <Link to="/character" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
+            <Link to="/customization" className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative">
               <div className="flex items-center justify-center flex-shrink-0">
                 <img src={caracterulMeu} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain ml-2 md:ml-4 transition-transform group-hover:rotate-3" />
               </div>
               <span className="text-lg md:text-xl font-semibold text-blue-950">Caracterul meu</span>
             </Link>
 
-            <button className="flex items-center gap-5 py-5 group border-b border-black transition-all duration-300 hover:scale-[1.03] hover:z-20 relative text-left">
-              <div className="flex items-center justify-center flex-shrink-0">
-                <img src={google} alt="" className="w-10 h-10 md:w-12 md:h-12 object-contain ml-2 md:ml-4" />
-              </div>
-              <span className="text-lg md:text-xl font-semibold text-blue-950">Conectează-te cu Google</span>
-            </button>
+           
           </div>
 
-          {/* Danger zone */}
+          {}
           <div className="mt-16 md:mt-24 flex flex-col gap-1">
 
             <button onClick={handleLogout} className="flex items-center gap-4 py-4 group transition-all duration-300 hover:scale-[1.03] hover:translate-x-2 relative text-left">

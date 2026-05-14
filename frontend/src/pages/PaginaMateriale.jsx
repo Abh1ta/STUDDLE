@@ -1,17 +1,18 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import './PaginaMateriale.css';
 import spiraleImg from "../assets/Group 24.png";
 import logoImg from "../assets/logostuddle.png";
 import { useAuth } from '../context/AuthContext';
 
-const culori        = ['#7c83b3', '#8398e7', '#3b4d9b', '#2a3b8f'];
-const culoriCaiete  = ['#5ca0e8', '#9bacff', '#8398e7'];
+const culori = ['#7c83b3', '#8398e7', '#3b4d9b', '#2a3b8f'];
+const culoriCaiete = ['#5ca0e8', '#9bacff', '#8398e7'];
 const culoriExamene = ['#f03a17', '#c9334c', '#a62c7b', '#8224ab', '#5b1bf1'];
 
 const luniAn = [
-  "IANUARIE","FEBRUARIE","MARTIE","APRILIE","MAI","IUNIE",
-  "IULIE","AUGUST","SEPTEMBRIE","OCTOMBRIE","NOIEMBRIE","DECEMBRIE"
+  "IANUARIE", "FEBRUARIE", "MARTIE", "APRILIE", "MAI", "IUNIE",
+  "IULIE", "AUGUST", "SEPTEMBRIE", "OCTOMBRIE", "NOIEMBRIE", "DECEMBRIE"
 ];
 
 const apiFetch = (url, token, options = {}) =>
@@ -26,54 +27,62 @@ const apiFetch = (url, token, options = {}) =>
 
 const PaginaMateriale = () => {
   const { token } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [materii,  setMaterii]  = useState([]);
-  const [teme,     setTeme]     = useState([]);
-  const [examene,  setExamene]  = useState([]);
+  const [materii, setMaterii] = useState([]);
+  const [teme, setTeme] = useState([]);
+  const [examene, setExamene] = useState([]);
+  const [fisiere, setFisiere] = useState([]);
 
-  const [showPopup,        setShowPopup]        = useState(false);
-  const [showPopupTeme,    setShowPopupTeme]    = useState(false);
-  const [showPopupExamen,  setShowPopupExamen]  = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopupTeme, setShowPopupTeme] = useState(false);
+  const [showPopupExamen, setShowPopupExamen] = useState(false);
 
-  const [numeNou,       setNumeNou]       = useState("");
-  const [numeNouTema,   setNumeNouTema]   = useState("");
-  const [numeExamen,    setNumeExamen]    = useState("");
+  const [numeNou, setNumeNou] = useState("");
+  const [numeNouTema, setNumeNouTema] = useState("");
+  const [numeExamen, setNumeExamen] = useState("");
   const [dificultateSel, setDificultateSel] = useState(null);
-  const [dataExamen,    setDataExamen]    = useState("");
-  const [dataCalendar,  setDataCalendar]  = useState(new Date());
+  const [dataExamen, setDataExamen] = useState("");
+  const [dataCalendar, setDataCalendar] = useState(new Date());
 
   const [loading, setLoading] = useState(true);
 
-  const [uploading, setUploading]           = useState(false);
-  const [uploadError, setUploadError]       = useState("");
-  const [uploadSuccess, setUploadSuccess]   = useState("");
-  const [selectedSubjectId, setSelectedSubjectId] = useState(""); 
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const [uploadSuccess, setUploadSuccess] = useState("");
+  const [selectedSubjectId, setSelectedSubjectId] = useState("");
   const fileInputMaterieRef = useRef(null);
-  const fileInputTemaRef    = useRef(null);
+  const fileInputTemaRef = useRef(null);
 
+  // --- 1. Fetch Data ---
   useEffect(() => {
     if (!token) return;
 
     const fetchAll = async () => {
       setLoading(true);
       try {
-        const [resM, resT, resE] = await Promise.all([
-          apiFetch("/api/subjects",  token),
-          apiFetch("/api/homework",  token),
-          apiFetch("/api/exams",     token),
+        const [resM, resT, resE, resF] = await Promise.all([
+          apiFetch("/api/subjects", token),
+          apiFetch("/api/homework", token),
+          apiFetch("/api/exams", token),
+          apiFetch("/api/files", token),
         ]);
 
         if (resM.ok) setMaterii(await resM.json());
         if (resT.ok) setTeme(await resT.json());
+        if (resF.ok) {
+          const filesData = await resF.json();
+          setFisiere(filesData.files);
+        }
         if (resE.ok) {
           const exData = await resE.json();
-          // normalize: backend stores { title, color, date }
           setExamene(exData.map(ex => ({
             ...ex,
-            id:       ex._id,
-            nume:     ex.title,
-            culoare:  ex.color,
-            data:     ex.date,
+            id: ex._id,
+            nume: ex.title,
+            culoare: ex.color,
+            data: ex.date,
             dataText: ex.date.split('-').reverse().join('/'),
           })));
         }
@@ -87,6 +96,20 @@ const PaginaMateriale = () => {
     fetchAll();
   }, [token]);
 
+  // --- 2. Handle Hash Scrolling ---
+  useEffect(() => {
+    if (!loading && location.hash) {
+      const id = location.hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
+    }
+  }, [loading, location]);
+
+  // --- API Handlers ---
   const uploadFile = async (file, subjectId) => {
     if (!file) return;
     if (!subjectId) {
@@ -119,6 +142,7 @@ const PaginaMateriale = () => {
       const data = await res.json();
       if (res.ok) {
         setUploadSuccess(`"${file.name}" a fost încărcat cu succes!`);
+        setFisiere(prev => [data.file, ...prev]);
         setTimeout(() => setUploadSuccess(""), 3000);
       } else {
         setUploadError(data.message || "Eroare la upload.");
@@ -131,18 +155,44 @@ const PaginaMateriale = () => {
     }
   };
 
+  const stergeFisier = async (id) => {
+    if (!window.confirm("Sigur vrei să ștergi acest fișier?")) return;
+    try {
+      const res = await apiFetch(`/api/files/${id}`, token, { method: "DELETE" });
+      if (res.ok) {
+        setFisiere(prev => prev.filter(f => f._id !== id));
+      }
+    } catch (err) {
+      console.error("Eroare ștergere fișier:", err);
+    }
+  };
+
+  const handleOpenFile = (file) => {
+    if (file.file_type === 'pdf') {
+      navigate('/pdf-viewer', {
+        state: {
+          fileUrl: file.url,
+          fileId: file._id,
+          fileName: file.title,
+        },
+      });
+    } else {
+      window.open(file.url, '_blank');
+    }
+  };
+
   const handleFileChangeMaterie = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const subjectId = materii[0]?._id || "";
+    const subjectId = selectedSubjectId || (materii[0]?._id || "");
     uploadFile(file, subjectId);
-    e.target.value = ""; 
+    e.target.value = "";
   };
 
   const handleFileChangeTema = (e) => {
     const file = e.target.files[0];
     if (!file) return;
-    const subjectId = materii[0]?._id || "";
+    const subjectId = selectedSubjectId || (materii[0]?._id || "");
     uploadFile(file, subjectId);
     e.target.value = "";
   };
@@ -167,9 +217,13 @@ const PaginaMateriale = () => {
   };
 
   const stergeMaterie = async (id) => {
+    if (!window.confirm("Ștergerea materiei va șterge și fișierele asociate. Continui?")) return;
     try {
       const res = await apiFetch(`/api/subjects/${id}`, token, { method: "DELETE" });
-      if (res.ok) setMaterii(prev => prev.filter(m => (m._id || m.id) !== id));
+      if (res.ok) {
+        setMaterii(prev => prev.filter(m => (m._id || m.id) !== id));
+        setFisiere(prev => prev.filter(f => (f.subject_id?._id || f.subject_id) !== id));
+      }
     } catch (err) {
       console.error("Eroare ștergere materie:", err);
     }
@@ -214,10 +268,10 @@ const PaginaMateriale = () => {
         const saved = await res.json();
         setExamene(prev => [...prev, {
           ...saved,
-          id:       saved._id,
-          nume:     saved.title,
-          culoare:  saved.color,
-          data:     saved.date,
+          id: saved._id,
+          nume: saved.title,
+          culoare: saved.color,
+          data: saved.date,
           dataText: saved.date.split('-').reverse().join('/'),
         }]);
       }
@@ -239,16 +293,17 @@ const PaginaMateriale = () => {
     }
   };
 
-  const anCurent        = dataCalendar.getFullYear();
+  // --- Calendar Logic ---
+  const anCurent = dataCalendar.getFullYear();
   const lunaCurentaIndex = dataCalendar.getMonth();
-  const zileInLuna      = new Date(anCurent, lunaCurentaIndex + 1, 0).getDate();
-  const primaZiLuni     = (new Date(anCurent, lunaCurentaIndex, 1).getDay() + 6) % 7;
+  const zileInLuna = new Date(anCurent, lunaCurentaIndex + 1, 0).getDate();
+  const primaZiLuni = (new Date(anCurent, lunaCurentaIndex, 1).getDay() + 6) % 7;
 
   const renderZileCalendar = () => {
     const elems = [];
     for (let i = 0; i < primaZiLuni; i++) elems.push(<span key={`gol-${i}`}></span>);
     for (let zi = 1; zi <= zileInLuna; zi++) {
-      const dataFormatata = `${anCurent}-${String(lunaCurentaIndex + 1).padStart(2,'0')}-${String(zi).padStart(2,'0')}`;
+      const dataFormatata = `${anCurent}-${String(lunaCurentaIndex + 1).padStart(2, '0')}-${String(zi).padStart(2, '0')}`;
       const examen = examene.find(ex => ex.data === dataFormatata);
       elems.push(
         <span
@@ -271,15 +326,25 @@ const PaginaMateriale = () => {
     <div className="pagina-wrapper">
       <main className="main-content">
 
-        {/* MATERII */}
-        <h2 className="titlu-sectiune">Materiile tale</h2>
+        {/* MATERII SECTION HEADER WITH NEW BUTTON */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '20px' }}>
+          <h2 className="titlu-sectiune">Materiile tale</h2>
+          <button 
+            onClick={() => navigate('/edit-material:id')} 
+            className="btn-adauga-examen" 
+            style={{ padding: '10px 20px', fontSize: '0.9rem' }}
+          >
+            Ia-ți o notița
+          </button>
+        </div>
+
         <div className="container-materii-border">
           <div className="grid-materii">
             <div className="card-materie" onClick={() => setShowPopup(true)}>
               <div className="card-header" style={{ backgroundColor: '#9bacff' }}>
                 <div className="zona-click-tema">
                   <div className="icon-plus-tema">+</div>
-                  Adaugă o materie
+                  Adaugă o materie/Incarcă un fisier
                 </div>
               </div>
             </div>
@@ -288,6 +353,27 @@ const PaginaMateriale = () => {
                 <div className="card-header" style={{ backgroundColor: m.color || m.culoare }}>
                   <span className="nume-materie-text">{m.title || m.nume}</span>
                   <span className="icon-sterge" onClick={e => { e.stopPropagation(); stergeMaterie(m._id || m.id); }}>×</span>
+                </div>
+                <div className="card-fisiere-list" style={{ padding: '10px', fontSize: '0.85rem' }}>
+                  {fisiere
+                    .filter(f => (f.subject_id?._id || f.subject_id) === (m._id || m.id))
+                    .map(f => (
+                      <div
+                        key={f._id}
+                        className="fisier-row"
+                        style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px', cursor: 'pointer', background: 'rgba(255,255,255,0.3)', padding: '4px', borderRadius: '4px' }}
+                        onClick={() => handleOpenFile(f)}
+                      >
+                        <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>
+                          {f.file_type === 'pdf' ? '📄 ' : '📝 '}{f.title}
+                        </span>
+                        <span
+                          className="icon-sterge-mic"
+                          style={{ color: 'red', fontWeight: 'bold' }}
+                          onClick={(e) => { e.stopPropagation(); stergeFisier(f._id); }}
+                        >×</span>
+                      </div>
+                    ))}
                 </div>
               </div>
             ))}
@@ -313,9 +399,24 @@ const PaginaMateriale = () => {
                 <img src={spiraleImg} alt="Spirale" className="imagine-spirale" />
                 <div className="caiet-coton" style={{ backgroundColor: t.color || t.culoare }}></div>
                 <div className="caiet-body">
-                  <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
-                    <span className="nume-tema-text">{t.title || t.nume}</span>
-                    <span className="icon-sterge" onClick={() => stergeTema(t._id || t.id)}>×</span>
+                  <div style={{ display: 'flex', flexDirection: 'column', width: '100%', height: '100%' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                      <span className="nume-tema-text">{t.title || t.nume}</span>
+                      <span className="icon-sterge" onClick={() => stergeTema(t._id || t.id)}>×</span>
+                    </div>
+                    <div className="fisiere-tema-scroll" style={{ marginTop: '10px', fontSize: '0.75rem', overflowY: 'auto' }}>
+                      {fisiere
+                        .filter(f => (f.subject_id?._id || f.subject_id) === (t.subject_id || t._id))
+                        .map(f => (
+                          <div
+                            key={f._id}
+                            onClick={() => handleOpenFile(f)}
+                            style={{ cursor: 'pointer', marginBottom: '2px', borderBottom: '1px solid #eee' }}
+                          >
+                            {f.title}
+                          </div>
+                        ))}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -350,7 +451,7 @@ const PaginaMateriale = () => {
               </div>
             </div>
             <div className="dreapta-examene">
-              <div className="calendar-static-card">
+              <div className="calendar-static-card" id='calendar'>
                 <div className="calendar-header">
                   <span className="sageata-cal" onClick={() => setDataCalendar(new Date(anCurent, lunaCurentaIndex - 1, 1))}>❮</span>
                   <h3 className="luna-titlu">{luniAn[lunaCurentaIndex]} {anCurent}</h3>
@@ -386,7 +487,7 @@ const PaginaMateriale = () => {
 
       {/* POPUP MATERII */}
       {showPopup && (
-        <div className="modal-overlay" onClick={() => { setShowPopup(false); setUploadError(""); setUploadSuccess(""); }}>
+        <div id="materi" className="modal-overlay" onClick={() => { setShowPopup(false); setUploadError(""); setUploadSuccess(""); }}>
           <div className="popup-container" onClick={e => e.stopPropagation()}>
             <p className="popup-text">Introdu numele<br />materiei</p>
             <input type="text" className="popup-input" value={numeNou}
@@ -424,7 +525,7 @@ const PaginaMateriale = () => {
               {uploading ? 'Se încarcă...' : 'încarcă un fișier (PDF / TXT)'}
             </p>
 
-            {uploadError   && <p style={{ color: 'red',   fontSize: '0.8rem', marginTop: '4px' }}>{uploadError}</p>}
+            {uploadError && <p style={{ color: 'red', fontSize: '0.8rem', marginTop: '4px' }}>{uploadError}</p>}
             {uploadSuccess && <p style={{ color: 'green', fontSize: '0.8rem', marginTop: '4px' }}>{uploadSuccess}</p>}
 
             <button className="btn-adauga-examen" style={{ marginTop: '20px' }} onClick={adaugaMaterie}>Adaugă</button>
@@ -432,6 +533,7 @@ const PaginaMateriale = () => {
         </div>
       )}
 
+      {/* POPUP TEME */}
       {showPopupTeme && (
         <div className="modal-overlay" onClick={() => { setShowPopupTeme(false); setUploadError(""); setUploadSuccess(""); }}>
           <div className="popup-container" onClick={e => e.stopPropagation()}>
@@ -471,7 +573,7 @@ const PaginaMateriale = () => {
               {uploading ? 'Se încarcă...' : 'încarcă un fișier (PDF / TXT)'}
             </p>
 
-            {uploadError   && <p style={{ color: 'red',   fontSize: '0.8rem', marginTop: '4px' }}>{uploadError}</p>}
+            {uploadError && <p style={{ color: 'red', fontSize: '0.8rem', marginTop: '4px' }}>{uploadError}</p>}
             {uploadSuccess && <p style={{ color: 'green', fontSize: '0.8rem', marginTop: '4px' }}>{uploadSuccess}</p>}
 
             <button className="btn-adauga-examen" style={{ marginTop: '20px' }} onClick={adaugaTema}>Adaugă</button>
@@ -479,6 +581,7 @@ const PaginaMateriale = () => {
         </div>
       )}
 
+      {/* POPUP EXAMEN */}
       {showPopupExamen && (
         <div className="modal-overlay" onClick={() => setShowPopupExamen(false)}>
           <div className="popup-container-examen" onClick={e => e.stopPropagation()}>
@@ -490,7 +593,7 @@ const PaginaMateriale = () => {
               {culoriExamene.map((c, i) => (
                 <div key={i} className="color-wrapper">
                   <div className="tooltip-dificultate" style={{ backgroundColor: c, filter: 'brightness(0.8)' }}>
-                    {["Foarte greu","Greu","Mediu","Ușor","Foarte ușor"][i]}
+                    {["Foarte greu", "Greu", "Mediu", "Ușor", "Foarte ușor"][i]}
                   </div>
                   <div
                     className={`patrat-culoare-selectabil ${dificultateSel === c ? 'activ' : ''}`}

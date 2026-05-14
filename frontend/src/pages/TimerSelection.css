@@ -1,0 +1,101 @@
+/* ========================================
+   Timer Selection Page — Light Mode
+   Matches Figma "pagina timer"
+   ======================================== */
+
+.timer-selection-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #e3f2ff 0%, #ddd5ef 60%, #d0c6e3 100%);
+  font-family: 'Inter', 'Montserrat', sans-serif;
+}
+
+.timer-selection-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 60px 24px 80px;
+  text-align: center;
+}
+
+.timer-selection-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #2D2B52;
+  margin-bottom: 40px;
+}
+
+/* ── Card Grid ── */
+.timer-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 800px) {
+  .timer-cards-grid {
+    grid-template-columns: 1fr;
+    max-width: 380px;
+    margin: 0 auto;
+  }
+}
+
+/* ── Individual Card ── */
+.timer-card {
+  background: rgba(200, 195, 220, 0.45);
+  backdrop-filter: blur(8px);
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  border-radius: 18px;
+  padding: 24px 22px;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.22s ease, box-shadow 0.22s ease, background 0.22s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.timer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 28px rgba(45, 43, 82, 0.13);
+  background: rgba(200, 195, 220, 0.65);
+}
+
+/* Clock icon */
+.timer-card-icon {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7b75a8;
+  margin-top: 2px;
+}
+
+.timer-card-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.timer-card-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #2D2B52;
+  margin-bottom: 6px;
+}
+
+.timer-card-description {
+  font-size: 0.85rem;
+  color: #4a4670;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.timer-card-description strong {
+  font-weight: 700;
+  color: #2D2B52;
+}
+
+.timer-card-description em {
+  font-style: italic;
+  font-weight: 600;
+}
