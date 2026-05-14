@@ -329,13 +329,7 @@ const PaginaMateriale = () => {
         {/* MATERII SECTION HEADER WITH NEW BUTTON */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingRight: '20px' }}>
           <h2 className="titlu-sectiune">Materiile tale</h2>
-          <button 
-            onClick={() => navigate('/edit-material:id')} 
-            className="btn-adauga-examen" 
-            style={{ padding: '10px 20px', fontSize: '0.9rem' }}
-          >
-            Ia-ți o notița
-          </button>
+          
         </div>
 
         <div className="container-materii-border">
