@@ -1,16 +1,28 @@
 .header-studdle {
   width: 100%;
-  min-height: 100px; /* grows if needed */
+  min-height: 100px; 
   display: flex;
   align-items: center;
-  justify-content: space-between; /* logo | nav | avatar in flow */
+  justify-content: space-between; 
   padding: 0 30px;
-  background-color: #e3f2ff;
-  border-bottom: 2px solid #dce8ff;
-  position: relative;
-  z-index: 100;
+  background-color: rgba(227, 242, 255, 0.35);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 2px solid rgba(220, 232, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   box-sizing: border-box;
   gap: 20px;
+}
+
+.header-studdle.solid-header {
+  background-color: rgba(45, 43, 82, 0.88) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 2px solid rgba(109, 114, 147, 0.35) !important;
+  opacity: 1 !important;
 }
 
 .logo-box {
@@ -18,13 +30,13 @@
 }
 
 .logo-studiu {
-  width: 150px; /* match the box */
+  width: 150px; 
   height: auto;
   display: block;
 }
 
 .nav-meniu {
-  /* in normal flow, centered via flex on parent */
+  
   display: flex;
   gap: 35px;
   align-items: center;
@@ -50,7 +62,7 @@
   color: #5c6bc0;
 }
 
-/* Avatar pushed all the way right, overflows header slightly */
+
 .avatar-box {
   margin-left: auto;
   flex-shrink: 0;
@@ -106,8 +118,4 @@
   .nav-meniu {
     order: 3;
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-  }
-}
+    justify-content: center;

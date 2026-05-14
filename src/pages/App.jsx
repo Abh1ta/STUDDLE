@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import catAvatar from '../assets/pisica.png'; 
@@ -29,7 +29,7 @@ function App() {
 
       
 
-      <main className="relative min-h-[calc(100vh-7rem)] px-10 z-10 overflow-hidden">
+      <main className="relative min-h-[calc(100vh-7rem)] px-10 z-10 overflow-hidden pt-[100px]">
         
         <div className="relative w-full max-w-7xl mx-auto h-[calc(100vh-7rem)]">
           

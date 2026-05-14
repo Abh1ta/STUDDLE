@@ -36,39 +36,39 @@ function ActiveTimer() {
   const catName = avatarData?.cat_name || 'Studdy';
   const customCatImage = getCatImage(avatarData?.skin_color, avatarData?.eye_color);
 
-  // MATERII
+  
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('');
   const [newSubjectName, setNewSubjectName] = useState('');
   const [subjectOpen, setSubjectOpen] = useState(false);
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
 
-  // TIMER CORE
+  
   const [phase, setPhase] = useState('setup');
   const [timerMode, setTimerMode] = useState('countdown');
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
-  // POPUP & TRACKING LOGIC
+  
   const [showPopup, setShowPopup] = useState(false);
   const [showEndPopup, setShowEndPopup] = useState(false);
-  const [studyLimit, setStudyLimit] = useState(3600); // Limita setată la 3600 secunde (60 minute)
+  const [studyLimit, setStudyLimit] = useState(3600); 
   const [continuousStudySecs, setContinuousStudySecs] = useState(0);
   const [snoozeCount, setSnoozeCount] = useState(0);
 
-  // Total XP preluat din backend
+  
   const [sessionXp, setSessionXp] = useState(0);
   const backendSessionActive = useRef(false);
 
-  // SETTINGS
+  
   const [pomodoroGoal, setPomodoroGoal] = useState(0);
   const [customStudy, setCustomStudy] = useState(50);
   const [customBreak, setCustomBreak] = useState(10);
   const [sessions, setSessions] = useState([]);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
 
-  // FETCH MATERII
+  
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -121,7 +121,7 @@ function ActiveTimer() {
     }
   };
 
-  // FUNCȚII PENTRU API BACKEND
+  
   const startBackendSession = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -161,7 +161,7 @@ function ActiveTimer() {
     }
   };
 
-  // Logica automată care pornește și oprește sesiunea în backend
+  
   useEffect(() => {
     const shouldBeActive = isRunning && phase === 'study';
 
@@ -174,7 +174,7 @@ function ActiveTimer() {
     }
   }, [isRunning, phase]);
 
-  // INITIALIZARE MOD
+  
   useEffect(() => {
     setIsRunning(false);
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -194,7 +194,7 @@ function ActiveTimer() {
     }
   }, [mode]);
 
-  // MOTORUL PRINCIPAL
+  
   useEffect(() => {
     if (!isRunning) return;
 
@@ -218,7 +218,7 @@ function ActiveTimer() {
     return () => clearInterval(intervalRef.current);
   }, [isRunning, timerMode, phase, studyLimit]);
 
-  // TRANZIȚII AUTOMATE
+  
   useEffect(() => {
     if (timerMode === 'countdown' && secondsLeft === 0 && isRunning) {
       setIsRunning(false);
@@ -390,7 +390,7 @@ function ActiveTimer() {
         </div>
       )}
 
-      {/* POPUP DE FINAL SESIUNE (Afișează XP real din Backend) */}
+      {}
       {showEndPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">

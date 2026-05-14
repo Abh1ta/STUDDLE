@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
+
+
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import logoStuddle from '../assets/logoStuddle.png';
@@ -71,7 +71,7 @@ const { login, user } = useAuth();
       background: 'radial-gradient(ellipse at 50% 35%, #89baea 0%, #d9e4ed 35%, #c2d1de 70%, #d5dee8 100%)'
     }}>
 
-      {/* HEADER */}
+      {}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 5rem 1.5rem 2.5rem' }}>
     <Link to={user ? '/home' : '/'}>
           <img src={logoStuddle} alt="Studdle logo" className="h-16 w-auto object-contain" />
@@ -79,11 +79,11 @@ const { login, user } = useAuth();
         <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.875rem', fontWeight: '700', color: '#1e40af' }} />
       </nav>
 
-      {/* FORMULAR */}
+      {}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '13rem' }}>
         <div style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
 
-          {/* Error message */}
+          {}
           {error && (
             <div style={{
               padding: '0.75rem 1rem',
@@ -99,7 +99,7 @@ const { login, user } = useAuth();
             </div>
           )}
 
-          {/* Email */}
+          {}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <label style={labelStyle}>Adresa de e-mail</label>
             <input
@@ -110,7 +110,7 @@ const { login, user } = useAuth();
             />
           </div>
 
-          {/* Username */}
+          {}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <label style={labelStyle}>Nume de utilizator</label>
             <input
@@ -121,7 +121,7 @@ const { login, user } = useAuth();
             />
           </div>
 
-          {/* Parola */}
+          {}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <label style={labelStyle}>Parola</label>
             <input
@@ -170,7 +170,7 @@ const { login, user } = useAuth();
         </div>
       </div>
 
-      {/* ILUSTRAȚIA */}
+      {}
       <div style={{ position: 'absolute', bottom: 40, left: '50%', transform: 'translateX(-50%)', width: '550px', pointerEvents: 'none' }}>
         <img src={pozacarti} alt="" style={{ width: '100%', objectFit: 'contain' }} />
       </div>

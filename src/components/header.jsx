@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; 
 import './header.css';
@@ -11,9 +11,10 @@ const Header = () => {
   const { avatarData } = useAvatar();
 
   const isActive = (path) => location.pathname === path ? "active" : "";
+  const isTimerPage = location.pathname.startsWith('/timer/') && location.pathname !== '/timer';
 
   return (
-    <header className="header-studdle">
+    <header className={`header-studdle ${isTimerPage ? 'solid-header' : ''}`}>
   <div className="logo-box">
     <Link to="/home">
       <img src={logoImg} alt="Studdle Logo" className="logo-studiu" />

@@ -1,5 +1,5 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-// eslint-disable-next-line no-unused-vars
+
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 
@@ -108,7 +108,7 @@ function FriendsPage() {
         }}
       />
 
-      <main className="relative pl-32 pr-16 z-10 mt-10" style={{ paddingTop: '2rem' }}>
+      <main className="relative pl-32 pr-16 z-10 mt-10" style={{ paddingTop: '120px' }}>
         <div className="max-w-2xl">
 
           <div className="flex items-center gap-3 mb-3">

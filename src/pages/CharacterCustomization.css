@@ -1,4 +1,4 @@
-/* ─── Character Customization Page ─── */
+
 .customization-page {
   min-height: calc(100vh - 100px); 
   background: #ffffff;
@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-/* ── Title Section ── */
+
 .customization-header {
   display: flex;
   align-items: center;
@@ -29,7 +29,7 @@
   margin: 0;
 }
 
-/* ── Main Content Layout ── */
+
 .customization-content {
   display: flex;
   align-items: flex-start;
@@ -39,7 +39,7 @@
   flex: 1;
 }
 
-/* ── Preview Panel (Left) ── */
+
 .preview-panel {
   flex: 0 0 600px;
   background: #f8f7fc;
@@ -95,7 +95,7 @@
   opacity: 0.5;
 }
 
-/* ── Controls Panel (Right) ── */
+
 .controls-panel {
   flex: 1;
   display: flex;
@@ -130,7 +130,7 @@
   max-width: 300px;
 }
 
-/* ── Color Swatches Grid ── */
+
 .swatches-flex {
   display: flex;
   flex-wrap: wrap;
@@ -154,7 +154,7 @@
   box-shadow: 0 0 0 3px white, 0 0 0 6px #b0a4fc;
 }
 
-/* ── Action Buttons ── */
+
 .customization-actions {
   display: flex;
   gap: 20px;
@@ -201,7 +201,7 @@
   box-shadow: 0 6px 20px rgba(59, 85, 152, 0.6);
 }
 
-/* Responsive */
+
 @media (max-width: 1100px) {
   .customization-content {
     flex-direction: column;

@@ -189,7 +189,7 @@
   margin-bottom: 8px;   
 }
 
-/* card text */
+
 .feature-card p {
   font-size: 20px;       
   color: #e0e0e0;        
@@ -198,7 +198,7 @@
   opacity: 0.9;
 }
 
-/* sectiune pisica */
+
 .cat-section {
   padding: 80px 10%;
   background-color: #ffffff;
@@ -238,7 +238,7 @@
   margin-right: 60px;
 }
 
-/* sectiune text */
+
 .cta-section {
   background-color: #e3f2ff; 
   padding: 100px 10%;

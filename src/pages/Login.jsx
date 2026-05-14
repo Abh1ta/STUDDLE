@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
+
+
 import React, { useState } from 'react';
 import { useNavigate,Link } from 'react-router-dom';
 import logoStuddle from '../assets/logoStuddle.png';
@@ -49,7 +49,7 @@ const Login = () => {
       overflow: 'hidden',
       background: 'radial-gradient(ellipse at 50% 35%, #89baea 0%, #d9e4ed 35%, #c2d1de 70%, #d5dee8 100%)'
     }}>
-      {/* HEADER */}
+      {}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 5rem 1.5rem 2.5rem' }}>
     <Link to={user ? '/home' : '/'}>
         <img src={logoStuddle} alt="Studdle logo" className="h-16 w-auto object-contain" />
@@ -57,11 +57,11 @@ const Login = () => {
         <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.875rem', fontWeight: '700', color: '#1e40af' }} />
       </nav>
 
-      {/* FORMULAR */}
+      {}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', paddingBottom: '13rem' }}>
         <div style={{ width: '100%', maxWidth: '360px', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
 
-          {/* Error message */}
+          {}
           {error && (
             <div style={{
               padding: '0.75rem 1rem',
@@ -77,7 +77,7 @@ const Login = () => {
             </div>
           )}
 
-          {/* Email */}
+          {}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <label style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e3a8a', marginLeft: '4px' }}>Adresa de e-mail</label>
             <input
@@ -99,7 +99,7 @@ const Login = () => {
             />
           </div>
 
-          {/* Parola */}
+          {}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
             <label style={{ fontSize: '0.875rem', fontWeight: '600', color: '#1e3a8a', marginLeft: '4px' }}>Parola</label>
             <input

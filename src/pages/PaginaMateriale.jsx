@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React, { useState, useEffect, useRef } from 'react';
 import './PaginaMateriale.css';
 import spiraleImg from "../assets/Group 24.png";
@@ -67,7 +67,7 @@ const PaginaMateriale = () => {
         if (resT.ok) setTeme(await resT.json());
         if (resE.ok) {
           const exData = await resE.json();
-          // normalize: backend stores { title, color, date }
+          
           setExamene(exData.map(ex => ({
             ...ex,
             id:       ex._id,
@@ -271,7 +271,7 @@ const PaginaMateriale = () => {
     <div className="pagina-wrapper">
       <main className="main-content">
 
-        {/* MATERII */}
+        {}
         <h2 className="titlu-sectiune">Materiile tale</h2>
         <div className="container-materii-border">
           <div className="grid-materii">
@@ -294,7 +294,7 @@ const PaginaMateriale = () => {
           </div>
         </div>
 
-        {/* TEME */}
+        {}
         <h2 className="titlu-sectiune">Temele și proiectele tale</h2>
         <div className="container-materii-border">
           <div className="grid-materii">
@@ -323,7 +323,7 @@ const PaginaMateriale = () => {
           </div>
         </div>
 
-        {/* EXAMENE */}
+        {}
         <h2 className="titlu-sectiune">Examenele tale</h2>
         <div className="container-materii-border">
           <div className="layout-examene">
@@ -367,7 +367,7 @@ const PaginaMateriale = () => {
           </div>
         </div>
 
-        {/* STATISTICI */}
+        {}
         <h2 className="titlu-sectiune">Statisticile tale</h2>
         <div className="container-materii-border statistics-clean-layout">
           <div className="zona-grafice-simpla">
@@ -384,7 +384,7 @@ const PaginaMateriale = () => {
 
       </main>
 
-      {/* POPUP MATERII */}
+      {}
       {showPopup && (
         <div className="modal-overlay" onClick={() => { setShowPopup(false); setUploadError(""); setUploadSuccess(""); }}>
           <div className="popup-container" onClick={e => e.stopPropagation()}>

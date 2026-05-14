@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+
 import React from 'react';
 import './App.css';
 import '../Components/Header.css'
@@ -8,7 +8,7 @@ import logoStuddle from '../assets/logoStuddle.png';
 import pozaBaiat from '../assets/pozabaiat.png';
 import pisica from '../assets/Siameza ochi albastri (1).png';
 
-// Feature icons
+
 import calendarIcon from '../assets/calendar.png';
 import folderIcon from '../assets/folder.png';
 import ceasIcon from '../assets/ceas.png';
@@ -40,7 +40,7 @@ function StartPage() {
         </div>
       </header>
 
-      {/* sectiunea 1 - hero */}
+      {}
       <main className="hero">
         <div className="hero-image-container">
           <div className="placeholder-image">
@@ -64,7 +64,7 @@ function StartPage() {
         </div>
       </main>
 
-      {/* sectiunea 2 - cards */}
+      {}
       <section className="features-section">
         <div className="features-header">
           <p className="subtitle">DE CE STUDDLE?</p>
@@ -84,7 +84,7 @@ function StartPage() {
         </div>
       </section>
 
-      {/* sectiunea 3 - pisica */}
+      {}
       <section className="cat-section">
         <div className="cat-container">
           <img src={pisica} alt="Pisica Studdle" className="cat-image" />
@@ -98,7 +98,7 @@ function StartPage() {
         </div>
       </section>
 
-      {/* sectiunea 4 - CTA */}
+      {}
       <section className="cta-section">
         <div className="cta-content">
           <h2>

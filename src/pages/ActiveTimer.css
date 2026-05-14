@@ -1,7 +1,4 @@
-/* ========================================
-   Active Timer Page — Dark Mode
-   Matches Figma "pagina pomodoro" etc.
-   ======================================== */
+
 
 .active-timer-page {
   min-height: 100vh;
@@ -10,11 +7,8 @@
   color: #e0dff4;
 }
 
-/* Override header colours for dark page */
-.active-timer-page .header-studdle {
-  background-color: #3a3867;
-  border-bottom-color: #4a4878;
-}
+
+
 .active-timer-page .nav-meniu a {
   color: #b0aed4;
 }
@@ -25,11 +19,11 @@
   color: #c9a0f0;
 }
 
-/* ── Content wrapper ── */
+
 .active-timer-content {
   max-width: 780px;
   margin: 0 auto;
-  padding: 20px 24px 60px;
+  padding: 120px 24px 60px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,9 +31,7 @@
   position: relative;
 }
 
-/* ========================================
-   Back Button — top-left
-   ======================================== */
+
 .timer-back-btn {
   align-self: flex-start;
   display: flex;
@@ -63,9 +55,7 @@
   background: rgba(255, 255, 255, 0.08);
 }
 
-/* ========================================
-   Main Timer Card
-   ======================================== */
+
 .timer-main-card {
   width: 100%;
   background: #6d7293;
@@ -78,7 +68,7 @@
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
 }
 
-/* ── Big time display ── */
+
 .timer-time-display {
   font-size: 7rem;
   font-weight: 900;
@@ -95,7 +85,7 @@
   }
 }
 
-/* ── Phase info text ── */
+
 .timer-phase-text {
   font-size: 1rem;
   font-weight: 500;
@@ -103,9 +93,7 @@
   margin: 0;
 }
 
-/* ========================================
-   START / STOP Button
-   ======================================== */
+
 .timer-action-btn {
   background: #4a4670;
   color: #ffffff;
@@ -148,9 +136,7 @@
   background: #5c5880;
 }
 
-/* ========================================
-   "Alege o materie" — Subject Picker
-   ======================================== */
+
 .timer-subject-wrapper {
   width: 100%;
   position: relative;
@@ -194,7 +180,7 @@
   transform: rotate(180deg);
 }
 
-/* ── Dropdown list ── */
+
 .subject-dropdown {
   position: absolute;
   top: 100%;
@@ -230,7 +216,7 @@
   color: #c4b5fd;
 }
 
-/* Scrollbar for dropdown */
+
 .subject-dropdown::-webkit-scrollbar {
   width: 6px;
 }
@@ -244,9 +230,7 @@
   border-radius: 3px;
 }
 
-/* ========================================
-   Setup Screen (Flowmodoro / Custom)
-   ======================================== */
+
 .timer-setup-heading {
   font-size: 2rem;
   font-weight: 800;
@@ -255,7 +239,7 @@
   margin-bottom: 8px;
 }
 
-/* Centered time row: [MM] : [00] */
+
 .timer-setup-time-row {
   display: flex;
   align-items: center;
@@ -311,7 +295,7 @@
   text-align: center;
 }
 
-/* Break estimation text */
+
 .timer-estimate-text {
   font-size: 1rem;
   font-weight: 500;
@@ -332,9 +316,7 @@
   }
 }
 
-/* ========================================
-   Adăugare Materie Nouă (Dropdown)
-   ======================================== */
+
 .subject-add-row {
   display: flex;
   align-items: center;
@@ -400,9 +382,7 @@
   cursor: not-allowed;
 }
 
-/* ========================================
-   Studdy Nudge Popup
-   ======================================== */
+
 .timer-popup-overlay {
   position: fixed;
   top: 0;

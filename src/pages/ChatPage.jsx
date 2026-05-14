@@ -237,9 +237,9 @@ function FilePickerModal({ token, onSelect, onClose }) {
   );
 }
 
-// Sidebar shows friends list; conversations with messages are highlighted
+
 function ConversationSidebar({ friendList, conversations, activeFriendId, onSelect }) {
-  // Build a map of friendId -> conversation data
+  
   const convMap = {};
   conversations.forEach(({ lastMessage, unreadCount }) => {
     const other = lastMessage.sender?._id === activeFriendId
@@ -373,7 +373,7 @@ function ChatWindow({ friend, token, currentUserId }) {
   const bottomRef = useRef(null);
   const typingTimeout = useRef(null);
 
-  // The friend id may come as friend.id or friend._id depending on source
+  
   const friendId = friend._id || friend.id;
 
   useEffect(() => {
@@ -455,7 +455,7 @@ function ChatWindow({ friend, token, currentUserId }) {
       )}
 
       <div style={{ display: "flex", flexDirection: "column", flex: 1, minHeight: 0 }}>
-        {/* Header */}
+        {}
         <div style={{
           padding: "16px 24px",
           borderBottom: "1.5px solid rgba(139,120,221,0.15)",
@@ -478,7 +478,7 @@ function ChatWindow({ friend, token, currentUserId }) {
           </div>
         </div>
 
-        {/* Messages */}
+        {}
         <div style={{ flex: 1, overflowY: "auto", padding: "20px 24px", display: "flex", flexDirection: "column" }}>
           {loading && (
             <div style={{ textAlign: "center", color: "#9b8dc4", fontSize: 14, paddingTop: 40 }}>
@@ -511,7 +511,7 @@ function ChatWindow({ friend, token, currentUserId }) {
           <div ref={bottomRef} />
         </div>
 
-        {/* Input bar */}
+        {}
         <div style={{
           padding: "16px 20px",
           borderTop: "1.5px solid rgba(139,120,221,0.15)",
@@ -661,7 +661,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
       `}</style>
 
       <div style={{
-        display: "flex", height: "100vh",
+        display: "flex", height: "100vh", paddingTop: "100px",
         background: "linear-gradient(160deg, #ede9ff 0%, #e4e0ff 40%, #dde8ff 100%)",
         fontFamily: "'Nunito', 'Segoe UI', sans-serif",
         overflow: "hidden",

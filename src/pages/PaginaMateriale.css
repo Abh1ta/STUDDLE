@@ -8,9 +8,10 @@
   width: 100%;
   min-height: 100vh;
   background-color: #fff;
+  padding-top: 100px;
 }
 
-/* sectiunea 1 - materii */
+
 .container-materii-border {
   background-color: #e3f1ff;
   padding: 60px 8%;
@@ -28,7 +29,7 @@
   margin: 60px 0 -18px;
 }
 
-/* sectiunea 2 - carduri */
+
 .grid-materii,
 .grid-teme {
   display: flex;
@@ -116,7 +117,7 @@
   pointer-events: none;
 }
 
-/* sectiunea 3 - butoane */
+
 .zona-click-tema {
   display: flex;
   align-items: center;
@@ -156,7 +157,7 @@
   transform: scale(1.2);
 }
 
-/* sectiunea 4 - examene si calendar */
+
 .layout-examene {
   display: flex;
   justify-content: space-between;
@@ -327,7 +328,7 @@
   margin-top: -8px;
 }
 
-/* sectiunea 5 - popup uri */
+
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -483,7 +484,7 @@
   font-weight: 500;
 }
 
-/* sectiunea 6 - statistici */
+
 .statistics-clean-layout {
   display: flex;
   flex-direction: column;
@@ -527,7 +528,7 @@
   background-color: #333;
 }
 
-/* sectiunea 7 - tooltip */
+
 .color-wrapper {
   position: relative;
   display: flex;
