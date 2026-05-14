@@ -383,7 +383,7 @@ function ActiveTimer() {
               Sesiune Încheiată!
             </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
-              <img src="/studdy-cat.png" alt="Studdy Fericit" className="studdy-avatar-popup" />
+              <img src="../assets/pisica.png" alt="Studdy Fericit" className="studdy-avatar-popup" />
             </div>
             <p
               style={{
