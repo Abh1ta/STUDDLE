@@ -54,7 +54,6 @@ const CharacterCustomization = () => {
           })
         });
         
-        // Refresh context so Header updates
         await refreshAvatar();
       }
       navigate('/home');

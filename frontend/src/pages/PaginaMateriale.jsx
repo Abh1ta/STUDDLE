@@ -5,6 +5,7 @@ import './PaginaMateriale.css';
 import spiraleImg from "../assets/Group 24.png";
 import logoImg from "../assets/logostuddle.png";
 import { useAuth } from '../context/AuthContext';
+import StatisticiSection from './StatisticiSection';
 
 const culori = ['#7c83b3', '#8398e7', '#3b4d9b', '#2a3b8f'];
 const culoriCaiete = ['#5ca0e8', '#9bacff', '#8398e7'];
@@ -55,7 +56,6 @@ const PaginaMateriale = () => {
   const fileInputMaterieRef = useRef(null);
   const fileInputTemaRef = useRef(null);
 
-  // --- 1. Fetch Data ---
   useEffect(() => {
     if (!token) return;
 
@@ -96,7 +96,6 @@ const PaginaMateriale = () => {
     fetchAll();
   }, [token]);
 
-  // --- 2. Handle Hash Scrolling ---
   useEffect(() => {
     if (!loading && location.hash) {
       const id = location.hash.replace('#', '');
@@ -109,7 +108,6 @@ const PaginaMateriale = () => {
     }
   }, [loading, location]);
 
-  // --- API Handlers ---
   const uploadFile = async (file, subjectId) => {
     if (!file) return;
     if (!subjectId) {
@@ -293,7 +291,6 @@ const PaginaMateriale = () => {
     }
   };
 
-  // --- Calendar Logic ---
   const anCurent = dataCalendar.getFullYear();
   const lunaCurentaIndex = dataCalendar.getMonth();
   const zileInLuna = new Date(anCurent, lunaCurentaIndex + 1, 0).getDate();
@@ -463,19 +460,9 @@ const PaginaMateriale = () => {
         </div>
 
         {/* STATISTICI */}
-        <h2 className="titlu-sectiune">Statisticile tale</h2>
-        <div className="container-materii-border statistics-clean-layout">
-          <div className="zona-grafice-simpla">
-            <div className="stat-chart-item">
-              <h3 className="stat-subtitle">Ore de studiu (zile/săptămâni)</h3>
-              <div className="chart-line-container"><div className="chart-baseline"></div></div>
-            </div>
-            <div className="stat-chart-item">
-              <h3 className="stat-subtitle">Materiale accesate</h3>
-              <div className="chart-line-container"><div className="chart-baseline"></div></div>
-            </div>
-          </div>
-        </div>
+        
+       <h2 className="titlu-sectiune">Statisticile tale</h2>
+<StatisticiSection token={token} />
 
       </main>
 

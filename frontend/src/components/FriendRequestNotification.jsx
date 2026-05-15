@@ -25,7 +25,6 @@ const res = await fetch('/api/friends/requests/pending', {
         const newRequests = data.filter(r => !prevIds.has(r._id));
 
         if (newRequests.length > 0) {
-          // Stagger-reveal new ones
           newRequests.forEach((req, i) => {
             setTimeout(() => {
               setVisible(v => [...v, req._id]);
@@ -124,7 +123,6 @@ const res = await fetch('/api/friends/requests/pending', {
         .close-btn:hover { opacity: 0.9; transform: scale(1.15); }
       `}</style>
 
-      {/* Stack — bottom-right corner */}
       <div
         style={{
           position: 'fixed',
@@ -163,7 +161,6 @@ const res = await fetch('/api/friends/requests/pending', {
                 gap: '0.75rem',
               }}
             >
-              {/* Header row */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <img
                   src={sender?.avatar_url || catAvatar}
@@ -186,7 +183,6 @@ const res = await fetch('/api/friends/requests/pending', {
                   </p>
                 </div>
 
-                {/* Close ✕ */}
                 <button
                   className="close-btn"
                   onClick={() => dismiss(req._id)}
@@ -205,7 +201,6 @@ const res = await fetch('/api/friends/requests/pending', {
                 </button>
               </div>
 
-              {/* Action buttons */}
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
                   className="btn-accept"

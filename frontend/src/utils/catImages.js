@@ -56,9 +56,7 @@ const catImages = {
   },
 };
 
-/**
- * Returnează calea către imaginea pisicii selectate, cu valori default sigure
- */
+
 export const getCatImage = (coat, eyes) => {
   const safeCoat = coat && catImages[coat] ? coat : 'siameza';
   const safeEyes = eyes && catImages[safeCoat][eyes] ? eyes : 'albastri';

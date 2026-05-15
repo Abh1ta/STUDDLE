@@ -12,7 +12,6 @@ const HIGHLIGHT_COLORS = [
 
 const API_BASE = 'http://localhost:5000/api';
 
-// ─── tiny helpers ────────────────────────────────────────────────────────────
 const rectFrom = (x1, y1, x2, y2) => ({
   x: Math.min(x1, x2),
   y: Math.min(y1, y2),
@@ -21,13 +20,11 @@ const rectFrom = (x1, y1, x2, y2) => ({
 });
 const getCloudinaryPdfUrl = (url) => {
   if (!url || !url.includes('cloudinary.com')) return url;
-  // Insert fl_attachment flag to force proper PDF delivery
   return url.replace('/upload/', '/upload/fl_attachment/');
 };
 const hitTest = (rect, x, y) =>
   x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h;
 
-// ─── PDFViewer ────────────────────────────────────────────────────────────────
 export default function PDFViewer() {
   const { token } = useAuth();
   const navigate   = useNavigate();
@@ -35,7 +32,6 @@ export default function PDFViewer() {
 
   const { fileUrl, fileId, fileName } = location.state || {};
 
-  // pdf.js
   const [pdfDoc,    setPdfDoc]    = useState(null);
   const [numPages,  setNumPages]  = useState(0);
   const [scale,     setScale]     = useState(1.3);
@@ -43,23 +39,22 @@ export default function PDFViewer() {
   const [pdfError,  setPdfError]  = useState('');
 
   // annotations
-  const [annotations,  setAnnotations]  = useState([]);   // [{id,page,type,…}]
+  const [annotations,  setAnnotations]  = useState([]);   
   const [saving,       setSaving]       = useState(false);
 
   // tool state
-  const [tool,         setTool]         = useState('highlight'); // 'highlight'|'note'|'erase'
+  const [tool,         setTool]         = useState('highlight'); 
   const [activeColor,  setActiveColor]  = useState(HIGHLIGHT_COLORS[0]);
   const [noteText,     setNoteText]     = useState('');
-  const [noteDraft,    setNoteDraft]    = useState(null);  // {page,x,y}
-  const [hovered,      setHovered]      = useState(null);  // annotation id
-
+  const [noteDraft,    setNoteDraft]    = useState(null);  
+  const [hovered,      setHovered]      = useState(null);  
   // drawing
   const drawing   = useRef(false);
   const startPos  = useRef({ x: 0, y: 0 });
-  const pageRefs  = useRef({});   // page → canvas DOM node
-  const overlayRefs = useRef({}); // page → overlay div
+  const pageRefs  = useRef({});   
+  const overlayRefs = useRef({}); 
 
-  // ── Load PDF.js from CDN ────────────────────────────────────────────────────
+  
   useEffect(() => {
     if (!fileUrl) { setPdfError('Niciun fișier furnizat.'); setLoading(false); return; }
 
@@ -94,7 +89,6 @@ export default function PDFViewer() {
     }
   }, [fileUrl]);
 
-  // ── Fetch saved annotations ─────────────────────────────────────────────────
   useEffect(() => {
     if (!token || !fileId) return;
     fetch(`${API_BASE}/annotations/${fileId}`, {
@@ -105,7 +99,6 @@ export default function PDFViewer() {
       .catch(() => {});
   }, [token, fileId]);
 
-  // ── Render a page onto its canvas ───────────────────────────────────────────
   const renderPage = useCallback(async (pageNum) => {
     if (!pdfDoc) return;
     const canvas = pageRefs.current[pageNum];
@@ -125,7 +118,6 @@ export default function PDFViewer() {
     for (let p = 1; p <= numPages; p++) renderPage(p);
   }, [pdfDoc, numPages, scale, renderPage]);
 
-  // ── Save annotations to backend ─────────────────────────────────────────────
   const saveAnnotations = async (next) => {
     if (!token || !fileId) return;
     setSaving(true);
@@ -150,7 +142,6 @@ export default function PDFViewer() {
     saveAnnotations(next);
   };
 
-  // ── Mouse handlers on overlay ────────────────────────────────────────────────
   const getPos = (e, pageNum) => {
     const overlay = overlayRefs.current[pageNum];
     if (!overlay) return { x: 0, y: 0 };
@@ -159,7 +150,7 @@ export default function PDFViewer() {
   };
 
   const onMouseDown = (e, pageNum) => {
-    if (tool === 'note') return; // handled separately
+    if (tool === 'note') return; 
     if (tool === 'erase') {
       const { x, y } = getPos(e, pageNum);
       const next = annotations.filter(a => !(a.page === pageNum && hitTest(a, x, y)));
@@ -212,10 +203,8 @@ export default function PDFViewer() {
     setNoteText('');
   };
 
-  // ── Cursor style ─────────────────────────────────────────────────────────────
   const cursorForTool = tool === 'erase' ? 'cell' : tool === 'note' ? 'crosshair' : 'text';
 
-  // ── Render ───────────────────────────────────────────────────────────────────
   if (!fileUrl) {
     return (
       <div style={styles.errorWrap}>
@@ -226,7 +215,6 @@ export default function PDFViewer() {
 
   return (
     <div style={styles.root}>
-      {/* ── TOP BAR ── */}
       <div style={styles.topBar}>
         <button onClick={() => navigate(-1)} style={styles.backBtn}>← Înapoi</button>
         <span style={styles.fileName}>{fileName || 'Document'}</span>
@@ -238,7 +226,6 @@ export default function PDFViewer() {
         </div>
       </div>
 
-      {/* ── TOOLBAR ── */}
       <div style={styles.toolbar}>
         {/* Tools */}
         <div style={styles.toolGroup}>
@@ -257,7 +244,6 @@ export default function PDFViewer() {
           ))}
         </div>
 
-        {/* Colors — shown for highlight + note */}
         {tool !== 'erase' && (
           <div style={styles.colorGroup}>
             {HIGHLIGHT_COLORS.map(c => (
@@ -392,7 +378,6 @@ export default function PDFViewer() {
   );
 }
 
-// ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = {
   root: {
     minHeight: '100vh',

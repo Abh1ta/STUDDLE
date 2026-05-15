@@ -3,7 +3,6 @@ import { useSocket } from "../context/SocketContext";
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-// --- Utilitare ---
 const fmt = (bytes) => {
   if (!bytes) return "0 B";
   if (bytes < 1024) return `${bytes} B`;
@@ -24,7 +23,6 @@ const dayLabel = (iso) => {
   return d.toLocaleDateString([], { weekday: "long", month: "short", day: "numeric" });
 };
 
-// --- Componente ---
 function FileIcon({ type, size = 20 }) {
   const isPdf = type === "pdf";
   return (
@@ -38,7 +36,6 @@ function FileIcon({ type, size = 20 }) {
 }
 
 function MessageBubble({ msg, currentUserId }) {
-  // LOGICA CRITICĂ DE COMPARARE
   const isMine = useMemo(() => {
     const senderId = msg.sender?._id || msg.sender;
     const myId = currentUserId?._id || currentUserId;
@@ -106,7 +103,6 @@ function MessageBubble({ msg, currentUserId }) {
   );
 }
 
-// --- Componenta Principală ---
 export default function ChatPage({ token, currentUserId, friendList = [] }) {
   const { socketRef } = useSocket();
   const [conversations, setConversations] = useState([]);

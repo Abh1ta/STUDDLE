@@ -1,8 +1,3 @@
-/* ========================================
-   Timer Selection Page — Light Mode
-   Matches Figma "pagina timer"
-   ======================================== */
-
 .timer-selection-page {
   min-height: 100vh;
   background: linear-gradient(180deg, #e3f2ff 0%, #ddd5ef 60%, #d0c6e3 100%);

@@ -2,7 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { Readable } from "stream";
 import fileModel from "../models/fileModel.js";
 
-// Funcție de upload îmbunătățită
+
 const uploadToCloudinary = (buffer, originalName, fileType) =>
   new Promise((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
@@ -39,14 +39,12 @@ export const uploadFile = async (req, res) => {
 
 const cloudResult = await uploadToCloudinary(req.file.buffer, originalName, ext);
 
-        // Salvăm fișierul în DB
         const file = await fileModel.create({
             user_id:       req.user._id,
             subject_id,
             title:         title || originalName,
             file_type:     ext,
             cloudinary_id: cloudResult.public_id,
-            // cloudResult.secure_url va fi acum de tip .../image/upload/... pentru PDF
             url:           cloudResult.secure_url,
             size_bytes:    req.file.size,
         });
