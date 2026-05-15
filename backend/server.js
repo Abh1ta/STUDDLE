@@ -18,6 +18,7 @@ import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import subjectRoutes  from './routes/subjectRoutes.js';
 import homeworkRoutes from './routes/homeworkRoutes.js';
 import examRoutes     from './routes/examRoutes.js';
+import studyRouter from './routes/studyRoutes.js';
 
 //app config
 const app = express()
@@ -28,7 +29,6 @@ const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: { origin: process.env.CLIENT_URL, credentials: true },
 });
-
 //middleware
 app.use(express.json())
 app.use(cors()) 
@@ -46,6 +46,7 @@ app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/subjects",  subjectRoutes);
 app.use("/api/homework",  homeworkRoutes);
 app.use("/api/exams",     examRoutes);
+app.use('/api/study', studyRouter);
 
 initSocket(httpServer, io);
 httpServer.listen(5000, () => {

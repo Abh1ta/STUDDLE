@@ -13,7 +13,6 @@ export function AuthProvider({ children }) {
 
   const navigate = useNavigate();
 
-  // Call this after a successful login or signup response
   const login = (token, user) => {
     localStorage.setItem("token", token);
     localStorage.setItem("user", JSON.stringify(user));

@@ -105,7 +105,7 @@ function StartPage() {
             Ești pregătit să studiezi <span className="italic-purple">cu spor</span>,
             <span className="break-text"> din plăcere?</span>
           </h2>
-          <Link to="/signup">
+          <Link to="/signup ">
             <button className="cta-button">Creează cont gratuit</button>
           </Link>
         </div>

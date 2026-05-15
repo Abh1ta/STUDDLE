@@ -1,16 +1,30 @@
 .header-studdle {
   width: 100%;
-  min-height: 100px; /* grows if needed */
+  min-height: 100px; 
   display: flex;
   align-items: center;
-  justify-content: space-between; /* logo | nav | avatar in flow */
+  justify-content: space-between; 
   padding: 0 30px;
-  background-color: #e3f2ff;
-  border-bottom: 2px solid #dce8ff;
-  position: relative;
-  z-index: 100;
+  background-color: rgba(227, 242, 255, 0.85); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-bottom: 2px solid rgba(220, 232, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
   box-sizing: border-box;
   gap: 20px;
+}
+.page-content {
+  padding-top: 100px; 
+}
+.header-studdle.solid-header {
+  background-color: rgba(45, 43, 82, 0.88) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border-bottom: 2px solid rgba(109, 114, 147, 0.35) !important;
+  opacity: 1 !important;
 }
 
 .logo-box {
@@ -18,13 +32,13 @@
 }
 
 .logo-studiu {
-  width: 150px; /* match the box */
+  width: 150px; 
   height: auto;
   display: block;
 }
 
 .nav-meniu {
-  /* in normal flow, centered via flex on parent */
+  
   display: flex;
   gap: 35px;
   align-items: center;
@@ -50,34 +64,42 @@
   color: #5c6bc0;
 }
 
-/* Avatar pushed all the way right, overflows header slightly */
+
 .avatar-box {
   margin-left: auto;
   flex-shrink: 0;
 }
 
 .cerc-avatar {
-  width: 90px;
-  height: 90px;
+  width: 65px;
+  height: 65px;
   border-radius: 50%;
-  border: 2.5px solid #a0b4e8;
+  border: 2px solid #a0b4e8;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px #e3f2ff, 0 0 0 6px #a0b4e8;
+  position: relative;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-shrink: 0;
+  margin-right: 6px;
 }
 
 .cerc-avatar a {
-  display: flex;
+  display: block;
   width: 100%;
   height: 100%;
+  position: relative;
 }
 
-.cerc-avatar img {
+.avatar-img {
+  position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  top: 0;
+  left: 0;
+  transform: none;
 }
+
 @media (max-width: 768px) {
   .nav-meniu {
     gap: 15px;
@@ -98,26 +120,5 @@
   .nav-meniu {
     order: 3;
     width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
+    justify-content: center;}
   }
-}
-/* Stil pentru când Header-ul este pe pagina de Timer */
-.header-studdle.timer-mode {
-  background-color: #3a3867 !important; /* Movul închis din screenshot-ul tău */
-  border-bottom: 2px solid #4a4878 !important;
-}
-
-.header-studdle.timer-mode .nav-meniu a {
-  color: #b0aed4 !important; /* Textul mai deschis */
-}
-
-.header-studdle.timer-mode .nav-meniu a.active,
-.header-studdle.timer-mode .nav-meniu a:hover {
-  color: #ffffff !important; /* Textul alb când e selectat */
-}
-
-.header-studdle.timer-mode .cerc-avatar {
-  border-color: #4a4878;
-}

@@ -2,7 +2,6 @@ import userAchievementModel from "../models/userAchievementModel.js";
 import achievementModel from "../models/achievementModel.js";
 import mongoose from "mongoose";
 
-// GET all achievements for a specific user
 export const getUserAchievements = async (req, res) => {
   try {
     const userAchievements = await userAchievementModel
@@ -14,7 +13,7 @@ export const getUserAchievements = async (req, res) => {
   }
 };
 
-// GET single user achievement by ID
+
 export const getUserAchievementById = async (req, res) => {
   try {
     const userAchievement = await userAchievementModel
@@ -28,7 +27,7 @@ export const getUserAchievementById = async (req, res) => {
   }
 };
 
-// POST award an achievement to a user
+
 export const awardAchievement = async (req, res) => {
   try {
     const { user_id, achievement_id } = req.body;
@@ -48,7 +47,7 @@ export const awardAchievement = async (req, res) => {
   }
 };
 
-// DELETE revoke a user achievement
+
 export const revokeAchievement = async (req, res) => {
   try {
     const userAchievement = await userAchievementModel.findByIdAndDelete(req.params.id);
@@ -59,14 +58,13 @@ export const revokeAchievement = async (req, res) => {
   }
 };
 
-// GET total XP earned by a user
 export const getUserTotalXP = async (req, res) => {
   try {
     const result = await userAchievementModel.aggregate([
       { $match: { user_id: new mongoose.Types.ObjectId(req.params.userId) } },
       {
         $lookup: {
-          from: "achievementmodels", // MongoDB lowercases + pluralizes the model name
+          from: "achievementmodels", 
           localField: "achievement_id",
           foreignField: "_id",
           as: "achievement"

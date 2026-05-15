@@ -134,5 +134,4 @@ export const initSocket = (httpServer, io) => {
 };
 
 
-/** Deterministic room ID so both users always join the same room */
 const getRoomId = (a, b) => [a, b].sort().join("_");

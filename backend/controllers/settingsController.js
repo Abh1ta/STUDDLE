@@ -78,13 +78,11 @@ export const getAvatar = async (req, res) => {
 
 export const createOrUpdateAvatar = async (req, res) => {
   try {
-    const {  eye_color, skin_color } = req.body;
-
-   
+    const { eye_color, skin_color, cat_name } = req.body;
 
     const avatar = await avatarModel.findOneAndUpdate(
       { user_id: req.userId },
-      { eye_color, skin_color },
+      { eye_color, skin_color, cat_name },
       { new: true, upsert: true, runValidators: true }
     );
 
@@ -97,9 +95,9 @@ export const createOrUpdateAvatar = async (req, res) => {
 export const resetAvatar = async (req, res) => {
   try {
     const defaults = {
-      
-      eye_color: "#008000",
-      skin_color: "#efefef",
+      eye_color: "albastri",
+      skin_color: "siameza",
+      cat_name: "Studdy"
     };
 
     const avatar = await avatarModel.findOneAndUpdate(

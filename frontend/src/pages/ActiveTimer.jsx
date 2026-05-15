@@ -1,6 +1,10 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import pisica from '../assets/pisica.png';
+
 import './ActiveTimer.css';
 
 const API_URL_SUBJECTS = '/api/subjects';
@@ -87,7 +91,6 @@ function ActiveTimer() {
   try {
     const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
     
-    // ADAUGĂ ACEASTĂ LINIE: o culoare mov implicită pentru materii
     const defaultColor = '#7c83b3'; 
 
     const response = await fetch(API_URL_SUBJECTS, {
@@ -96,7 +99,6 @@ function ActiveTimer() {
         'Content-Type': 'application/json', 
         ...authHeaders 
       },
-      // MODIFICAT: Trimitem și culoarea acum
       body: JSON.stringify({ 
         title: newSubjectName, 
         color: defaultColor 
@@ -336,7 +338,7 @@ function ActiveTimer() {
           <div className="timer-popup-card">
             <h3 className="timer-popup-title">Studdy a obosit... luăm o pauză?</h3>
             <div className="timer-popup-img-box">
-              <img src="/studdy-cat.png" alt="Studdy" className="studdy-avatar-popup" />
+<img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
             </div>
             <div className="timer-popup-btns">
               <button
@@ -383,7 +385,7 @@ function ActiveTimer() {
               Sesiune Încheiată!
             </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
-              <img src="/studdy-cat.png" alt="Studdy Fericit" className="studdy-avatar-popup" />
+<img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
             </div>
             <p
               style={{
