@@ -10,11 +10,7 @@ export const initSocket = (httpServer, io) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-<<<<<<< HEAD
       socket.user = decoded;
-=======
-      socket.user = decoded; // { id, username, ... }
->>>>>>> varianta-mai-ok
       next();
     } catch {
       next(new Error("Invalid token"));
@@ -25,15 +21,8 @@ export const initSocket = (httpServer, io) => {
     const userId = socket.user.id;
     console.log(` Socket connected: ${userId}`);
 
-<<<<<<< HEAD
     socket.join(userId);
 
-=======
-    // Join personal room so we can push notifications to this user
-    socket.join(userId);
-
-    // Client emits this when opening a conversation window
->>>>>>> varianta-mai-ok
     socket.on("join_chat", ({ friendId }) => {
       const roomId = getRoomId(userId, friendId);
       socket.join(roomId);
@@ -45,7 +34,6 @@ export const initSocket = (httpServer, io) => {
       socket.leave(roomId);
     });
 
-<<<<<<< HEAD
     socket.on("send_message", async ({ receiverId, content, attachment }) => {
       if (!content?.trim() && !attachment) return;
 
@@ -66,28 +54,11 @@ export const initSocket = (httpServer, io) => {
         }
 
         const msg = await Message.create(msgData);
-=======
-    socket.on("send_message", async ({ receiverId, content }) => {
-      if (!content?.trim()) return;
-
-      try {
-        const msg = await Message.create({
-          sender:   userId,
-          receiver: receiverId,
-          content:  content.trim(),
-          type:     "text",
-        });
-
->>>>>>> varianta-mai-ok
         const populated = await msg.populate("sender", "username avatar");
 
         const roomId = getRoomId(userId, receiverId);
         io.to(roomId).emit("new_message", populated);
 
-<<<<<<< HEAD
-=======
-        // Also push to receiver's personal room for sidebar badge
->>>>>>> varianta-mai-ok
         io.to(receiverId).emit("conversation_updated", {
           fromUserId: userId,
           lastMessage: populated,
@@ -98,19 +69,11 @@ export const initSocket = (httpServer, io) => {
       }
     });
 
-<<<<<<< HEAD
-=======
-    // Client sends a fileId from the user's existing Cloudinary files
->>>>>>> varianta-mai-ok
     socket.on("share_file", async ({ receiverId, fileId, caption }) => {
       try {
         const file = await fileModel.findOne({
           _id:     fileId,
-<<<<<<< HEAD
           user_id: userId,
-=======
-          user_id: userId, // ensure ownership
->>>>>>> varianta-mai-ok
         });
 
         if (!file) {
@@ -162,10 +125,6 @@ export const initSocket = (httpServer, io) => {
           { sender: senderId, receiver: userId, read: false },
           { $set: { read: true } }
         );
-<<<<<<< HEAD
-=======
-        // Notify the original sender their messages were read
->>>>>>> varianta-mai-ok
         io.to(senderId).emit("messages_read", { byUserId: userId });
       } catch (err) {
         console.error("mark_read error:", err);
