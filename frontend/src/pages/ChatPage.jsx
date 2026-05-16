@@ -5,7 +5,6 @@ import trimiteIcon from '../assets/trimite.png';
 
 const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const P = { navy: '#344979', blue: '#5d6da5', lav: '#9896bb', lavLight: '#c6c6e8', blush: '#f7e5eb' };
-<<<<<<< HEAD
 const pdfInlineUrl = (url) => {
   if (!url) return url;
   // Transformă URL-ul Cloudinary pentru a forța vizualizare inline
@@ -13,9 +12,6 @@ const pdfInlineUrl = (url) => {
   // în:  https://res.cloudinary.com/dz57om6az/raw/upload/fl_attachment:false/v.../fisier.pdf
   return url.replace('/upload/', '/upload/fl_attachment:false/');
 };
-=======
-
->>>>>>> varianta-mai-ok
 const fmt = (bytes) => {
   if (!bytes) return "0 B";
   if (bytes < 1024) return `${bytes} B`;
@@ -62,7 +58,6 @@ function MessageBubble({ msg, currentUserId }) {
       <div style={{ maxWidth: "70%", display: "flex", flexDirection: "column", alignItems: isMine ? "flex-end" : "flex-start" }}>
         
         {/* Render Atașament PDF/TXT stilizat */}
-<<<<<<< HEAD
        {msg.attachment && (
   
     <a href={`https://docs.google.com/viewer?url=${encodeURIComponent(msg.attachment.url)}&embedded=true`}
@@ -86,27 +81,6 @@ function MessageBubble({ msg, currentUserId }) {
     </div>
   </a>
 )}
-=======
-        {msg.attachment && (
-          <a href={msg.attachment.url} target="_blank" rel="noopener noreferrer" style={{
-            display: "flex", alignItems: "center", gap: 10, padding: "10px 14px", borderRadius: 16,
-            background: "rgba(255, 255, 255, 0.75)",
-            border: "1px solid rgba(93, 109, 165, 0.18)", textDecoration: "none", color: "inherit", marginBottom: 6,
-            backdropFilter: "blur(8px)", WebkitBackdropFilter: "blur(8px)",
-            boxShadow: "0 4px 12px rgba(52,73,121,0.04)",
-            transition: "transform 0.2s ease"
-          }}
-            onMouseEnter={(e) => e.currentTarget.style.transform = "translateY(-1px)"}
-            onMouseLeave={(e) => e.currentTarget.style.transform = "translateY(0)"}
-          >
-            <FileIcon type={msg.attachment.file_type} />
-            <div style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-              <span style={{ fontSize: 13, fontWeight: 700, color: P.navy, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{msg.attachment.title}</span>
-              <span style={{ fontSize: 10, color: P.lav, fontWeight: 500 }}>Apasă pentru vizualizare</span>
-            </div>
-          </a>
-        )}
->>>>>>> varianta-mai-ok
 
         {msg.content && (
           <div style={{
@@ -210,11 +184,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
     if (socketRef.current) {
       socketRef.current.emit("send_message", {
         receiverId: fId,
-<<<<<<< HEAD
         content: "",
-=======
-        content: file.name,
->>>>>>> varianta-mai-ok
         attachment: {
           url: uploadResult.url || uploadResult.file?.url || uploadResult.secure_url, 
           file_type: file.name.split('.').pop().toLowerCase(),
@@ -361,18 +331,10 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
           </>
         ) : (
           <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", color: P.lav, fontStyle: "italic", fontSize: "1.05rem", fontWeight: 500 }}>
-<<<<<<< HEAD
-            ✨ Selectează o conversație pentru a începe chat-ul
-=======
             Selectează o conversație pentru a începe chat-ul
->>>>>>> varianta-mai-ok
           </div>
         )}
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> varianta-mai-ok

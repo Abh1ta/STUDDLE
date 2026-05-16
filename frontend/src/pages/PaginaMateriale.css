@@ -5,11 +5,7 @@
 /* ── WRAPPER ── */
 .pm-wrapper {
   min-height: 100vh;
-<<<<<<< HEAD
-  background: linear-gradient(135deg, #f7e5eb 0%, #ffffff 45%, #c6c6e840 100%);
-=======
   background: radial-gradient(circle at center, #8d91c7 0%, #e0c5e6a6 100%);
->>>>>>> varianta-mai-ok
   display: flex;
   flex-direction: column;
 }
@@ -21,11 +17,7 @@
   justify-content: space-between;
   padding: 28px 32px 20px 32px;
   border-bottom: 1.5px solid #c6c6e855;
-<<<<<<< HEAD
-  background: rgba(255,255,255,0.7);
-=======
   background: #7665ad62;
->>>>>>> varianta-mai-ok
   backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
@@ -94,7 +86,7 @@
   gap: 32px;
 }
 
-.pm-section {}
+
 
 .pm-section-title {
   font-size: 15px;
@@ -126,13 +118,8 @@
   display: flex;
   align-items: center;
   gap: 16px;
-<<<<<<< HEAD
-  background:#eacde9;
-  border: 1.5px solid #c6c6e855;
-=======
   background:#7665ad62;
   border: 2px solid #19022055;
->>>>>>> varianta-mai-ok
   border-radius: 20px;
   padding: 16px 20px;
   backdrop-filter: blur(8px);
@@ -144,17 +131,11 @@
 .pm-card:hover {
   box-shadow: 0 6px 24px rgba(52,73,121,0.12);
   transform: translateY(-1px);
-<<<<<<< HEAD
-  background-color: #f9d3f8;
-}
-
-=======
   background-color: #c0aeda;
 }
 
 
 
->>>>>>> varianta-mai-ok
 .pm-card-stripe {
   width: 5px;
   height: 52px;
@@ -177,11 +158,7 @@
 .pm-card-title {
   font-size: 17px;
   font-weight: 700;
-<<<<<<< HEAD
-  color: #344979;
-=======
   color: #523276;
->>>>>>> varianta-mai-ok
   margin: 0 0 3px;
   white-space: nowrap;
   overflow: hidden;
@@ -190,11 +167,7 @@
 
 .pm-card-sub {
   font-size: 12px;
-<<<<<<< HEAD
-  color: #9896bb;
-=======
   color: #515185;
->>>>>>> varianta-mai-ok
   margin: 0 0 6px;
 }
 
@@ -288,11 +261,7 @@
 }
 
 .pm-aside-card {
-<<<<<<< HEAD
-  background: #eacde9;
-=======
   background: #e1d5ee;
->>>>>>> varianta-mai-ok
   border: 1.5px solid #c6c6e855;
   border-radius: 20px;
   padding: 18px 20px;

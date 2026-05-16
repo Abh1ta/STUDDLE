@@ -7,13 +7,8 @@ import { useAuth } from '../context/AuthContext';
 
 const P = { navy: '#344979', blue: '#5d6da5', lavBlue: '#9896bb', lavLight: '#c6c6e8', blush: '#f7e5eb' };
 
-<<<<<<< HEAD
-const culori        = ['#7c83b3', '#8398e7', '#3b4d9b', '#9896bb', '#5d6da5'];
-const culoriCaiete  = ['#5ca0e8', '#9bacff', '#8398e7'];
-=======
 const culori        = ['#3b4d9b'];
 const culoriCaiete  = ['#3b4d9b'];
->>>>>>> varianta-mai-ok
 const culoriExamene = ['#f03a17', '#c9334c', '#a62c7b', '#8224ab', '#5b1bf1'];
 
 const luniAn = ["IANUARIE","FEBRUARIE","MARTIE","APRILIE","MAI","IUNIE","IULIE","AUGUST","SEPTEMBRIE","OCTOMBRIE","NOIEMBRIE","DECEMBRIE"];
@@ -38,10 +33,10 @@ const PaginaMateriale = () => {
   const inputFisierTemaRef    = useRef(null);
 
   const [materii,  setMaterii]  = useState([]);
-  const [teme,     setTeme]     = useState([]);
+  const [teme,      setTeme]     = useState([]);
   const [examene,  setExamene]  = useState([]);
 
-  const [showPopup,       setShowPopup]       = useState(false);
+  const [showPopup,        setShowPopup]        = useState(false);
   const [showPopupTeme,   setShowPopupTeme]   = useState(false);
   const [showPopupExamen, setShowPopupExamen] = useState(false);
 
@@ -58,6 +53,7 @@ const PaginaMateriale = () => {
   const [loading, setLoading] = useState(true);
   const [toast,   setToast]   = useState(null);
 
+  // Stări pentru funcționalitatea de notițe (Modal)
   const [selectedSubject, setSelectedSubject] = useState(null); 
   const [notesList, setNotesList] = useState([]); 
   const [showNotesModal, setShowNotesModal] = useState(false);
@@ -173,8 +169,8 @@ const PaginaMateriale = () => {
   const stergeTema    = async (id) => { const r = await apiFetch(`/api/homework/${id}`, token, { method: 'DELETE' }); if (r.ok) setTeme(p => p.filter(t => (t._id || t.id) !== id)); };
   const stergeExamen  = async (id) => { const r = await apiFetch(`/api/exams/${id}`, token, { method: 'DELETE' }); if (r.ok) setExamene(p => p.filter(ex => (ex._id || ex.id) !== id)); };
 
+  // Logica de deschidere a listei de notițe din a doua versiune
   const handleSubjectClick = async (materie) => {
-<<<<<<< HEAD
     setSelectedSubject(materie);
     try {
       const res = await apiFetch(`/api/materials/subject/${encodeURIComponent(materie.nume)}`, token);
@@ -183,23 +179,6 @@ const PaginaMateriale = () => {
       setShowNotesModal(true);
     } catch (e) {
       showToast("Eroare la încărcarea notițelor.", "err");
-=======
-    try {
-      const res = await apiFetch(`/api/materials/subject/${encodeURIComponent(materie.nume)}`, token);
-      const data = await res.json();
-      if (data && data.length > 0) {
-        navigate(`/edit-material/${data[0]._id}`);
-      } else {
-        const noteRes = await apiFetch(`/api/materials/note/new`, token, {
-          method: 'POST',
-          body: JSON.stringify({ materialId: materie.nume, nume: `Notiță 1` })
-        });
-        const newNote = await noteRes.json();
-        navigate(`/edit-material/${newNote._id}`);
-      }
-    } catch (e) {
-      showToast("Eroare la încărcarea materialului.", "err");
->>>>>>> varianta-mai-ok
     }
   };
 
@@ -216,9 +195,8 @@ const PaginaMateriale = () => {
     }
   };
 
-  // 🔥 FUNCȚIA NOUĂ PENTRU ȘTERGERE NOTIȚĂ INDIVIDUALĂ
   const stergeNotita = async (id, e) => {
-    e.stopPropagation(); // Oprește navigarea în editor la click pe șterge
+    e.stopPropagation(); 
     try {
       const r = await apiFetch(`/api/materials/note/${id}`, token, { method: 'DELETE' });
       if (r.ok) {
@@ -266,46 +244,32 @@ const PaginaMateriale = () => {
   return (
     <div className="pm-wrapper">
 
-      {/* ── TOPBAR ── */}
-      {/* ── TOPBAR RE-STILIZAT ── */}
+      {/* ── TOPBAR STRUCTURĂ ȘI CULORI DIN PRIMA VERSIUNE ── */}
       <div className="pm-topbar">
-  <div>
-    <h1 className="pm-page-title" style={{ 
-      fontSize: '28px', 
-      fontWeight: 900, 
-      
-      background: 'linear-gradient(45deg, #111625, #2c3e66, #465a8a)', 
-      WebkitBackgroundClip: 'text', 
-      WebkitTextFillColor: 'transparent',
-      fontFamily: "'Zilla Slab', serif",
-      letterSpacing: '-0.5px',
-      margin: 0
-    }}>
-      Materiale de studiu
-    </h1>
-    <p className="pm-page-sub" style={{ 
-      color: '#465a8a', 
-      fontSize: '13px', 
-      margin: '4px 0 0 0', 
-      display: 'flex', 
-      alignItems: 'center', 
-      gap: '4px' 
-    }}>
-      
-    </p>
-  </div>
-  
-  <div className="pm-topbar-actions">
-    <button className="pm-btn-add" onClick={() => setShowPopup(true)}>+ Materie</button>
-<<<<<<< HEAD
-    <button className="pm-btn-add pm-btn-add--sec" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
-    <button className="pm-btn-add pm-btn-add--sec" onClick={() => setShowPopupExamen(true)}>+ Examen</button>
-=======
-    <button className="pm-btn-add" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
-    <button className="pm-btn-add" onClick={() => setShowPopupExamen(true)}>+ Examen</button>
->>>>>>> varianta-mai-ok
-  </div>
-</div>
+        <div>
+          <h1 className="pm-page-title" style={{ 
+            fontSize: '28px', 
+            fontWeight: 900, 
+            background: 'linear-gradient(45deg, #111625, #2c3e66, #465a8a)', 
+            WebkitBackgroundClip: 'text', 
+            WebkitTextFillColor: 'transparent',
+            fontFamily: "'Zilla Slab', serif",
+            letterSpacing: '-0.5px',
+            margin: 0
+          }}>
+            Materiale de studiu
+          </h1>
+          <p className="pm-page-sub" style={{ color: '#465a8a', fontSize: '13px', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '4px' }}></p>
+        </div>
+        
+        {/* Butoanele au toate aceeași clasă primară, conform primei variante */}
+        <div className="pm-topbar-actions">
+          <button className="pm-btn-add" onClick={() => setShowPopup(true)}>+ Materie</button>
+          <button className="pm-btn-add" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
+          <button className="pm-btn-add" onClick={() => setShowPopupExamen(true)}>+ Examen</button>
+        </div>
+      </div>
+
       <div className="pm-body">
 
         {/* ── MAIN ── */}
@@ -330,7 +294,7 @@ const PaginaMateriale = () => {
             </div>
           </section>
 
-          {/* TEME */}
+          {/* TEME (Fără imaginea cu spirale din a doua variantă, păstrând stilul curat) */}
           <section className="pm-section">
             <h2 className="pm-section-title">Temele tale</h2>
             <div className="pm-cards-list">
@@ -338,10 +302,6 @@ const PaginaMateriale = () => {
               {teme.map(t => (
                 <div key={t._id || t.id} className="pm-card" onClick={() => handleSubjectClick(t)} style={{ cursor: 'pointer' }}>
                   <div className="pm-card-stripe" style={{ background: t.culoare }} />
-<<<<<<< HEAD
-                  <img src={spiraleImg} alt="" className="pm-spirale" />
-=======
->>>>>>> varianta-mai-ok
                   <div className="pm-card-body">
                     <p className="pm-card-title">{t.nume}</p>
                     <p className="pm-card-sub">Temă / Proiect</p>
@@ -394,8 +354,7 @@ const PaginaMateriale = () => {
         </aside>
       </div>
 
-<<<<<<< HEAD
-      {/* MODALUL NOU PENTRU LISTA DE NOTIȚE */}
+      {/* MODALUL INTEGRAT PENTRU LISTA DE NOTIȚE */}
       {showNotesModal && (
         <div className="modal-overlay" onClick={() => setShowNotesModal(false)}>
           <div className="pm-popup" onClick={e => e.stopPropagation()} style={{ width: '450px' }}>
@@ -415,7 +374,6 @@ const PaginaMateriale = () => {
                     <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '11px' }}>{new Date(note.updatedAt).toLocaleDateString()}</span>
                   </div>
                   
-                  {/* 🔥 BUTONUL NOU DE ȘTERGERE NOTIȚĂ */}
                   <button 
                     onClick={(e) => stergeNotita(note._id, e)}
                     style={{ background: 'transparent', border: 'none', color: 'rgba(255,255,255,0.6)', fontSize: '22px', cursor: 'pointer', padding: '0 5px', lineHeight: '1' }}
@@ -432,20 +390,13 @@ const PaginaMateriale = () => {
           </div>
         </div>
       )}
-=======
 
->>>>>>> varianta-mai-ok
-
-      {/* ── POPUP MATERIE ── */}
+      {/* ── POPUP MATERIE (Păstrat textul placeholder-ului extins din prima variantă) ── */}
       {showPopup && (
         <div className="modal-overlay" onClick={() => { setShowPopup(false); setNumeNou(''); setFisierMaterie(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
             <h3 className="pm-popup-title">Adaugă materie</h3>
-<<<<<<< HEAD
-            <input className="pm-popup-input" type="text" placeholder="Numele materiei"
-=======
             <input className="pm-popup-input" type="text" placeholder="Numele materiei / încarcă un fișier"
->>>>>>> varianta-mai-ok
               value={numeNou} onChange={e => setNumeNou(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && adaugaMaterie()} autoFocus />
             <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontSize: 13, margin: '4px 0' }}>sau</p>
@@ -464,11 +415,7 @@ const PaginaMateriale = () => {
         <div className="modal-overlay" onClick={() => { setShowPopupTeme(false); setNumeNouTema(''); setFisierTema(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
             <h3 className="pm-popup-title">Adaugă temă</h3>
-<<<<<<< HEAD
-            <input className="pm-popup-input" type="text" placeholder="Numele temei / proiectului"
-=======
             <input className="pm-popup-input" type="text" placeholder="Numele temei / încarcă un fișier"
->>>>>>> varianta-mai-ok
               value={numeNouTema} onChange={e => setNumeNouTema(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && adaugaTema()} autoFocus />
             <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontSize: 13, margin: '4px 0' }}>sau</p>
@@ -505,8 +452,4 @@ const PaginaMateriale = () => {
   );
 };
 
-<<<<<<< HEAD
 export default PaginaMateriale;
-=======
-export default PaginaMateriale;
->>>>>>> varianta-mai-ok

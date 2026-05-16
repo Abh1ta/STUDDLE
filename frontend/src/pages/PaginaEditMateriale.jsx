@@ -12,7 +12,7 @@ import textIcon from '../assets/icontext.png';
 import pixIcon from '../assets/pix.png';
 import highlighterIcon from '../assets/highlighter.png';
 
-const API_URL_MATERIALS = 'http://localhost:5000/api/materials';
+const API_URL_MATERIALS = '/api/materials';
 
 const loadPdfJs = () => {
   return new Promise((resolve, reject) => {
@@ -54,12 +54,12 @@ function PaginaEditMateriale() {
   const location = useLocation();
   const { collapsed } = useSidebar();
   const { token } = useAuth(); // 2. Extras Token
- const isIframe = window.self !== window.top;
+  const isIframe = window.self !== window.top;
   const sidebarWidth = isIframe ? 0 : (collapsed ? 64 : 210);
 
   // 3. Modificat: materialId este ID-ul unic, numeMaterie vine din backend
   const materialId = params.id; 
-  const [numeMaterie, setNumeMaterie] = useState('Notiță nouă'); 
+  const [numeMaterie, setNumeMaterie] = useState('Se încarcă...'); 
 
   const canvasRef = useRef(null);
   const boardRef = useRef(null);
@@ -148,10 +148,9 @@ function PaginaEditMateriale() {
   };
 
   const incarcaCanvasDinBackend = async (canvas) => {
-    if (!canvas || !materialId || !token) return; // 4. Verificare token
+    if (!canvas || !materialId || !token) return;
 
     try {
-      // 5. Rută modificată către /note/:id
       const res = await fetch(`${API_URL_MATERIALS}/note/${materialId}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
@@ -162,32 +161,50 @@ function PaginaEditMateriale() {
         return;
       }
 
-      setNumeMaterie(data?.nume || 'Notiță nouă');
+      if (data?.materialId) {
+        setNumeMaterie(data.nume);
+      } else if (data?.nume) {
+        setNumeMaterie(data.nume);
+      }
 
       if (data?.paperType) {
         setPaperType(data.paperType);
       }
 
       if (data?.canvasData) {
+        let parsed = data.canvasData;
+        if (typeof data.canvasData === 'string') {
+          try { parsed = JSON.parse(data.canvasData); } catch(e) {}
+        }
+
+        // Setăm URL-ul PDF pe canvas ÎNAINTE de orice altceva
+        const savedPdfUrl = parsed?.nativePdfUrl || null;
+        if (savedPdfUrl) {
+          setNativePdfUrl(savedPdfUrl);
+          setUploadedFileType('pdf');
+          canvas.nativePdfUrl = savedPdfUrl;
+        }
+
         isRestoringRef.current = true;
 
-        const result = canvas.loadFromJSON(data.canvasData);
-
+        // Încărcăm obiectele din canvas (fără imagini PDF, că le-am filtrat la salvare)
+        const result = canvas.loadFromJSON(parsed || data.canvasData);
         if (result && typeof result.then === 'function') {
           await result;
         }
 
-        canvas.getObjects().forEach((obj) => {
-          if (obj.customType === 'pdfPage' || obj.customType === 'pdfBackground') {
-            obj.selectable = false;
-            obj.evented = false;
-          }
-        });
-
-        detectSavedFileFromCanvas(canvas);
-        updateCanvasHeightFromObjects(canvas);
-
         isRestoringRef.current = false;
+
+        // Dacă există PDF salvat, îl re-renderăm din URL
+        if (savedPdfUrl) {
+          const fileName = parsed?.pdfFileName || 'document.pdf';
+          setUploadedFileName(fileName);
+          stergePdfVechi(canvas);
+          await loadPdfFromUrl(savedPdfUrl);
+        } else {
+          detectSavedFileFromCanvas(canvas);
+          updateCanvasHeightFromObjects(canvas);
+        }
       }
     } catch (err) {
       console.error('Eroare la încărcarea materialului:', err);
@@ -199,7 +216,7 @@ function PaginaEditMateriale() {
     const canvas = fabricRef.current;
 
     // 7. Protecție token şi nume placeholder
-   if (!canvas || !materialId || isRestoringRef.current || !token) return;
+    if (!canvas || !materialId || isRestoringRef.current || !token || numeMaterie === 'Se încarcă...') return;
 
     try {
       setSaveStatus('Se salvează...');
@@ -218,7 +235,7 @@ function PaginaEditMateriale() {
 
       cursors.forEach((cursor) => canvas.remove(cursor));
 
-      const canvasData = canvas.toJSON([
+      const canvasDataObj = canvas.toJSON([
         'customType',
         'stickyId',
         'fileName',
@@ -226,12 +243,28 @@ function PaginaEditMateriale() {
         'pageNumber',
       ]);
 
+      // Excludem imaginile PDF (sunt mari, se re-randează din URL la încărcare)
+      canvasDataObj.objects = (canvasDataObj.objects || []).filter(
+        (obj) => obj.customType !== 'pdfPage' && obj.customType !== 'pdfBackground'
+      );
+
+      // Salvăm URL-ul PDF și textul extras pentru viitor
+      const pdfUrlToSave = nativePdfUrl || canvas.nativePdfUrl || null;
+      if (pdfUrlToSave) {
+        canvasDataObj.nativePdfUrl = pdfUrlToSave;
+        canvasDataObj.pdfFileName = uploadedFileName || '';
+        // Textul extras per pagină (pentru funcții viitoare de search/AI)
+        if (canvas.pdfTextContent) {
+          canvasDataObj.pdfTextContent = canvas.pdfTextContent;
+        }
+      }
+
       cursors.forEach((cursor) => canvas.add(cursor));
 
       const payload = {
         nume: numeMaterie,
         paperType,
-        canvasData,
+        canvasData: canvasDataObj,
       };
 
       // 8. Rută modificată către /note/:id
@@ -295,7 +328,11 @@ function PaginaEditMateriale() {
       event.preventDefault();
       event.stopPropagation();
 
-      scrollContainer.scrollTop += event.deltaY;
+      scrollContainer.scrollBy({
+        top: event.deltaY,
+        left: 0,
+        behavior: 'auto',
+      });
     };
 
     canvas.upperCanvasEl?.addEventListener('wheel', handleCanvasWheel, {
@@ -321,32 +358,13 @@ function PaginaEditMateriale() {
 
       loadedRouteFileRef.current = true;
 
-      if (routeFile) {
-        setUploadedFileName(routeFile.name);
-
-        const extension = routeFile.name.split('.').pop().toLowerCase();
-
-        if (extension === 'pdf') {
-          setUploadedFileType('pdf');
-          await renderPdfInsideEditor(routeFile);
-        }
-
-        if (extension === 'ppt' || extension === 'pptx') {
-          setUploadedFileType('ppt');
-          setSaveStatus('PPT încărcat');
-          setTimeout(() => setSaveStatus(''), 1800);
-        }
-
-        return;
-      }
-
       if (routeFileUrl && routeFileName) {
         try {
           const response = await fetch(routeFileUrl);
           const blob = await response.blob();
 
           const file = new File([blob], routeFileName, {
-            type: blob.type || 'application/pdf',
+            type: blob.type || (routeFileType === 'pdf' ? 'application/pdf' : 'application/octet-stream'),
           });
 
           setUploadedFileName(routeFileName);
@@ -354,17 +372,18 @@ function PaginaEditMateriale() {
           if (routeFileType === 'pdf') {
             setUploadedFileType('pdf');
             await renderPdfInsideEditor(file);
-          }
-
-          if (routeFileType === 'ppt' || routeFileType === 'pptx') {
+          } else if (routeFileType === 'ppt' || routeFileType === 'pptx') {
             setUploadedFileType('ppt');
             setSaveStatus('PPT încărcat');
             setTimeout(() => setSaveStatus(''), 1800);
+          } else if (['png', 'jpg', 'jpeg'].includes(routeFileType)) {
+            // Future image processing
           }
         } catch (err) {
           console.error('Nu s-a putut încărca fișierul din pagina inițială:', err);
           setSaveStatus('Eroare fișier');
         }
+        return;
       }
     });
 
@@ -1323,22 +1342,15 @@ function PaginaEditMateriale() {
     canvas.requestRenderAll();
   };
 
-  const renderPdfInsideEditor = async (file) => {
+  const loadPdfFromUrl = async (url) => {
     const canvas = fabricRef.current;
     if (!canvas || !scrollContainerRef.current) return;
 
     try {
-      setSaveStatus('Se încarcă PDF...');
-
+      setSaveStatus('Generare poze PDF...');
       const pdfjsLib = await loadPdfJs();
-      const arrayBuffer = await file.arrayBuffer();
-
-      const pdf = await pdfjsLib.getDocument({
-        data: arrayBuffer,
-      }).promise;
-
-      isRestoringRef.current = true;
-
+      const pdf = await pdfjsLib.getDocument({ url }).promise;
+      
       stergePdfVechi(canvas);
 
       const visibleWidth = scrollContainerRef.current.clientWidth;
@@ -1355,29 +1367,151 @@ function PaginaEditMateriale() {
 
       for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
         setSaveStatus(`Se încarcă PDF... ${pageNumber}/${pdf.numPages}`);
+        const page = await pdf.getPage(pageNumber);
+        const viewport = page.getViewport({ scale: 2 });
+        const tempCanvas = document.createElement('canvas');
+        const context = tempCanvas.getContext('2d', { alpha: false });
+        tempCanvas.width = viewport.width;
+        tempCanvas.height = viewport.height;
+        context.fillStyle = '#ffffff';
+        context.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
+        await page.render({ canvasContext: context, viewport }).promise;
+        const imageUrl = tempCanvas.toDataURL('image/png');
+        
+        const htmlImage = new Image();
+        htmlImage.src = imageUrl;
+        await new Promise((resolve, reject) => {
+          htmlImage.onload = resolve;
+          htmlImage.onerror = reject;
+        });
+
+        const pageImage = new fabric.Image(htmlImage, {
+          selectable: false, evented: false, customType: 'pdfPage', fileType: 'pdf', pageNumber, originX: 'left', originY: 'top', objectCaching: false,
+        });
+
+        const scale = targetPageWidth / pageImage.width;
+        const renderedWidth = pageImage.width * scale;
+        const renderedHeight = pageImage.height * scale;
+        const left = Math.round((visibleWidth - renderedWidth) / 2);
+
+        const pageBg = new fabric.Rect({
+          left, top: currentTop, width: renderedWidth, height: renderedHeight, fill: '#ffffff', selectable: false, evented: false, customType: 'pdfBackground', fileType: 'pdf', pageNumber, originX: 'left', originY: 'top',
+          shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.26)', blur: 16, offsetX: 0, offsetY: 5 }),
+        });
+
+        pageImage.set({ left, top: currentTop, scaleX: scale, scaleY: scale });
+
+        createdObjects.push(pageBg, pageImage);
+        currentTop += renderedHeight + pageGap;
+      }
+
+      const nextHeight = Math.max(CANVAS_HEIGHT, currentTop + 180);
+      canvasHeightRef.current = nextHeight;
+      setCanvasHeight(nextHeight);
+      canvas.setDimensions({ width: visibleWidth, height: nextHeight });
+
+      createdObjects.forEach((obj) => canvas.add(obj));
+      createdObjects.forEach((obj) => { if (obj.customType === 'pdfBackground') canvas.sendObjectToBack(obj); });
+      createdObjects.forEach((obj) => { if (obj.customType === 'pdfPage') canvas.bringObjectForward(obj); });
+
+      canvas.requestRenderAll();
+      setSaveStatus(`PDF încărcat: ${pdf.numPages} pagini. Apasă Salvează.`);
+      setTimeout(() => setSaveStatus(''), 3000);
+    } catch(err) {
+      console.error('Eroare randare PDF din URL:', err);
+      setSaveStatus(`Eroare randare PDF`);
+    }
+  };
+
+  const renderPdfInsideEditor = async (file) => {
+    const canvas = fabricRef.current;
+    if (!canvas || !scrollContainerRef.current) return;
+
+    try {
+      setSaveStatus('Se încarcă PDF...');
+
+      // PASUL 1: Uploadăm PDF-ul la Cloudinary pentru a obține URL permanent
+      // (necesar pentru ca PDF-ul să apară și la redeschiderea materialului)
+      let secureUrl = null;
+      try {
+        const formData = new FormData();
+        formData.append('file', file);
+        const uploadRes = await fetch(`${API_URL_MATERIALS}/upload-pdf`, {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${token}` },
+          body: formData,
+        });
+        if (uploadRes.ok) {
+          const uploadData = await uploadRes.json();
+          secureUrl = uploadData.url || null;
+        } else {
+          const errData = await uploadRes.json().catch(() => ({}));
+          console.warn('Upload PDF eșuat:', uploadRes.status, errData.message);
+        }
+      } catch (uploadErr) {
+        console.warn('Eroare la upload PDF:', uploadErr);
+      }
+
+      // Salvăm URL-ul în state și pe canvas (folosit de salveazaCanvasInBackend)
+      if (secureUrl) {
+        setNativePdfUrl(secureUrl);
+        canvas.nativePdfUrl = secureUrl;
+      }
+
+      // PASUL 2: Randăm paginile PDF local cu pdfjs
+      const pdfjsLib = await loadPdfJs();
+      const arrayBuffer = await file.arrayBuffer();
+
+      const pdf = await pdfjsLib.getDocument({
+        data: arrayBuffer,
+      }).promise;
+
+      // Extragem textul din fiecare pagină (pentru funcții viitoare — search, AI etc.)
+      const pdfTextContent = [];
+      for (let pn = 1; pn <= pdf.numPages; pn++) {
+        try {
+          const page = await pdf.getPage(pn);
+          const textContent = await page.getTextContent();
+          const pageText = textContent.items
+            .map((item) => ('str' in item ? item.str : ''))
+            .join(' ');
+          pdfTextContent.push({ page: pn, text: pageText });
+        } catch (_) {
+          pdfTextContent.push({ page: pn, text: '' });
+        }
+      }
+      canvas.pdfTextContent = pdfTextContent;
+
+      // PASUL 3: Randăm vizual paginile pe canvas ca imagini
+      isRestoringRef.current = true;
+      stergePdfVechi(canvas);
+
+      const visibleWidth = scrollContainerRef.current.clientWidth;
+      const targetPageWidth = Math.max(620, Math.min(820, visibleWidth - 360));
+      const pageGap = 44;
+      let currentTop = TOP_EDITOR_HEIGHT + 44 + 48;
+      const createdObjects = [];
+
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        setSaveStatus(`Se randează pagina ${pageNumber}/${pdf.numPages}...`);
 
         const page = await pdf.getPage(pageNumber);
-        const viewport = page.getViewport({ scale: 2.0 }); // 10. Optimizat: scale 1.0
+        const viewport = page.getViewport({ scale: 2 });
 
         const tempCanvas = document.createElement('canvas');
         const context = tempCanvas.getContext('2d', { alpha: false });
-
         tempCanvas.width = viewport.width;
         tempCanvas.height = viewport.height;
 
         context.fillStyle = '#ffffff';
         context.fillRect(0, 0, tempCanvas.width, tempCanvas.height);
 
-        await page.render({
-          canvasContext: context,
-          viewport,
-        }).promise;
+        await page.render({ canvasContext: context, viewport }).promise;
 
-        const imageUrl = tempCanvas.toDataURL('image/jpeg', 0.85); // 11. Optimizat: JPEG la 40% calitate
+        const imageUrl = tempCanvas.toDataURL('image/jpeg', 0.85);
 
         const htmlImage = new Image();
         htmlImage.src = imageUrl;
-
         await new Promise((resolve, reject) => {
           htmlImage.onload = resolve;
           htmlImage.onerror = reject;
@@ -1423,18 +1557,17 @@ function PaginaEditMateriale() {
       }
 
       const nextHeight = Math.max(CANVAS_HEIGHT, currentTop + 180);
-
       canvasHeightRef.current = nextHeight;
       setCanvasHeight(nextHeight);
-
-      canvas.setDimensions({
-        width: visibleWidth,
-        height: nextHeight,
-      });
+      canvas.setDimensions({ width: visibleWidth, height: nextHeight });
 
       createdObjects.forEach((obj) => canvas.add(obj));
-
-      createdObjects.forEach((obj) => canvas.sendObjectToBack(obj));
+      createdObjects
+        .filter((obj) => obj.customType === 'pdfBackground')
+        .forEach((obj) => canvas.sendObjectToBack(obj));
+      createdObjects
+        .filter((obj) => obj.customType === 'pdfPage')
+        .forEach((obj) => canvas.bringObjectForward(obj));
 
       canvas.requestRenderAll();
 
@@ -1445,14 +1578,18 @@ function PaginaEditMateriale() {
 
       isRestoringRef.current = false;
 
-      saveHistory();
+      // PASUL 4: Salvăm imediat în backend (cu URL-ul PDF pentru persistență)
+      await salveazaCanvasInBackend();
 
-      setSaveStatus(`PDF încărcat: ${pdf.numPages} pagini. Apasă Salvează.`);
-      setTimeout(() => setSaveStatus(''), 3000);
+      const msg = secureUrl
+        ? `PDF salvat (${pdf.numPages} pagini)`
+        : `PDF afișat (${pdf.numPages} pagini) — nu s-a putut salva online`;
+      setSaveStatus(msg);
+      setTimeout(() => setSaveStatus(''), 4000);
     } catch (err) {
       console.error('Eroare PDF:', err);
       isRestoringRef.current = false;
-      setSaveStatus('Eroare PDF');
+      setSaveStatus('Eroare la încărcarea PDF');
     }
   };
 
@@ -1852,28 +1989,10 @@ function PaginaEditMateriale() {
         </div>
 
         <div
-<<<<<<< HEAD
-          ref={scrollContainerRef}
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            overflowX: 'hidden',
-          }}
-          onScroll={(e) => {
-            const scrollTop = e.currentTarget.scrollTop;
-            const last = lastScrollTopRef.current;
-            if (scrollTop > last && scrollTop > 30) {
-              if (!topBarsHidden) setTopBarsHidden(true);
-            } else if (scrollTop < last) {
-              if (topBarsHidden) setTopBarsHidden(false);
-            }
-            lastScrollTopRef.current = scrollTop;
-=======
           style={{
             flex: 1,
             display: 'flex',
             overflow: 'hidden',
->>>>>>> varianta-mai-ok
           }}
           onClick={() => {
             if (document.activeElement) document.activeElement.blur();

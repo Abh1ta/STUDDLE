@@ -93,11 +93,7 @@ const StatisticiSection = ({ token }) => {
     if (!token) return;
     const fetchStats = async () => {
       try {
-<<<<<<< HEAD
-        const res = await fetch('http://localhost:5000/api/study/stats', {
-=======
         const res = await fetch('/api/study/stats', {
->>>>>>> varianta-mai-ok
           headers: { Authorization: `Bearer ${token}` }
         });
         if (!res.ok) throw new Error('Eroare server');

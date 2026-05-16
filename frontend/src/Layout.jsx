@@ -9,12 +9,8 @@ const SIDEBAR_W_COLLAPSED = 64;
 const Layout = () => {
   const location = useLocation();
   const { collapsed } = useSidebar();
-<<<<<<< HEAD
-  const hideHeader = ['/login', '/signup', '/', '/pdf-viewer'].includes(location.pathname);
-=======
   const isIframe = window.self !== window.top;
   const hideHeader = ['/login', '/signup', '/', '/pdf-viewer'].includes(location.pathname) || isIframe;
->>>>>>> varianta-mai-ok
 
   const marginLeft = hideHeader ? 0 : (collapsed ? SIDEBAR_W_COLLAPSED : SIDEBAR_W);
 

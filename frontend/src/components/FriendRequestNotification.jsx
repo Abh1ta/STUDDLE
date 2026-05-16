@@ -245,8 +245,4 @@ const res = await fetch('/api/friends/requests/pending', {
   );
 }
 
-<<<<<<< HEAD
 export default FriendRequestNotification;
-=======
-export default FriendRequestNotification;
->>>>>>> varianta-mai-ok

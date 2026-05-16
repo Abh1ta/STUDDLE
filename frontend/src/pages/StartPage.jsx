@@ -1,11 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import './App.css';
-<<<<<<< HEAD
-import '../Components/Header.css'
-=======
 import '../components/Header.css'
->>>>>>> varianta-mai-ok
 import { Link } from 'react-router-dom';
 
 import logoStuddle from '../assets/logoStuddle.png';
@@ -57,11 +53,7 @@ function StartPage() {
           </div>
         </div>
         <div className="hero-content">
-<<<<<<< HEAD
-          <h1>
-=======
           <h1 style={{fontWeight: '700' }}>
->>>>>>> varianta-mai-ok
             Studiază mai <span className="highlight-text">inteligent</span>,<br />
             nu mai mult
           </h1>
@@ -76,11 +68,7 @@ function StartPage() {
       <section className="features-section">
         <div className="features-header">
           <p className="subtitle">DE CE STUDDLE?</p>
-<<<<<<< HEAD
-          <h2 className="main-title">
-=======
           <h2 className="main-title" style={{fontWeight: '500' }}>
->>>>>>> varianta-mai-ok
             Tot ce îți trebuie, <br />
             <span className="skew-text">fără haos.</span>
           </h2>
@@ -101,13 +89,8 @@ function StartPage() {
         <div className="cat-container">
           <img src={pisica} alt="Pisica Studdle" className="cat-image" />
           <div className="cat-text">
-<<<<<<< HEAD
-            <h2>Ghidul tău pe parcursul orelor de studiu...</h2>
-            <p>
-=======
             <h2 style={{fontWeight: '700' }}>Ghidul tău pe parcursul orelor de studiu...</h2>
             <p style={{fontSize: '1.2rem' }}>
->>>>>>> varianta-mai-ok
               care este personalizabil! Pisica Studdy te va însoți atât pe parcursul
               semestrelor, dar mai ales în timpul sesiunii în cele mai stresante momente.
             </p>
@@ -118,14 +101,6 @@ function StartPage() {
       {/* sectiunea 4 - CTA */}
       <section className="cta-section">
         <div className="cta-content">
-<<<<<<< HEAD
-          <h2>
-            Ești pregătit să studiezi <span className="italic-purple">cu spor</span>,
-            <span className="break-text"> din plăcere?</span>
-          </h2>
-          <Link to="/signup ">
-            <button className="cta-button">Creează cont gratuit</button>
-=======
           <h2 style={{fontWeight: '700'}}>
             Ești pregătit să studiezi <span className="italic-purple">cu spor</span>,
             <span className="break-text"> din plăcere?</span>
@@ -136,19 +111,10 @@ function StartPage() {
               Creează cont gratuit
               </span>
               </button>
->>>>>>> varianta-mai-ok
           </Link>
         </div>
       </section>
 
-<<<<<<< HEAD
-      <footer className="footer">
-        <div className="footer-logo">
-          <img src={logoStuddle} alt="Logo Studdle" />
-        </div>
-      </footer>
-=======
->>>>>>> varianta-mai-ok
     </div>
   );
 }

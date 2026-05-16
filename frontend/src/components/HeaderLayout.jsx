@@ -12,8 +12,4 @@ const HeaderLayout = () => {
   );
 };
 
-<<<<<<< HEAD
 export default HeaderLayout;
-=======
-export default HeaderLayout;
->>>>>>> varianta-mai-ok

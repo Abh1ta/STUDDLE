@@ -9,11 +9,7 @@ import contulMeu from '../assets/contulMeu.png';
 import stergeCont from '../assets/stergereCont.png';
 import deconectare from '../assets/deconectare.png';
 
-<<<<<<< HEAD
-const API_BASE_URL = 'http://localhost:5000/api';
-=======
 const API_BASE_URL = '/api';
->>>>>>> varianta-mai-ok
 const P = { navy: '#344979', blue: '#5d6da5', lav: '#9896bb', lavLight: '#c6c6e8', blush: '#f7e5eb' };
 
 const TrashIcon = () => (

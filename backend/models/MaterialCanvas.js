@@ -21,13 +21,9 @@ const materialCanvasSchema = new mongoose.Schema(
     canvasData: {
       type: Object,
       default: null
-<<<<<<< HEAD
     },
     pdfFileName: { type: String, default: null },
 pdfFileType: { type: String, default: null },
-=======
-    }
->>>>>>> varianta-mai-ok
   },
   { timestamps: true }
 );

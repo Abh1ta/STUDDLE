@@ -11,11 +11,18 @@ export const startStudySession = async (req, res) => {
     try {
         const userId = req.userId;
 
-        const activeSession = await studyModel.findOne({ user_id: userId, status: "active" });
-        if (activeSession) {
-            return res.status(400).json({ message: "Ai deja o sesiune de studiu activă!" });
-        }
+        // 🔥 Forțează închiderea oricărei sesiuni vechi uitate active pentru acest utilizator
+        await studyModel.updateMany(
+            { user_id: userId, status: "active" },
+            { 
+                status: "completed", 
+                end_time: new Date(), 
+                duration_minutes: 0, 
+                xp_earned: 0 
+            }
+        );
 
+        // Pornește sesiunea nouă, garantat de la secunda zero
         const { subject_id } = req.body;
         const newSession = await studyModel.create({
             user_id: userId,
@@ -41,7 +48,7 @@ export const stopStudySession = async (req, res) => {
 
         const endTime = new Date();
         const diffMs = endTime - session.start_time;
-        const diffMins = Math.floor(diffMs / 60000);
+        const diffMins = Math.round(diffMs / 60000);
 
         if (diffMins < 1) {
             session.status = "completed";
