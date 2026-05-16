@@ -41,7 +41,11 @@ const CharacterCustomization = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
+<<<<<<< HEAD
         await fetch('http://localhost:5000/api/settings/avatar', {
+=======
+        await fetch('/api/settings/avatar', {
+>>>>>>> varianta-mai-ok
           method: 'PUT',
           headers: { 
             'Content-Type': 'application/json',
@@ -153,4 +157,8 @@ const CharacterCustomization = () => {
   );
 };
 
+<<<<<<< HEAD
 export default CharacterCustomization;
+=======
+export default CharacterCustomization;
+>>>>>>> varianta-mai-ok

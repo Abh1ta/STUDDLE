@@ -54,7 +54,8 @@ function PaginaEditMateriale() {
   const location = useLocation();
   const { collapsed } = useSidebar();
   const { token } = useAuth(); // 2. Extras Token
-  const sidebarWidth = collapsed ? 64 : 210;
+ const isIframe = window.self !== window.top;
+  const sidebarWidth = isIframe ? 0 : (collapsed ? 64 : 210);
 
   // 3. Modificat: materialId este ID-ul unic, numeMaterie vine din backend
   const materialId = params.id; 
@@ -88,6 +89,7 @@ function PaginaEditMateriale() {
 
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadedFileType, setUploadedFileType] = useState('');
+  const [nativePdfUrl, setNativePdfUrl] = useState(null); // New state for native PDF
   const [canvasHeight, setCanvasHeight] = useState(CANVAS_HEIGHT);
   const [saveStatus, setSaveStatus] = useState('');
   const [topBarsHidden, setTopBarsHidden] = useState(false);
@@ -1347,7 +1349,7 @@ function PaginaEditMateriale() {
       );
 
       const pageGap = 44;
-      let currentTop = TOP_EDITOR_HEIGHT + 32;
+      let currentTop = TOP_EDITOR_HEIGHT + 44 + 48;
 
       const createdObjects = [];
 
@@ -1371,7 +1373,7 @@ function PaginaEditMateriale() {
           viewport,
         }).promise;
 
-        const imageUrl = tempCanvas.toDataURL('image/jpeg', 0.4); // 11. Optimizat: JPEG la 40% calitate
+        const imageUrl = tempCanvas.toDataURL('image/jpeg', 0.85); // 11. Optimizat: JPEG la 40% calitate
 
         const htmlImage = new Image();
         htmlImage.src = imageUrl;
@@ -1396,20 +1398,27 @@ function PaginaEditMateriale() {
         const scale = targetPageWidth / pageImage.width;
         const renderedWidth = pageImage.width * scale;
         const renderedHeight = pageImage.height * scale;
-
         const left = Math.round((visibleWidth - renderedWidth) / 2);
 
-        
-
-        pageImage.set({
+        const pageBg = new fabric.Rect({
           left,
           top: currentTop,
-          scaleX: scale,
-          scaleY: scale,
+          width: renderedWidth,
+          height: renderedHeight,
+          fill: '#ffffff',
+          selectable: false,
+          evented: false,
+          customType: 'pdfBackground',
+          fileName: file.name,
+          fileType: 'pdf',
+          pageNumber,
+          originX: 'left',
+          originY: 'top',
+          shadow: new fabric.Shadow({ color: 'rgba(0,0,0,0.26)', blur: 16, offsetX: 0, offsetY: 5 }),
         });
 
-        createdObjects.push(pageImage);
-
+        pageImage.set({ left, top: currentTop, scaleX: scale, scaleY: scale });
+        createdObjects.push(pageBg, pageImage);
         currentTop += renderedHeight + pageGap;
       }
 
@@ -1518,9 +1527,9 @@ function PaginaEditMateriale() {
           right: 0,
           zIndex: 100,
           height: `${TOP_EDITOR_HEIGHT}px`,
-          opacity: topBarsHidden ? 0 : 1,
-          pointerEvents: topBarsHidden ? 'none' : 'auto',
-          transition: 'opacity 0.2s ease',
+          opacity: 1,
+          pointerEvents: 'auto',
+          transition: 'opacity 0.12s linear',
           background: `linear-gradient(135deg, #344979, #5d6da5)`,
           color: '#ffffff',
           display: 'flex',
@@ -1843,6 +1852,7 @@ function PaginaEditMateriale() {
         </div>
 
         <div
+<<<<<<< HEAD
           ref={scrollContainerRef}
           style={{
             flex: 1,
@@ -1858,21 +1868,34 @@ function PaginaEditMateriale() {
               if (topBarsHidden) setTopBarsHidden(false);
             }
             lastScrollTopRef.current = scrollTop;
+=======
+          style={{
+            flex: 1,
+            display: 'flex',
+            overflow: 'hidden',
+>>>>>>> varianta-mai-ok
           }}
           onClick={() => {
             if (document.activeElement) document.activeElement.blur();
           }}
         >
+
+
           <div
-            ref={boardRef}
-            style={{
-              width: '100%',
-              height: `${canvasHeight}px`,
-              position: 'relative',
-              ...getPaperBackground(),
-            }}
+            ref={scrollContainerRef}
+            style={{ flex: 1, overflowY: 'auto', overflowX: 'hidden', position: 'relative' }}
           >
-            <canvas ref={canvasRef} />
+            <div
+              ref={boardRef}
+              style={{
+                width: '100%',
+                height: `${canvasHeight}px`,
+                position: 'relative',
+                ...getPaperBackground(),
+              }}
+            >
+              <canvas ref={canvasRef} />
+            </div>
           </div>
         </div>
       </div>

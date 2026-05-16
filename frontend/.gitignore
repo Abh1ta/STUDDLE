@@ -1,5 +1,10 @@
 # Logs
 logs
+<<<<<<< HEAD
+=======
+.env
+.env.*
+>>>>>>> varianta-mai-ok
 *.log
 npm-debug.log*
 yarn-debug.log*

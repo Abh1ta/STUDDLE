@@ -1,7 +1,11 @@
 
 .active-timer-page {
   min-height: 100vh;
+<<<<<<< HEAD
   background: linear-gradient(135deg, #f7e5eb 0%, #ffffff 45%, #c6c6e840 100%);
+=======
+  background: linear-gradient(135deg, #38467e 0%, #21355f 100%);
+>>>>>>> varianta-mai-ok
   font-family: 'Zilla Slab', serif;
   color: #344979;
 }
@@ -22,13 +26,22 @@
   display: flex;
   align-items: center;
   gap: 6px;
+<<<<<<< HEAD
+=======
+  margin-top: 70px ;
+  margin-bottom: -70px;
+>>>>>>> varianta-mai-ok
   background: none;
   border: none;
   color: #9896bb;
   font-size: 0.9rem;
   font-weight: 700;
   cursor: pointer;
+<<<<<<< HEAD
   padding: 8px 12px;
+=======
+  padding: 0;
+>>>>>>> varianta-mai-ok
   border-radius: 50px;
   transition: color 0.2s, background 0.2s;
   font-family: inherit;
@@ -40,8 +53,17 @@
 }
 
 .timer-main-card {
+<<<<<<< HEAD
   width: 100%;
   background: linear-gradient(150deg, #344979, #5d6da5);
+=======
+  margin-top: 70px;
+  width: 850px;
+  height: 450px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+>>>>>>> varianta-mai-ok
   border-radius: 32px;
   padding: 60px 40px 48px;
   display: flex;
@@ -66,7 +88,11 @@
 }
 
 .timer-phase-text {
+<<<<<<< HEAD
   font-size: 1rem;
+=======
+  font-size: 2rem;
+>>>>>>> varianta-mai-ok
   font-weight: 600;
   color: rgba(255, 255, 255, 0.75);
   margin: 0;
@@ -423,3 +449,32 @@
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.4);
 }
+<<<<<<< HEAD
+=======
+
+/* Bara compactă de timer afișată deasupra editorului de materiale */
+.active-timer-page.with-editor {
+  min-height: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  background: linear-gradient(135deg, #38467e 0%, #21355f 100%);
+}
+
+.active-timer-page.with-editor .active-timer-content {
+  flex-shrink: 0;
+}
+
+.active-timer-page.with-editor .timer-main-card {
+  margin-top: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.active-timer-page.with-editor .timer-back-btn {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+>>>>>>> varianta-mai-ok

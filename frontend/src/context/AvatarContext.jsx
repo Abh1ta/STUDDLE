@@ -17,7 +17,11 @@ export const AvatarProvider = ({ children }) => {
     try {
       const token = localStorage.getItem('token');
       if (!token) return;
+<<<<<<< HEAD
       const response = await fetch('http://localhost:5000/api/settings/avatar', {
+=======
+      const response = await fetch('/api/settings/avatar', {
+>>>>>>> varianta-mai-ok
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await response.json();
@@ -42,4 +46,8 @@ export const AvatarProvider = ({ children }) => {
       {children}
     </AvatarContext.Provider>
   );
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> varianta-mai-ok

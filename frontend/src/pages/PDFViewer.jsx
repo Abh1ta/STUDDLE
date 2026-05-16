@@ -10,7 +10,11 @@ const HIGHLIGHT_COLORS = [
   { name: 'Albastru',value: 'rgba(80,  160, 255, 0.45)', solid: '#4FA3FF' },
 ];
 
+<<<<<<< HEAD
 const API_BASE = 'http://localhost:5000/api';
+=======
+const API_BASE = '/api';
+>>>>>>> varianta-mai-ok
 
 const rectFrom = (x1, y1, x2, y2) => ({
   x: Math.min(x1, x2),
@@ -625,4 +629,8 @@ const styles = {
     fontSize: 14,
     fontWeight: 700,
   },
+<<<<<<< HEAD
 };
+=======
+};
+>>>>>>> varianta-mai-ok

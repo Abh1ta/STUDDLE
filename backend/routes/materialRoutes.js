@@ -1,8 +1,67 @@
 import express from "express";
+<<<<<<< HEAD
 import MaterialCanvas from "../models/MaterialCanvas.js";
 
 const router = express.Router();
 
+=======
+import multer from "multer";
+import { v2 as cloudinary } from "cloudinary";
+import { Readable } from "stream";
+import MaterialCanvas from "../models/MaterialCanvas.js";
+import { protect } from "../middleware/authMiddleware.js";
+
+const router = express.Router();
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+  fileFilter: (_req, file, cb) => {
+    if (file.mimetype === "application/pdf") {
+      cb(null, true);
+    } else {
+      cb(new Error("Doar fișierele PDF sunt permise."));
+    }
+  },
+});
+
+// Rută pentru uploadul PDF la Cloudinary — returnează URL permanent
+router.post("/upload-pdf", protect, upload.single("file"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Nu ai atașat niciun fișier PDF." });
+    }
+
+    const originalName = req.file.originalname;
+    const publicId = `studdle/pdfs/${Date.now()}_${originalName.replace(/\.[^/.]+$/, "").replace(/\s+/g, "_")}`;
+
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          resource_type: "raw",
+          folder: "studdle/pdfs",
+          public_id: publicId,
+          use_filename: true,
+          unique_filename: true,
+          overwrite: false,
+        },
+        (error, result) => (error ? reject(error) : resolve(result))
+      );
+      Readable.from(req.file.buffer).pipe(stream);
+    });
+
+    res.status(200).json({
+      url: result.secure_url,
+      fileName: originalName,
+      publicId: result.public_id,
+    });
+  } catch (err) {
+    console.error("Eroare upload PDF:", err);
+    res.status(500).json({ message: "Upload PDF eșuat.", error: err.message });
+  }
+});
+
+>>>>>>> varianta-mai-ok
 // 1. Ia TOATE notițele pentru o materie (ex: "mate")
 router.get("/subject/:subjectName", async (req, res) => {
   try {
@@ -48,14 +107,25 @@ router.post("/note/new", async (req, res) => {
 // 4. Salvează/Actualizează o notiță (din editor)
 router.put("/note/:id", async (req, res) => {
   try {
+<<<<<<< HEAD
     const { paperType, canvasData, nume, pdfFileName, pdfFileType } = req.body;
     const saved = await MaterialCanvas.findByIdAndUpdate(
       req.params.id,
       { paperType, canvasData, nume, pdfFileName, pdfFileType },
+=======
+    const { paperType, canvasData, nume } = req.body;
+    const saved = await MaterialCanvas.findByIdAndUpdate(
+      req.params.id,
+      { paperType, canvasData, nume },
+>>>>>>> varianta-mai-ok
       { new: true }
     );
     res.json(saved);
   } catch (err) {
+<<<<<<< HEAD
+=======
+    console.error("Eroare la salvare notiță:", err);
+>>>>>>> varianta-mai-ok
     res.status(500).json({ message: "Eroare la salvare." });
   }
 });

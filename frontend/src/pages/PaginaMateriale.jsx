@@ -7,8 +7,13 @@ import { useAuth } from '../context/AuthContext';
 
 const P = { navy: '#344979', blue: '#5d6da5', lavBlue: '#9896bb', lavLight: '#c6c6e8', blush: '#f7e5eb' };
 
+<<<<<<< HEAD
 const culori        = ['#7c83b3', '#8398e7', '#3b4d9b', '#9896bb', '#5d6da5'];
 const culoriCaiete  = ['#5ca0e8', '#9bacff', '#8398e7'];
+=======
+const culori        = ['#3b4d9b'];
+const culoriCaiete  = ['#3b4d9b'];
+>>>>>>> varianta-mai-ok
 const culoriExamene = ['#f03a17', '#c9334c', '#a62c7b', '#8224ab', '#5b1bf1'];
 
 const luniAn = ["IANUARIE","FEBRUARIE","MARTIE","APRILIE","MAI","IUNIE","IULIE","AUGUST","SEPTEMBRIE","OCTOMBRIE","NOIEMBRIE","DECEMBRIE"];
@@ -169,6 +174,7 @@ const PaginaMateriale = () => {
   const stergeExamen  = async (id) => { const r = await apiFetch(`/api/exams/${id}`, token, { method: 'DELETE' }); if (r.ok) setExamene(p => p.filter(ex => (ex._id || ex.id) !== id)); };
 
   const handleSubjectClick = async (materie) => {
+<<<<<<< HEAD
     setSelectedSubject(materie);
     try {
       const res = await apiFetch(`/api/materials/subject/${encodeURIComponent(materie.nume)}`, token);
@@ -177,6 +183,23 @@ const PaginaMateriale = () => {
       setShowNotesModal(true);
     } catch (e) {
       showToast("Eroare la încărcarea notițelor.", "err");
+=======
+    try {
+      const res = await apiFetch(`/api/materials/subject/${encodeURIComponent(materie.nume)}`, token);
+      const data = await res.json();
+      if (data && data.length > 0) {
+        navigate(`/edit-material/${data[0]._id}`);
+      } else {
+        const noteRes = await apiFetch(`/api/materials/note/new`, token, {
+          method: 'POST',
+          body: JSON.stringify({ materialId: materie.nume, nume: `Notiță 1` })
+        });
+        const newNote = await noteRes.json();
+        navigate(`/edit-material/${newNote._id}`);
+      }
+    } catch (e) {
+      showToast("Eroare la încărcarea materialului.", "err");
+>>>>>>> varianta-mai-ok
     }
   };
 
@@ -274,8 +297,13 @@ const PaginaMateriale = () => {
   
   <div className="pm-topbar-actions">
     <button className="pm-btn-add" onClick={() => setShowPopup(true)}>+ Materie</button>
+<<<<<<< HEAD
     <button className="pm-btn-add pm-btn-add--sec" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
     <button className="pm-btn-add pm-btn-add--sec" onClick={() => setShowPopupExamen(true)}>+ Examen</button>
+=======
+    <button className="pm-btn-add" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
+    <button className="pm-btn-add" onClick={() => setShowPopupExamen(true)}>+ Examen</button>
+>>>>>>> varianta-mai-ok
   </div>
 </div>
       <div className="pm-body">
@@ -310,7 +338,10 @@ const PaginaMateriale = () => {
               {teme.map(t => (
                 <div key={t._id || t.id} className="pm-card" onClick={() => handleSubjectClick(t)} style={{ cursor: 'pointer' }}>
                   <div className="pm-card-stripe" style={{ background: t.culoare }} />
+<<<<<<< HEAD
                   <img src={spiraleImg} alt="" className="pm-spirale" />
+=======
+>>>>>>> varianta-mai-ok
                   <div className="pm-card-body">
                     <p className="pm-card-title">{t.nume}</p>
                     <p className="pm-card-sub">Temă / Proiect</p>
@@ -363,6 +394,7 @@ const PaginaMateriale = () => {
         </aside>
       </div>
 
+<<<<<<< HEAD
       {/* MODALUL NOU PENTRU LISTA DE NOTIȚE */}
       {showNotesModal && (
         <div className="modal-overlay" onClick={() => setShowNotesModal(false)}>
@@ -400,13 +432,20 @@ const PaginaMateriale = () => {
           </div>
         </div>
       )}
+=======
+
+>>>>>>> varianta-mai-ok
 
       {/* ── POPUP MATERIE ── */}
       {showPopup && (
         <div className="modal-overlay" onClick={() => { setShowPopup(false); setNumeNou(''); setFisierMaterie(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
             <h3 className="pm-popup-title">Adaugă materie</h3>
+<<<<<<< HEAD
             <input className="pm-popup-input" type="text" placeholder="Numele materiei"
+=======
+            <input className="pm-popup-input" type="text" placeholder="Numele materiei / încarcă un fișier"
+>>>>>>> varianta-mai-ok
               value={numeNou} onChange={e => setNumeNou(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && adaugaMaterie()} autoFocus />
             <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontSize: 13, margin: '4px 0' }}>sau</p>
@@ -425,7 +464,11 @@ const PaginaMateriale = () => {
         <div className="modal-overlay" onClick={() => { setShowPopupTeme(false); setNumeNouTema(''); setFisierTema(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
             <h3 className="pm-popup-title">Adaugă temă</h3>
+<<<<<<< HEAD
             <input className="pm-popup-input" type="text" placeholder="Numele temei / proiectului"
+=======
+            <input className="pm-popup-input" type="text" placeholder="Numele temei / încarcă un fișier"
+>>>>>>> varianta-mai-ok
               value={numeNouTema} onChange={e => setNumeNouTema(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && adaugaTema()} autoFocus />
             <p style={{ color: 'rgba(255,255,255,0.5)', textAlign: 'center', fontSize: 13, margin: '4px 0' }}>sau</p>
@@ -462,4 +505,8 @@ const PaginaMateriale = () => {
   );
 };
 
+<<<<<<< HEAD
 export default PaginaMateriale;
+=======
+export default PaginaMateriale;
+>>>>>>> varianta-mai-ok

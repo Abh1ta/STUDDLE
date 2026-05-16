@@ -4,7 +4,11 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import catAvatar from '../assets/pisica.png';
 
+<<<<<<< HEAD
 const API_BASE_URL = 'http://localhost:5000/api/leaderboard';
+=======
+const API_BASE_URL = '/api/leaderboard';
+>>>>>>> varianta-mai-ok
 
 // Paleta "月影の幻想峰"
 const PALETTE = {
@@ -15,7 +19,10 @@ const PALETTE = {
   blush:    '#f7e5eb',
 };
 
+<<<<<<< HEAD
 const MEDAL = ['🥇', '🥈', '🥉'];
+=======
+>>>>>>> varianta-mai-ok
 
 function PodiumCard({ user, index, isMe }) {
   const heights = ['h-36', 'h-28', 'h-24'];
@@ -30,7 +37,13 @@ function PodiumCard({ user, index, isMe }) {
         className={`${sizes[index]} rounded-full object-cover border-4 shadow-lg`}
         style={{ borderColor: isMe ? PALETTE.blush : PALETTE.lavLight }}
       />
+<<<<<<< HEAD
       <span className="text-2xl">{MEDAL[index]}</span>
+=======
+      <span className="text-xl font-black" style={{ color: PALETTE.navy }}>
+        #{index + 1}
+      </span>
+>>>>>>> varianta-mai-ok
       <span className="font-bold text-sm text-center" style={{ color: PALETTE.navy }}>
         {user.username}
       </span>
