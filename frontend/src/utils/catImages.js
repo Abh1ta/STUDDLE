@@ -56,13 +56,9 @@ const catImages = {
   },
 };
 
-<<<<<<< HEAD
-
-=======
 /**
  * Returnează calea către imaginea pisicii selectate, cu valori default sigure
  */
->>>>>>> origin/feature/update
 export const getCatImage = (coat, eyes) => {
   const safeCoat = coat && catImages[coat] ? coat : 'siameza';
   const safeEyes = eyes && catImages[safeCoat][eyes] ? eyes : 'albastri';

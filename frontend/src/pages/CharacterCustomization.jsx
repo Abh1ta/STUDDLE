@@ -28,11 +28,7 @@ const CharacterCustomization = () => {
   const navigate = useNavigate();
   const { avatarData, refreshAvatar } = useAvatar();
 
-<<<<<<< HEAD
-  // Incarca din Context cand intri pe pagina
-=======
  
->>>>>>> origin/feature/update
   useEffect(() => {
     if (avatarData) {
       if (avatarData.skin_color) setCoat(avatarData.skin_color);
@@ -45,11 +41,7 @@ const CharacterCustomization = () => {
     try {
       const token = localStorage.getItem('token');
       if (token) {
-<<<<<<< HEAD
-        await fetch('http://localhost:5000/api/settings/avatar', {
-=======
         await fetch('/api/settings/avatar', {
->>>>>>> origin/feature/update
           method: 'PUT',
           headers: { 
             'Content-Type': 'application/json',
@@ -161,8 +153,4 @@ const CharacterCustomization = () => {
   );
 };
 
-<<<<<<< HEAD
 export default CharacterCustomization;
-=======
-export default CharacterCustomization;
->>>>>>> origin/feature/update

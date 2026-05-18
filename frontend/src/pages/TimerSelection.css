@@ -33,11 +33,7 @@
   }
 }
 
-<<<<<<< HEAD
-/* ── Individual Card ── */
-=======
 
->>>>>>> origin/feature/update
 .timer-card {
   background: rgba(200, 195, 220, 0.45);
   backdrop-filter: blur(8px);
@@ -58,11 +54,7 @@
   background: rgba(200, 195, 220, 0.65);
 }
 
-<<<<<<< HEAD
-/* Clock icon */
-=======
 
->>>>>>> origin/feature/update
 .timer-card-icon {
   flex-shrink: 0;
   width: 36px;

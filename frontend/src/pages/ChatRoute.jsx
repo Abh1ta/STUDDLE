@@ -20,8 +20,4 @@ export default function ChatRoute() {
   if (!token || !user) return null;
 
   return <ChatPage token={token} currentUserId={user._id} friendList={friendList} />;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> origin/feature/update

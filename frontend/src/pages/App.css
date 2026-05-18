@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-@import url('https://fonts.gstatic.com/s/zillaslab/v12/dFa5ZfeM_74wlPZtksIFYskZ6HOpWw.woff2');
-=======
 
->>>>>>> origin/feature/update
 * {
   margin: 0;
   padding: 0;
@@ -13,22 +9,6 @@
   min-height: 100vh;
   background-color: #ffffff;
   width: 100%;
-<<<<<<< HEAD
-  overflow-x: hidden; 
-}
-
-.header {
-  width: 100%;
-  height: 100px; 
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 3%;
-  background-color: #e3f2ff;
-  border-bottom: 1px solid #dce8ff;
-  position: relative; 
-  overflow: visible; 
-=======
   overflow-x: hidden;
 }
 
@@ -44,24 +24,11 @@
   border-bottom: 1px solid #dce8ff;
   position: relative;
   overflow: visible;
->>>>>>> origin/feature/update
 }
 
 .logo {
   font-size: 32px;
   font-weight: 900;
-<<<<<<< HEAD
-  color: #4a56e2; 
-  font-style: italic; 
-  letter-spacing: -1px;
-}
-
-.logo img, .imglogo {
-  height: 70px;
-  width: auto;
-  display: block;
-  padding-right: 100px;
-=======
   color: #4a56e2;
   font-style: italic;
   letter-spacing: -1px;
@@ -72,7 +39,6 @@
   height: 70px;
   width: auto;
   transform: translateX(-117px);
->>>>>>> origin/feature/update
 }
 
 .nav-links {
@@ -91,10 +57,7 @@
   color: #8b7fff;
 }
 
-<<<<<<< HEAD
-=======
 /* hero */
->>>>>>> origin/feature/update
 .hero {
   display: flex;
   justify-content: center;
@@ -102,11 +65,7 @@
   gap: 50px;
   padding: 100px 80px;
   background: radial-gradient(circle at center, #A5CFFF 0%, #ffffff 65%);
-<<<<<<< HEAD
-  min-height: 600px; 
-=======
   min-height: 600px;
->>>>>>> origin/feature/update
 }
 
 .hero-image-container {
@@ -144,15 +103,9 @@
 }
 
 .highlight-text {
-<<<<<<< HEAD
-  color: #9283f5; 
-  display: inline-block; 
-  transform: skewX(-8deg); 
-=======
   color: #9283f5;
   display: inline-block;
   transform: skewX(-8deg);
->>>>>>> origin/feature/update
 }
 
 .hero-content p {
@@ -161,29 +114,17 @@
   line-height: 1.3;
   font-weight: 500;
   margin-left: -10px;
-<<<<<<< HEAD
-  margin-bottom: 50px; 
-=======
   margin-bottom: 50px;
->>>>>>> origin/feature/update
 }
 
 .pozaBaiat {
   width: 100%;
-<<<<<<< HEAD
-  max-width: 800px; 
-  height: auto;
-  transform: translateY(-65px); 
-}
-
-=======
   max-width: 800px;
   height: auto;
   transform: translateY(-65px);
 }
 
 /* sectiune cards */
->>>>>>> origin/feature/update
 .features-section {
   background-color: #322d4f;
   color: white;
@@ -229,15 +170,6 @@
 }
 
 .feature-card:hover {
-<<<<<<< HEAD
-  transform: translateY(-5px); 
-}
-
-.feature-icon {
-  width: 80px; 
-  height: 80px;
-  object-fit: contain; 
-=======
   transform: translateY(-5px);
 }
 
@@ -246,22 +178,10 @@
   width: 80px;
   height: 80px;
   object-fit: contain;
->>>>>>> origin/feature/update
   display: block;
   margin-top: -20px;
   margin-bottom: 20px;
   margin-left: -18px;
-<<<<<<< HEAD
-  filter: brightness(0) invert(1); 
-}
-
-.feature-card h3 {
-  font-size: 26px;      
-  color: #ffffff;        
-  font-weight: 600;      
-  margin-top: -20px;
-  margin-bottom: 8px;   
-=======
   filter: brightness(0) invert(1);
 }
 
@@ -271,21 +191,10 @@
   font-weight: 600;
   margin-top: -20px;
   margin-bottom: 8px;
->>>>>>> origin/feature/update
 }
 
 /* card text */
 .feature-card p {
-<<<<<<< HEAD
-  font-size: 20px;       
-  color: #e0e0e0;        
-  line-height: 1.5;      
-  font-weight: 400;      
-  opacity: 0.9;
-}
-
-/* sectiune pisica */
-=======
   font-size: 20px;
   color: #e0e0e0;
   line-height: 1.5;
@@ -294,7 +203,6 @@
 }
 
 
->>>>>>> origin/feature/update
 .cat-section {
   padding: 80px 10%;
   background-color: #ffffff;
@@ -312,11 +220,7 @@
 }
 
 .cat-image {
-<<<<<<< HEAD
-  width: 800px; 
-=======
   width: 800px;
->>>>>>> origin/feature/update
   height: 800px;
   margin: -100px -100px -100px -40px;
 }
@@ -340,11 +244,7 @@
 
 /* sectiune text */
 .cta-section {
-<<<<<<< HEAD
-  background-color: #e3f2ff; 
-=======
   background-color: #e3f2ff;
->>>>>>> origin/feature/update
   padding: 100px 10%;
   text-align: center;
 }
@@ -361,19 +261,11 @@
 }
 
 .break-text {
-<<<<<<< HEAD
-  display: block; 
-}
-
-.cta-button {
-  background-color: #3b5598; 
-=======
   display: block;
 }
 
 .cta-button {
   background-color: #3b5598;
->>>>>>> origin/feature/update
   color: white;
   padding: 15px 40px;
   border: none;
@@ -389,10 +281,7 @@
   transform: scale(1.05);
 }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> origin/feature/update
 .footer {
   padding: 25px 10%;
   background-color: #e3f2ff;
@@ -412,30 +301,17 @@
 }
 
 @media (max-width: 1024px) {
-<<<<<<< HEAD
-  .features-grid { 
-    grid-template-columns: repeat(2, 1fr); 
-=======
   .features-grid {
     grid-template-columns: repeat(2, 1fr);
->>>>>>> origin/feature/update
   }
 }
 
 @media (max-width: 768px) {
-<<<<<<< HEAD
-  .features-grid { 
-    grid-template-columns: 1fr; 
-  }
-  .main-title { 
-    font-size: 36px; 
-=======
   .features-grid {
     grid-template-columns: 1fr;
   }
 
   .main-title {
     font-size: 36px;
->>>>>>> origin/feature/update
   }
 }

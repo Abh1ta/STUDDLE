@@ -38,8 +38,4 @@ export function SocketProvider({ children }) {
   );
 }
 
-<<<<<<< HEAD
 export const useSocket = () => useContext(SocketContext);
-=======
-export const useSocket = () => useContext(SocketContext);
->>>>>>> origin/feature/update

@@ -32,28 +32,28 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <SidebarProvider>
             <SocketProvider>
               <Routes>
-                {/* Pagini FĂRĂ sidebar */}
-                <Route path="/" element={<StartPage />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/pdf-viewer" element={<PDFViewer />} />
+              {/* fara sidebar */}
+              <Route path="/" element={<StartPage />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/pdf-viewer" element={<PDFViewer />} />
 
-                {/* Pagini CU sidebar */}
-                <Route element={<Layout />}>
-                  <Route path="/home" element={<App />} />
-                  <Route path="/friends" element={<FriendsPage />} />
-                  <Route path="/settings" element={<Settings />} />
-                  <Route path="/chat" element={<ChatRoute />} />
-                  <Route path="/materiale" element={<PaginaMateriale />} />
-                  <Route path="/timer" element={<TimerSelection />} />
-                  <Route path="/timer/:mode" element={<ActiveTimer />} />
-                  <Route path="/customization" element={<CharacterCustomization />} />
-                  <Route path="/myaccount" element={<MyAccount />} />
-                  <Route path="/friendschat" element={<FriendsChat />} />
-                  <Route path="/edit-material/:id" element={<PaginaEditMateriale />} />
-                  <Route path="/leaderboard" element={<Leaderboard />} />
-                </Route>
-              </Routes>
+              {/*cu sidebar */}
+              <Route element={<Layout />}>
+                <Route path="/home" element={<App />} />
+                <Route path="/friends" element={<FriendsPage />} />
+                <Route path="/settings" element={<Settings />} />
+                <Route path="/chat" element={<ChatRoute />} />
+                <Route path="/materiale" element={<PaginaMateriale />} />
+                <Route path="/timer" element={<TimerSelection />} />
+                <Route path="/timer/:mode" element={<ActiveTimer />} />
+                <Route path="/customization" element={<CharacterCustomization />} />
+                <Route path="/myaccount" element={<MyAccount />} />
+                <Route path="/friendschat" element={<FriendsChat />} />
+                <Route path="/edit-material/:id" element={<PaginaEditMateriale />} />
+                <Route path="/leaderboard" element={<Leaderboard />} />
+              </Route>
+            </Routes>
             </SocketProvider>
           </SidebarProvider>
         </AvatarProvider>

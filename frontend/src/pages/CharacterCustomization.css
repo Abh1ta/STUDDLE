@@ -1,12 +1,7 @@
 /* ─── Character Customization Page ─── */
 .customization-page {
-<<<<<<< HEAD
-  min-height: calc(100vh - 100px); 
-  background: #ffffff;
-=======
   min-height: 100vh;
   background: linear-gradient(135deg, #f7e5eb 0%, #ffffff 45%, #c6c6e840 100%);
->>>>>>> origin/feature/update
   font-family: 'Zilla Slab', serif;
   display: flex;
   flex-direction: column;
@@ -15,11 +10,6 @@
 .customization-header {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
-  gap: 12px;
-  padding: 20px 10%;
-  border-bottom: 1px solid #717171;
-=======
   gap: 14px;
   padding: 28px 32px 20px;
   border-bottom: 1.5px solid #c6c6e855;
@@ -28,7 +18,6 @@
   position: sticky;
   top: 0;
   z-index: 10;
->>>>>>> origin/feature/update
 }
 
 .title-icon {
@@ -38,15 +27,6 @@
 }
 
 .customization-title {
-<<<<<<< HEAD
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #0d213b;
-  margin: 0;
-}
-
-/* ── Main Content Layout ── */
-=======
   font-size: 22px;
   font-weight: 800;
   color: #344979;
@@ -54,22 +34,10 @@
 }
 
 
->>>>>>> origin/feature/update
 .customization-content {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
-<<<<<<< HEAD
-  gap: 80px;
-  padding: 60px 10%;
-  flex: 1;
-}
-
-/* ── Preview Panel (Left) ── */
-.preview-panel {
-  flex: 0 0 600px;
-  background: #f8f7fc;
-=======
   gap: 60px;
   padding: 48px 40px;
   flex: 1;
@@ -80,32 +48,18 @@
   flex: 0 0 520px;
   background: rgba(255,255,255,0.85);
   border: 1.5px solid #c6c6e855;
->>>>>>> origin/feature/update
   border-radius: 32px;
   padding: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-<<<<<<< HEAD
-  min-height: 600px;
-=======
   min-height: 580px;
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 24px rgba(52,73,121,0.08);
->>>>>>> origin/feature/update
 }
 
 .cat-name-input {
   font-family: 'Zilla Slab', serif;
-<<<<<<< HEAD
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-align: center;
-  color: #a496fb;
-  background: #ebe7fd;
-  border: none;
-  border-radius: 12px;
-=======
   font-size: 2.2rem;
   font-weight: 800;
   text-align: center;
@@ -113,7 +67,6 @@
   background: rgba(198,198,232,0.25);
   border: 2px solid #c6c6e8;
   border-radius: 50px;
->>>>>>> origin/feature/update
   padding: 10px 30px;
   margin-bottom: 30px;
   width: auto;
@@ -121,12 +74,6 @@
   outline: none;
   position: relative;
   z-index: 10;
-<<<<<<< HEAD
-}
-
-.cat-name-input::placeholder {
-  color: #b2a9e5;
-=======
   transition: border-color 0.2s, background 0.2s;
 }
 
@@ -137,18 +84,12 @@
 
 .cat-name-input::placeholder {
   color: #9896bb;
->>>>>>> origin/feature/update
   font-weight: 600;
 }
 
 .cat-preview-container {
-<<<<<<< HEAD
-  width: 550px;
-  height: 550px;
-=======
   width: 480px;
   height: 480px;
->>>>>>> origin/feature/update
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,63 +104,26 @@
   transform: translateY(-60px) scale(1.3);
 }
 
-<<<<<<< HEAD
-.cat-preview-img.switching {
-  opacity: 0.5;
-}
-
-/* ── Controls Panel (Right) ── */
-=======
 .cat-preview-img.switching { opacity: 0.4; }
 
 
->>>>>>> origin/feature/update
 .controls-panel {
   flex: 1;
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  gap: 60px;
-  padding-top: 100px;
-=======
   gap: 50px;
   padding-top: 80px;
->>>>>>> origin/feature/update
 }
 
 .control-section {
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-  gap: 25px;
-=======
   gap: 22px;
->>>>>>> origin/feature/update
 }
 
 .section-header {
   display: flex;
   align-items: center;
-<<<<<<< HEAD
-  gap: 15px;
-}
-
-.section-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #0d213b;
-  white-space: nowrap;
-}
-
-.section-line {
-  height: 1px;
-  background-color: #555;
-  flex: 1;
-  max-width: 300px;
-}
-
-/* ── Color Swatches Grid ── */
-=======
   gap: 14px;
 }
 
@@ -241,7 +145,6 @@
 }
 
 
->>>>>>> origin/feature/update
 .swatches-flex {
   display: flex;
   flex-wrap: wrap;
@@ -249,35 +152,14 @@
 }
 
 .swatch-circle {
-<<<<<<< HEAD
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  border: 2px solid #111;
-=======
   width: 46px;
   height: 46px;
   border-radius: 50%;
   border: 2px solid rgba(52,73,121,0.2);
->>>>>>> origin/feature/update
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-<<<<<<< HEAD
-.swatch-circle:hover {
-  transform: scale(1.1);
-}
-
-.swatch-circle.active {
-  box-shadow: 0 0 0 3px white, 0 0 0 6px #b0a4fc;
-}
-
-/* ── Action Buttons ── */
-.customization-actions {
-  display: flex;
-  gap: 20px;
-=======
 .swatch-circle:hover { transform: scale(1.12); }
 
 .swatch-circle.active {
@@ -289,58 +171,17 @@
 .customization-actions {
   display: flex;
   gap: 16px;
->>>>>>> origin/feature/update
   margin-top: 20px;
 }
 
 .customization-btn {
-<<<<<<< HEAD
-  padding: 15px 20px;
-  min-width: 200px;
-=======
   padding: 14px 28px;
   min-width: 180px;
->>>>>>> origin/feature/update
   display: flex;
   justify-content: center;
   align-items: center;
   border: none;
   border-radius: 50px;
-<<<<<<< HEAD
-  font-size: 1.1rem;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: 'Zilla Slab', serif;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.customization-btn:hover {
-  transform: translateY(-3px);
-}
-
-.random-btn {
-  background-color: #f8f7fc;
-  color: #8b7cf0;
-  border: 2px solid #8b7cf0;
-  box-shadow: 0 4px 10px rgba(139, 124, 240, 0.15);
-}
-
-.random-btn:hover {
-  background-color: #ebe7fd;
-}
-
-.save-btn {
-  background-color: #3b5598;
-  color: white;
-  box-shadow: 0 4px 15px rgba(59, 85, 152, 0.4);
-}
-
-.save-btn:hover {
-  box-shadow: 0 6px 20px rgba(59, 85, 152, 0.6);
-}
-
-/* Responsive */
-=======
   font-size: 1rem;
   font-weight: 800;
   cursor: pointer;
@@ -372,20 +213,10 @@
 }
 
 
->>>>>>> origin/feature/update
 @media (max-width: 1100px) {
   .customization-content {
     flex-direction: column;
     align-items: center;
-<<<<<<< HEAD
-    gap: 40px;
-  }
-  .preview-panel {
-    width: 100%;
-    max-width: 500px;
-  }
-}
-=======
     gap: 32px;
   }
   .preview-panel {
@@ -399,4 +230,3 @@
     max-width: 480px;
   }
 }
->>>>>>> origin/feature/update

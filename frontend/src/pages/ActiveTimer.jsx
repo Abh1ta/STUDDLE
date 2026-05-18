@@ -1,19 +1,8 @@
-<<<<<<< HEAD
-/* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import pisica from '../assets/pisica.png';
-
-import './ActiveTimer.css';
-=======
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ActiveTimer.css';
 import { useAvatar } from '../context/AvatarContext';
 import { getCatImage } from '../utils/catImages';
->>>>>>> origin/feature/update
 
 const API_URL_SUBJECTS = '/api/subjects';
 const API_URL_STUDY = '/api/study';
@@ -43,27 +32,16 @@ const formatTime = (totalSeconds) => {
 function ActiveTimer() {
   const { mode } = useParams();
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const { token, refreshUser } = useAuth();
-
-  // MATERII
-  const [subjects, setSubjects] = useState([]);
-  const [selectedSubject, setSelectedSubject] = useState(null); // obiect { _id, title }
-=======
   const { avatarData } = useAvatar();
   const catName = avatarData?.cat_name || 'Studdy';
   const customCatImage = getCatImage(avatarData?.skin_color, avatarData?.eye_color);
 
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState('');
->>>>>>> origin/feature/update
   const [newSubjectName, setNewSubjectName] = useState('');
   const [subjectOpen, setSubjectOpen] = useState(false);
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
 
-<<<<<<< HEAD
-  // TIMER CORE
-=======
   const [activeNoteId, setActiveNoteId] = useState(null);
   const [availableNotes, setAvailableNotes] = useState([]);
   const [noteDropdownOpen, setNoteDropdownOpen] = useState(false);
@@ -101,50 +79,27 @@ function ActiveTimer() {
     }
   }, [selectedSubject]);
 
->>>>>>> origin/feature/update
   const [phase, setPhase] = useState('setup');
   const [timerMode, setTimerMode] = useState('countdown');
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
-<<<<<<< HEAD
-  // POPUP & TRACKING LOGIC
-=======
->>>>>>> origin/feature/update
   const [showPopup, setShowPopup] = useState(false);
   const [showEndPopup, setShowEndPopup] = useState(false);
   const [studyLimit, setStudyLimit] = useState(3600);
   const [continuousStudySecs, setContinuousStudySecs] = useState(0);
   const [snoozeCount, setSnoozeCount] = useState(0);
 
-<<<<<<< HEAD
-  // XP din backend
   const [sessionXp, setSessionXp] = useState(0);
   const backendSessionActive = useRef(false);
 
-  // SETTINGS
-=======
-  const [sessionXp, setSessionXp] = useState(0);
-  const backendSessionActive = useRef(false);
-
->>>>>>> origin/feature/update
   const [pomodoroGoal, setPomodoroGoal] = useState(0);
   const [customStudy, setCustomStudy] = useState(50);
   const [customBreak, setCustomBreak] = useState(10);
   const [sessions, setSessions] = useState([]);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
 
-<<<<<<< HEAD
-  // FETCH MATERII — salvăm datele exact cum vin din backend (câmpul 'title')
-  useEffect(() => {
-    const fetchSubjects = async () => {
-      try {
-        const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(API_URL_SUBJECTS, { headers: authHeaders });
-        const data = await response.json();
-        setSubjects(Array.isArray(data) ? data : []);
-=======
   useEffect(() => {
     const fetchSubjects = async () => {
       try {
@@ -153,7 +108,6 @@ function ActiveTimer() {
         const response = await fetch(API_URL_SUBJECTS, { headers: authHeaders });
         const data = await response.json();
         setSubjects(data.map((item) => ({ ...item, name: item.title || item.name })));
->>>>>>> origin/feature/update
       } catch (e) {
         console.error(e);
       } finally {
@@ -161,53 +115,6 @@ function ActiveTimer() {
       }
     };
     fetchSubjects();
-<<<<<<< HEAD
-  }, [token]);
-
-  const handleAddSubject = async () => {
-  if (!newSubjectName.trim()) return;
-  try {
-    const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-    
-    const defaultColor = '#7c83b3'; 
-
-    const response = await fetch(API_URL_SUBJECTS, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json', 
-        ...authHeaders 
-      },
-      body: JSON.stringify({ 
-        title: newSubjectName, 
-        color: defaultColor 
-      }), 
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      alert(`Eroare: ${errorData.message || 'Nu s-a putut adăuga materia'}`);
-      return;
-    }
-
-    const saved = await response.json();
-    setSubjects((prev) => [...prev, saved]);
-    setSelectedSubject(saved);
-    setNewSubjectName('');
-    setSubjectOpen(false);
-  } catch (e) {
-    console.error('Eroare la adăugare materie:', e);
-  }
-};
-
-  // FUNCȚII BACKEND SESIUNE
-  const startBackendSession = async () => {
-    try {
-      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-      await fetch(`${API_URL_STUDY}/start`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...authHeaders },
-        body: JSON.stringify({ subject_id: selectedSubject?._id || null }),
-=======
   }, []);
 
   const handleAddSubject = async () => {
@@ -248,22 +155,16 @@ function ActiveTimer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeaders },
         body: JSON.stringify({ subject_id: subjectObj ? subjectObj._id : null }),
->>>>>>> origin/feature/update
       });
     } catch (error) {
       console.error('Eroare la pornirea sesiunii în backend:', error);
     }
   };
 
-<<<<<<< HEAD
-  const stopBackendSession = async () => {
-    try {
-=======
   
   const stopBackendSession = async () => {
     try {
       const token = localStorage.getItem('token');
->>>>>>> origin/feature/update
       const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
       const response = await fetch(`${API_URL_STUDY}/stop`, {
         method: 'POST',
@@ -275,31 +176,18 @@ function ActiveTimer() {
         if (data.xpGained > 0) {
           setSessionXp((prev) => prev + data.xpGained);
         }
-<<<<<<< HEAD
-        // Actualizăm datele globale ale user-ului (XP vizibil în Header)
-        if (refreshUser) refreshUser();
-=======
         if (data.penaltyResult?.resolved) {
           setPenaltyResolved(data.penaltyResult);
         }
->>>>>>> origin/feature/update
       }
     } catch (error) {
       console.error('Eroare la oprirea sesiunii în backend:', error);
     }
   };
-<<<<<<< HEAD
-
-  // Logica automată care pornește și oprește sesiunea în backend
-  useEffect(() => {
-    const shouldBeActive = isRunning && phase === 'study';
-
-=======
   
 
   useEffect(() => {
     const shouldBeActive = isRunning && phase === 'study';
->>>>>>> origin/feature/update
     if (shouldBeActive && !backendSessionActive.current) {
       backendSessionActive.current = true;
       startBackendSession();
@@ -309,10 +197,6 @@ function ActiveTimer() {
     }
   }, [isRunning, phase]);
 
-<<<<<<< HEAD
-  // INITIALIZARE MOD
-=======
->>>>>>> origin/feature/update
   useEffect(() => {
     setIsRunning(false);
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -321,10 +205,7 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-<<<<<<< HEAD
-=======
     setPenaltyResolved(null); 
->>>>>>> origin/feature/update
 
     if (mode === 'flowmodoro') {
       setPhase('study');
@@ -336,23 +217,12 @@ function ActiveTimer() {
     }
   }, [mode]);
 
-<<<<<<< HEAD
-  // MOTORUL PRINCIPAL
   useEffect(() => {
     if (!isRunning) return;
-
-=======
-  useEffect(() => {
-    if (!isRunning) return;
->>>>>>> origin/feature/update
     intervalRef.current = setInterval(() => {
       setSecondsLeft((prev) => {
         return timerMode === 'countup' ? prev + 1 : prev > 0 ? prev - 1 : 0;
       });
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature/update
       if (phase === 'study') {
         setContinuousStudySecs((prevContinuous) => {
           const nextContinuous = prevContinuous + 1;
@@ -364,26 +234,14 @@ function ActiveTimer() {
         });
       }
     }, 1000);
-<<<<<<< HEAD
-
     return () => clearInterval(intervalRef.current);
   }, [isRunning, timerMode, phase, studyLimit]);
 
-  // TRANZIȚII AUTOMATE
-=======
-    return () => clearInterval(intervalRef.current);
-  }, [isRunning, timerMode, phase, studyLimit]);
-
->>>>>>> origin/feature/update
   useEffect(() => {
     if (timerMode === 'countdown' && secondsLeft === 0 && isRunning) {
       setIsRunning(false);
       setContinuousStudySecs(0);
       setSnoozeCount(0);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature/update
       if (mode === 'pomodoro') {
         const nextIndex = currentSessionIndex + 1;
         if (nextIndex < sessions.length) {
@@ -403,21 +261,7 @@ function ActiveTimer() {
         setSecondsLeft(0);
       }
     }
-<<<<<<< HEAD
-  }, [
-    secondsLeft,
-    timerMode,
-    isRunning,
-    mode,
-    currentSessionIndex,
-    sessions,
-    customBreak,
-    customStudy,
-    phase,
-  ]);
-=======
   }, [secondsLeft, timerMode, isRunning, mode, currentSessionIndex, sessions, customBreak, customStudy, phase]);
->>>>>>> origin/feature/update
 
   const handleSetupStart = () => {
     setContinuousStudySecs(0);
@@ -451,10 +295,6 @@ function ActiveTimer() {
   const handleFinishSession = () => {
     setIsRunning(false);
     setShowPopup(false);
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature/update
     setTimeout(() => {
       setShowEndPopup(true);
     }, 300);
@@ -465,10 +305,7 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-<<<<<<< HEAD
-=======
     setPenaltyResolved(null); 
->>>>>>> origin/feature/update
     if (mode === 'flowmodoro') {
       setPhase('study');
       setTimerMode('countup');
@@ -477,10 +314,7 @@ function ActiveTimer() {
       setPhase('setup');
     }
   };
-<<<<<<< HEAD
-=======
   
->>>>>>> origin/feature/update
 
   const handleSnooze = () => {
     if (snoozeCount < 3) {
@@ -511,15 +345,6 @@ function ActiveTimer() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="active-timer-page">
-      {showPopup && (
-        <div className="timer-popup-overlay">
-          <div className="timer-popup-card">
-            <h3 className="timer-popup-title">Studdy a obosit... luăm o pauză?</h3>
-            <div className="timer-popup-img-box">
-<img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
-=======
     <div
       className={`active-timer-page${activeNoteId && phase !== 'setup' ? ' with-editor' : ''}`}
       style={activeNoteId && phase !== 'setup' ? { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', padding: 0 } : {}}
@@ -531,7 +356,6 @@ function ActiveTimer() {
             <h3 className="timer-popup-title">{catName} a obosit... luăm o pauză?</h3>
             <div className="timer-popup-img-box">
               <img src={customCatImage} alt={catName} className="studdy-avatar-popup" />
->>>>>>> origin/feature/update
             </div>
             <div className="timer-popup-btns">
               <button
@@ -550,26 +374,12 @@ function ActiveTimer() {
               >
                 Da, am nevoie
               </button>
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/feature/update
               {snoozeCount < 3 ? (
                 <button className="popup-btn-snooze" onClick={handleSnooze}>
                   Încă 2 minute ({3 - snoozeCount} rămase)
                 </button>
               ) : (
-<<<<<<< HEAD
-                <p
-                  style={{
-                    color: 'rgba(255,255,255,0.5)',
-                    fontSize: '0.9rem',
-                    margin: '10px 0 0 0',
-                  }}
-                >
-=======
                 <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', margin: '10px 0 0 0' }}>
->>>>>>> origin/feature/update
                   Ai atins limita de amânări. Ia o pauză!
                 </p>
               )}
@@ -578,10 +388,7 @@ function ActiveTimer() {
         </div>
       )}
 
-<<<<<<< HEAD
-=======
       
->>>>>>> origin/feature/update
       {showEndPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
@@ -589,25 +396,6 @@ function ActiveTimer() {
               Sesiune Încheiată!
             </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
-<<<<<<< HEAD
-<img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
-            </div>
-            <p
-              style={{
-                color: 'rgba(255,255,255,0.9)',
-                fontSize: '1.2rem',
-                marginBottom: '24px',
-                lineHeight: '1.5',
-              }}
-            >
-              Bravo! Ai acumulat <br />
-              <strong
-                style={{ color: '#ffffff', fontSize: '2.5rem', display: 'block', margin: '10px 0' }}
-              >
-                {Number(sessionXp).toFixed(1)} XP
-              </strong>
-            </p>
-=======
               <img src={customCatImage} alt={`${catName} Fericit`} className="studdy-avatar-popup" />
             </div>
             <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', marginBottom: '16px', lineHeight: '1.5' }}>
@@ -636,7 +424,6 @@ function ActiveTimer() {
               </div>
             )}
 
->>>>>>> origin/feature/update
             <div className="timer-popup-btns">
               <button className="popup-btn-yes" onClick={closeEndPopup}>
                 Super, mulțumesc!
@@ -646,18 +433,6 @@ function ActiveTimer() {
         </div>
       )}
 
-<<<<<<< HEAD
-      <div className="active-timer-content">
-        <button className="timer-back-btn" onClick={() => navigate('/timer')}>
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-          >
-=======
     
       <div
         className="active-timer-content"
@@ -674,15 +449,11 @@ function ActiveTimer() {
           style={activeNoteId && phase !== 'setup' ? { margin: 0 } : {}}
         >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
->>>>>>> origin/feature/update
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Înapoi
         </button>
 
-<<<<<<< HEAD
-        <div className="timer-main-card">
-=======
         <div
           className="timer-main-card"
           style={activeNoteId && phase !== 'setup' ? {
@@ -691,7 +462,6 @@ function ActiveTimer() {
             boxShadow: 'none', backdropFilter: 'none', height: 'auto', minHeight: 0,
           } : {}}
         >
->>>>>>> origin/feature/update
           {phase === 'setup' && mode === 'pomodoro' && (
             <>
               <h2 className="timer-setup-heading">Obiectiv Studiu (min)</h2>
@@ -702,26 +472,12 @@ function ActiveTimer() {
                   inputMode="numeric"
                   placeholder="00"
                   value={pomodoroGoal || ''}
-<<<<<<< HEAD
-                  onChange={(e) =>
-                    setPomodoroGoal(parseInt(e.target.value.replace(/\D/g, '')) || 0)
-                  }
-=======
                   onChange={(e) => setPomodoroGoal(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
->>>>>>> origin/feature/update
                 />
                 <span className="timer-setup-colon">:</span>
                 <span className="timer-setup-digit-fixed">00</span>
               </div>
-<<<<<<< HEAD
-              <button
-                className="timer-action-btn"
-                onClick={handleSetupStart}
-                disabled={!pomodoroGoal}
-              >
-=======
               <button className="timer-action-btn" onClick={handleSetupStart} disabled={!pomodoroGoal}>
->>>>>>> origin/feature/update
                 START
               </button>
             </>
@@ -730,13 +486,7 @@ function ActiveTimer() {
           {phase === 'setup' && mode === 'custom' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
               <div>
-<<<<<<< HEAD
-                <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>
-                  Durată Studiu
-                </h2>
-=======
                 <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>Durată Studiu</h2>
->>>>>>> origin/feature/update
                 <div className="timer-setup-time-row">
                   <input
                     className="timer-setup-digit-input"
@@ -744,27 +494,6 @@ function ActiveTimer() {
                     type="text"
                     inputMode="numeric"
                     value={customStudy || ''}
-<<<<<<< HEAD
-                    onChange={(e) =>
-                      setCustomStudy(parseInt(e.target.value.replace(/\D/g, '')) || 0)
-                    }
-                  />
-                  <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>
-                    :
-                  </span>
-                  <span
-                    className="timer-setup-digit-fixed"
-                    style={{ fontSize: '4rem', width: '120px' }}
-                  >
-                    00
-                  </span>
-                </div>
-              </div>
-              <div>
-                <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>
-                  Durată Pauză
-                </h2>
-=======
                     onChange={(e) => setCustomStudy(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
                   />
                   <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>:</span>
@@ -773,7 +502,6 @@ function ActiveTimer() {
               </div>
               <div>
                 <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>Durată Pauză</h2>
->>>>>>> origin/feature/update
                 <div className="timer-setup-time-row">
                   <input
                     className="timer-setup-digit-input"
@@ -781,26 +509,10 @@ function ActiveTimer() {
                     type="text"
                     inputMode="numeric"
                     value={customBreak || ''}
-<<<<<<< HEAD
-                    onChange={(e) =>
-                      setCustomBreak(parseInt(e.target.value.replace(/\D/g, '')) || 0)
-                    }
-                  />
-                  <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>
-                    :
-                  </span>
-                  <span
-                    className="timer-setup-digit-fixed"
-                    style={{ fontSize: '4rem', width: '120px' }}
-                  >
-                    00
-                  </span>
-=======
                     onChange={(e) => setCustomBreak(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
                   />
                   <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>:</span>
                   <span className="timer-setup-digit-fixed" style={{ fontSize: '4rem', width: '120px' }}>00</span>
->>>>>>> origin/feature/update
                 </div>
               </div>
               <button
@@ -815,15 +527,6 @@ function ActiveTimer() {
 
           {phase !== 'setup' && (
             <>
-<<<<<<< HEAD
-              <div className="timer-time-display">{formatTime(secondsLeft)}</div>
-              <p className="timer-phase-text">{getPhaseText()}</p>
-              <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-                {phase === 'finished' ? (
-                  <button className="timer-action-btn" onClick={handleFinishSession}>
-                    FINALIZAT
-                  </button>
-=======
               <div
                 className="timer-time-display"
                 style={activeNoteId && phase !== 'setup' ? { fontSize: '2rem', letterSpacing: '2px', textShadow: 'none', lineHeight: 1 } : {}}
@@ -836,31 +539,23 @@ function ActiveTimer() {
               <div style={{ display: 'flex', gap: activeNoteId && phase !== 'setup' ? '8px' : '16px', justifyContent: 'center' }}>
                 {phase === 'finished' ? (
                   <button className="timer-action-btn" onClick={handleFinishSession}>FINALIZAT</button>
->>>>>>> origin/feature/update
                 ) : (
                   <>
                     {mode === 'flowmodoro' && phase === 'study' ? (
                       <>
                         <button
                           className="timer-action-btn"
-<<<<<<< HEAD
-=======
                           style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
->>>>>>> origin/feature/update
                           onClick={() => setIsRunning(!isRunning)}
                         >
                           {isRunning ? 'STOP' : secondsLeft === 0 ? 'START' : 'CONTINUĂ'}
                         </button>
                         {secondsLeft >= 5 && (
-<<<<<<< HEAD
-                          <button className="timer-action-btn stop" onClick={handleFlowmodoroBreak}>
-=======
                           <button
                             className="timer-action-btn stop"
                             style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
                             onClick={handleFlowmodoroBreak}
                           >
->>>>>>> origin/feature/update
                             IA PAUZĂ (1/5)
                           </button>
                         )}
@@ -869,24 +564,17 @@ function ActiveTimer() {
                       <>
                         <button
                           className="timer-action-btn"
-<<<<<<< HEAD
-=======
                           style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
->>>>>>> origin/feature/update
                           onClick={() => setIsRunning(!isRunning)}
                         >
                           {isRunning ? 'STOP' : 'CONTINUĂ'}
                         </button>
                         {!isRunning && (
-<<<<<<< HEAD
-                          <button className="timer-action-btn stop" onClick={handleFinishSession}>
-=======
                           <button
                             className="timer-action-btn stop"
                             style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
                             onClick={handleFinishSession}
                           >
->>>>>>> origin/feature/update
                             RENUNȚĂ
                           </button>
                         )}
@@ -899,73 +587,6 @@ function ActiveTimer() {
           )}
         </div>
 
-<<<<<<< HEAD
-        <div className="timer-subject-wrapper">
-          <div
-            className={`timer-subject-bar ${subjectOpen ? 'open' : ''}`}
-            onClick={() => setSubjectOpen(!subjectOpen)}
-          >
-            {/* MODIFICAT: .title în loc de .name */}
-            {selectedSubject?.title || (isLoadingSubjects ? '...' : 'Alege materie')}
-            <svg
-              className="subject-chevron"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-            >
-              <polyline points="6 9 12 15 18 9" />
-            </svg>
-          </div>
-          {subjectOpen && (
-            <div className="subject-dropdown">
-              <div className="subject-add-row">
-                <input
-                  type="text"
-                  className="subject-add-input"
-                  placeholder="Adaugă materie..."
-                  value={newSubjectName}
-                  onChange={(e) => setNewSubjectName(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleAddSubject()}
-                />
-                <button
-                  className="subject-add-btn"
-                  onClick={handleAddSubject}
-                  disabled={!newSubjectName.trim()}
-                >
-                  <svg
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="3"
-                  >
-                    <line x1="12" y1="5" x2="12" y2="19"></line>
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                  </svg>
-                </button>
-              </div>
-              {subjects.map((s) => (
-                <div
-                  key={s._id}
-                  className={`subject-option ${selectedSubject?._id === s._id ? 'selected' : ''}`}
-                  onClick={() => {
-                    setSelectedSubject(s);
-                    setSubjectOpen(false);
-                  }}
-                >
-                  {/* MODIFICAT: .title în loc de .name */}
-                  {s.title}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-=======
         {!(activeNoteId && phase !== 'setup') && (
           <div className="timer-subject-wrapper">
             <div
@@ -1053,7 +674,6 @@ function ActiveTimer() {
           />
         </div>
       )}
->>>>>>> origin/feature/update
     </div>
   );
 }

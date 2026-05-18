@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-/* eslint-disable no-unused-vars */
-=======
->>>>>>> origin/feature/update
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -13,11 +9,7 @@ const HIGHLIGHT_COLORS = [
   { name: 'Albastru',value: 'rgba(80,  160, 255, 0.45)', solid: '#4FA3FF' },
 ];
 
-<<<<<<< HEAD
-const API_BASE = 'http://localhost:5000/api';
-=======
 const API_BASE = '/api';
->>>>>>> origin/feature/update
 
 const rectFrom = (x1, y1, x2, y2) => ({
   x: Math.min(x1, x2),
@@ -45,42 +37,25 @@ export default function PDFViewer() {
   const [loading,   setLoading]   = useState(true);
   const [pdfError,  setPdfError]  = useState('');
 
-<<<<<<< HEAD
-  // annotations
-  const [annotations,  setAnnotations]  = useState([]);   
-  const [saving,       setSaving]       = useState(false);
-
-  // tool state
-=======
   // annot
   const [annotations,  setAnnotations]  = useState([]);   
   const [saving,       setSaving]       = useState(false);
 
 
->>>>>>> origin/feature/update
   const [tool,         setTool]         = useState('highlight'); 
   const [activeColor,  setActiveColor]  = useState(HIGHLIGHT_COLORS[0]);
   const [noteText,     setNoteText]     = useState('');
   const [noteDraft,    setNoteDraft]    = useState(null);  
   const [hovered,      setHovered]      = useState(null);  
-<<<<<<< HEAD
-  // drawing
-=======
 
->>>>>>> origin/feature/update
   const drawing   = useRef(false);
   const startPos  = useRef({ x: 0, y: 0 });
   const pageRefs  = useRef({});   
   const overlayRefs = useRef({}); 
-<<<<<<< HEAD
-
-  
-=======
   const pinchStartDist = useRef(null);
   const pinchStartScale = useRef(1);
 
 
->>>>>>> origin/feature/update
   useEffect(() => {
     if (!fileUrl) { setPdfError('Niciun fișier furnizat.'); setLoading(false); return; }
 
@@ -183,11 +158,7 @@ export default function PDFViewer() {
       if (next.length !== annotations.length) updateAnnotations(next);
       return;
     }
-<<<<<<< HEAD
-    // highlight
-=======
   
->>>>>>> origin/feature/update
     drawing.current = true;
     startPos.current = getPos(e, pageNum);
   };
@@ -257,11 +228,7 @@ export default function PDFViewer() {
       </div>
 
       <div style={styles.toolbar}>
-<<<<<<< HEAD
-        {/* Tools */}
-=======
        
->>>>>>> origin/feature/update
         <div style={styles.toolGroup}>
           {[
             { id: 'highlight', label: '🖊 Evidențiere' },
@@ -306,10 +273,6 @@ export default function PDFViewer() {
         </button>
       </div>
 
-<<<<<<< HEAD
-      {/* ── BODY ── */}
-      <div style={styles.body}>
-=======
     
       <div
         style={styles.body}
@@ -340,7 +303,6 @@ export default function PDFViewer() {
         }}
         onTouchEnd={() => { pinchStartDist.current = null; }}
       >
->>>>>>> origin/feature/update
         {loading && <div style={styles.loader}>Se încarcă PDF-ul…</div>}
         {pdfError && <div style={styles.loader}>{pdfError}</div>}
 
@@ -350,21 +312,13 @@ export default function PDFViewer() {
             <div key={pageNum} style={styles.pageWrap}>
               <div style={styles.pageLabel}>Pagina {pageNum}</div>
               <div style={{ position: 'relative', display: 'inline-block' }}>
-<<<<<<< HEAD
-                {/* PDF canvas */}
-=======
                 {/* PDF canva */}
->>>>>>> origin/feature/update
                 <canvas
                   ref={el => { pageRefs.current[pageNum] = el; }}
                   style={styles.canvas}
                 />
 
-<<<<<<< HEAD
-                {/* Annotation overlay */}
-=======
               
->>>>>>> origin/feature/update
                 <div
                   ref={el => { overlayRefs.current[pageNum] = el; }}
                   style={{ ...styles.overlay, cursor: cursorForTool }}
@@ -372,11 +326,7 @@ export default function PDFViewer() {
                   onMouseUp={e => onMouseUp(e, pageNum)}
                   onClick={e => onOverlayClick(e, pageNum)}
                 >
-<<<<<<< HEAD
-                  {/* Highlights */}
-=======
                
->>>>>>> origin/feature/update
                   {pageAnnotations
                     .filter(a => a.type === 'highlight')
                     .map(a => (
@@ -397,11 +347,7 @@ export default function PDFViewer() {
                       />
                     ))}
 
-<<<<<<< HEAD
-                  {/* Notes */}
-=======
                   {/* note */}
->>>>>>> origin/feature/update
                   {pageAnnotations
                     .filter(a => a.type === 'note')
                     .map(a => (
@@ -437,11 +383,7 @@ export default function PDFViewer() {
         })}
       </div>
 
-<<<<<<< HEAD
-      {/* ── NOTE DIALOG ── */}
-=======
       {/* note */}
->>>>>>> origin/feature/update
       {noteDraft && (
         <div style={styles.modalOverlay} onClick={() => setNoteDraft(null)}>
           <div style={styles.noteModal} onClick={e => e.stopPropagation()}>
@@ -712,8 +654,4 @@ const styles = {
     fontSize: 14,
     fontWeight: 700,
   },
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> origin/feature/update
