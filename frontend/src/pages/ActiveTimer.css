@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 
 .active-timer-page {
   min-height: 100vh;
@@ -19,11 +20,20 @@
 }
 .active-timer-page .nav-meniu a:hover {
   color: #c9a0f0;
+=======
+.active-timer-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #38467e 0%, #21355f 100%);
+  background-attachment: fixed;
+  font-family: 'Zilla Slab', serif;
+  color: #344979;
+>>>>>>> origin/feature/update
 }
 
 .active-timer-content {
   max-width: 780px;
   margin: 0 auto;
+<<<<<<< HEAD
   padding: 20px 24px 60px;
   display: flex;
   flex-direction: column;
@@ -33,11 +43,24 @@
 }
 
 
+=======
+  padding: 32px 24px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 20px;
+  position: relative;
+}
+
+>>>>>>> origin/feature/update
 .timer-back-btn {
   align-self: flex-start;
   display: flex;
   align-items: center;
   gap: 6px;
+<<<<<<< HEAD
   background: none;
   border: none;
   color: rgba(255, 255, 255, 0.6);
@@ -61,12 +84,45 @@
   width: 100%;
   background: #6d7293;
   border-radius: 24px;
+=======
+  margin-top: 70px ;
+  margin-bottom: -70px;
+  background: none;
+  border: none;
+  color: #5d6da5;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50px;
+  transition: color 0.2s, background 0.2s;
+  font-family: inherit;
+}
+
+.timer-back-btn:hover {
+  color: #344979;
+  background: rgba(198, 198, 232, 0.3);
+}
+
+.timer-main-card {
+  margin-top: 70px;
+  width: 850px;
+  height: 450px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 32px;
+>>>>>>> origin/feature/update
   padding: 60px 40px 48px;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
+<<<<<<< HEAD
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
+=======
+  box-shadow: 0 12px 48px rgba(52, 73, 121, 0.3);
+>>>>>>> origin/feature/update
 }
 
 .timer-time-display {
@@ -76,6 +132,7 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 4px;
   line-height: 1;
+<<<<<<< HEAD
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
@@ -125,10 +182,53 @@
 
 .timer-action-btn:disabled {
   opacity: 0.4;
+=======
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 600px) {
+  .timer-time-display { font-size: 4rem; }
+}
+
+.timer-phase-text {
+  font-size: 2rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+.timer-action-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 14px 64px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.timer-action-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.32);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+.timer-action-btn:active:not(:disabled) { transform: scale(0.97); }
+
+.timer-action-btn:disabled {
+  opacity: 0.35;
+>>>>>>> origin/feature/update
   cursor: not-allowed;
 }
 
 .timer-action-btn.stop {
+<<<<<<< HEAD
   background: #4a4670;
 }
 
@@ -137,6 +237,16 @@
 }
 
 
+=======
+  background: rgba(247, 229, 235, 0.18);
+  border-color: rgba(247, 229, 235, 0.4);
+}
+
+.timer-action-btn.stop:hover {
+  background: rgba(247, 229, 235, 0.3);
+}
+
+>>>>>>> origin/feature/update
 .timer-subject-wrapper {
   width: 100%;
   position: relative;
@@ -144,6 +254,7 @@
 
 .timer-subject-bar {
   width: 100%;
+<<<<<<< HEAD
   background: #6d7293;
   border-radius: 16px;
   padding: 18px 24px;
@@ -156,12 +267,26 @@
     background 0.2s,
     border-radius 0.2s;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+=======
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid #c6c6e855;
+  border-radius: 20px;
+  padding: 18px 24px;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #344979;
+  cursor: pointer;
+  transition: background 0.2s, border-radius 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 12px rgba(52, 73, 121, 0.08);
+>>>>>>> origin/feature/update
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   box-sizing: border-box;
   user-select: none;
+<<<<<<< HEAD
 }
 
 .timer-subject-bar.open {
@@ -170,10 +295,28 @@
 
 .timer-subject-bar:hover {
   background: #7a7fa3;
+=======
+  font-family: inherit;
+  backdrop-filter: blur(8px);
+}
+
+.timer-subject-bar.open {
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 0 0 rgba(0,0,0,0);
+}
+
+.timer-subject-bar:hover {
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 4px 16px rgba(52, 73, 121, 0.12);
+>>>>>>> origin/feature/update
 }
 
 .subject-chevron {
   transition: transform 0.25s ease;
+<<<<<<< HEAD
+=======
+  color: #5d6da5;
+>>>>>>> origin/feature/update
 }
 
 .timer-subject-bar.open .subject-chevron {
@@ -185,6 +328,7 @@
   top: 100%;
   left: 0;
   right: 0;
+<<<<<<< HEAD
   background: #5c5f82;
   border-radius: 0 0 16px 16px;
   overflow: hidden;
@@ -192,12 +336,25 @@
   z-index: 50;
   max-height: 280px;
   overflow-y: auto;
+=======
+  background: rgba(255, 255, 255, 0.96);
+  border: 1.5px solid #c6c6e855;
+  border-top: none;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(52, 73, 121, 0.15);
+  z-index: 50;
+  max-height: 280px;
+  overflow-y: auto;
+  backdrop-filter: blur(8px);
+>>>>>>> origin/feature/update
 }
 
 .subject-option {
   padding: 14px 24px;
   font-size: 1rem;
   font-weight: 600;
+<<<<<<< HEAD
   color: rgba(255, 255, 255, 0.8);
   cursor: pointer;
   transition:
@@ -226,11 +383,38 @@
 
 .subject-dropdown::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.15);
+=======
+  color: #344979;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  font-family: inherit;
+}
+
+.subject-option:hover {
+  background: rgba(198, 198, 232, 0.3);
+  color: #344979;
+}
+
+.subject-option.selected {
+  background: rgba(198, 198, 232, 0.45);
+  color: #344979;
+  font-weight: 800;
+}
+
+.subject-dropdown::-webkit-scrollbar { width: 6px; }
+.subject-dropdown::-webkit-scrollbar-track { background: transparent; }
+.subject-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(52, 73, 121, 0.15);
+>>>>>>> origin/feature/update
   border-radius: 3px;
 }
 
 .timer-setup-heading {
+<<<<<<< HEAD
   font-size: 2rem;
+=======
+  font-size: 1.8rem;
+>>>>>>> origin/feature/update
   font-weight: 800;
   color: #ffffff;
   text-align: center;
@@ -256,6 +440,7 @@
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
   line-height: 1;
+<<<<<<< HEAD
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   -moz-appearance: textfield;
   padding: 0;
@@ -264,6 +449,15 @@
 .timer-setup-digit-input::placeholder {
   color: rgba(255, 255, 255, 0.3);
 }
+=======
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  -moz-appearance: textfield;
+  padding: 0;
+  font-family: inherit;
+}
+
+.timer-setup-digit-input::placeholder { color: rgba(255, 255, 255, 0.35); }
+>>>>>>> origin/feature/update
 
 .timer-setup-digit-input::-webkit-outer-spin-button,
 .timer-setup-digit-input::-webkit-inner-spin-button {
@@ -274,9 +468,14 @@
 .timer-setup-colon {
   font-size: 7rem;
   font-weight: 900;
+<<<<<<< HEAD
   color: rgba(255, 255, 255, 0.6);
   line-height: 1;
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+=======
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1;
+>>>>>>> origin/feature/update
   padding: 0 4px;
 }
 
@@ -285,13 +484,17 @@
   font-weight: 900;
   color: rgba(255, 255, 255, 0.3);
   line-height: 1;
+<<<<<<< HEAD
   text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+=======
+>>>>>>> origin/feature/update
   font-variant-numeric: tabular-nums;
   letter-spacing: 2px;
   width: 180px;
   text-align: center;
 }
 
+<<<<<<< HEAD
 .timer-estimate-text {
   font-size: 1rem;
   font-weight: 500;
@@ -315,12 +518,23 @@
 /* ========================================
    Adăugare Materie Nouă (Dropdown)
    ======================================== */
+=======
+@media (max-width: 600px) {
+  .timer-setup-digit-input,
+  .timer-setup-colon,
+  .timer-setup-digit-fixed { font-size: 4rem; }
+  .timer-setup-digit-input,
+  .timer-setup-digit-fixed { width: 100px; }
+}
+
+>>>>>>> origin/feature/update
 .subject-add-row {
   display: flex;
   align-items: center;
   gap: 10px;
   padding: 10px 14px;
   margin: 10px 14px;
+<<<<<<< HEAD
   background: rgba(45, 43, 82, 0.4);
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -332,6 +546,17 @@
 .subject-add-row:focus-within {
   border-color: rgba(255, 255, 255, 0.3);
   background: rgba(45, 43, 82, 0.6);
+=======
+  background: rgba(198, 198, 232, 0.2);
+  border-radius: 12px;
+  border: 1.5px solid rgba(198, 198, 232, 0.4);
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.subject-add-row:focus-within {
+  border-color: #5d6da5;
+  background: rgba(198, 198, 232, 0.35);
+>>>>>>> origin/feature/update
 }
 
 .subject-add-input {
@@ -339,6 +564,7 @@
   background: transparent;
   border: none;
   outline: none;
+<<<<<<< HEAD
   color: #ffffff;
   font-size: 0.95rem;
   font-family: inherit;
@@ -348,25 +574,45 @@
 .subject-add-input::placeholder {
   color: rgba(255, 255, 255, 0.4);
 }
+=======
+  color: #344979;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+}
+
+.subject-add-input::placeholder { color: #5d6da5; }
+>>>>>>> origin/feature/update
 
 .subject-add-btn {
   display: flex;
   align-items: center;
   justify-content: center;
+<<<<<<< HEAD
   background: #4a4670;
+=======
+  background: linear-gradient(135deg, #344979, #5d6da5);
+>>>>>>> origin/feature/update
   color: #ffffff;
   border: none;
   width: 34px;
   height: 34px;
+<<<<<<< HEAD
   border-radius: 8px;
   cursor: pointer;
   transition:
     background 0.2s,
     transform 0.15s;
+=======
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+>>>>>>> origin/feature/update
   flex-shrink: 0;
 }
 
 .subject-add-btn:hover:not(:disabled) {
+<<<<<<< HEAD
   background: #625c96;
   transform: scale(1.05);
 }
@@ -388,6 +634,23 @@
   right: 0;
   bottom: 0;
   background: rgba(13, 12, 34, 0.85);
+=======
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(52, 73, 121, 0.3);
+}
+
+.subject-add-btn:active:not(:disabled) { transform: scale(0.94); }
+
+.subject-add-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.timer-popup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(52, 73, 121, 0.4);
+>>>>>>> origin/feature/update
   backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
@@ -397,18 +660,27 @@
 }
 
 .timer-popup-card {
+<<<<<<< HEAD
   background: #3a3867;
   border: 2px solid #5c5880;
+=======
+  background: linear-gradient(150deg, #344979, #5d6da5);
+>>>>>>> origin/feature/update
   border-radius: 28px;
   width: 100%;
   max-width: 400px;
   padding: 40px 30px;
   text-align: center;
+<<<<<<< HEAD
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+=======
+  box-shadow: 0 24px 60px rgba(52, 73, 121, 0.45);
+>>>>>>> origin/feature/update
   animation: popupScale 0.3s cubic-bezier(0.17, 0.89, 0.32, 1.49);
 }
 
 @keyframes popupScale {
+<<<<<<< HEAD
   from {
     transform: scale(0.8);
     opacity: 0;
@@ -417,6 +689,10 @@
     transform: scale(1);
     opacity: 1;
   }
+=======
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1);   opacity: 1; }
+>>>>>>> origin/feature/update
 }
 
 .timer-popup-title {
@@ -427,15 +703,23 @@
 }
 
 .timer-popup-img-box {
+<<<<<<< HEAD
   width: 140px;
   height: 140px;
   margin: 0 auto 24px;
   background: rgba(255, 255, 255, 0.05);
+=======
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 24px;
+  background: rgba(255, 255, 255, 0.12);
+>>>>>>> origin/feature/update
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+<<<<<<< HEAD
   border: 4px solid #4a4670;
 }
 
@@ -443,6 +727,16 @@
   width: 90%;
   height: 90%;
   object-fit: contain;
+=======
+  border: 4px solid rgba(247, 229, 235, 0.5);
+}
+
+.studdy-avatar-popup {
+  width: 110%;
+  height: 110%;
+  object-fit: contain;
+  transform: scale(1.8);
+>>>>>>> origin/feature/update
 }
 
 .timer-popup-btns {
@@ -452,6 +746,7 @@
 }
 
 .popup-btn-yes {
+<<<<<<< HEAD
   background: #c9a0f0;
   color: #2d2b52;
   border: none;
@@ -467,11 +762,28 @@
 
 .popup-btn-yes:hover {
   background: #d8b4fe;
+=======
+  background: linear-gradient(135deg, #9896bb, #f7e5eb);
+  color: #344979;
+  border: none;
+  padding: 14px;
+  border-radius: 50px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.2s, opacity 0.15s;
+}
+
+.popup-btn-yes:hover {
+  opacity: 0.9;
+>>>>>>> origin/feature/update
   transform: translateY(-2px);
 }
 
 .popup-btn-snooze {
   background: transparent;
+<<<<<<< HEAD
   color: rgba(255, 255, 255, 0.6);
   border: 2px solid rgba(255, 255, 255, 0.1);
   padding: 12px;
@@ -479,11 +791,54 @@
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+=======
+  color: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  padding: 12px;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+>>>>>>> origin/feature/update
   transition: all 0.2s;
 }
 
 .popup-btn-snooze:hover {
+<<<<<<< HEAD
   background: rgba(255, 255, 255, 0.05);
   color: #ffffff;
   border-color: rgba(255, 255, 255, 0.3);
 }
+=======
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Bara compactă de timer afișată deasupra editorului de materiale */
+.active-timer-page.with-editor {
+  min-height: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+  background: linear-gradient(135deg, #38467e 0%, #21355f 100%);
+}
+
+.active-timer-page.with-editor .active-timer-content {
+  flex-shrink: 0;
+}
+
+.active-timer-page.with-editor .timer-main-card {
+  margin-top: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.active-timer-page.with-editor .timer-back-btn {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+>>>>>>> origin/feature/update

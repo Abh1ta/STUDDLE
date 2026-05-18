@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 /* eslint-disable react-refresh/only-export-components */
+=======
+>>>>>>> origin/feature/update
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -36,4 +39,8 @@ export function AuthProvider({ children }) {
   );
 }
 
+<<<<<<< HEAD
 export const useAuth = () => useContext(AuthContext);
+=======
+export const useAuth = () => useContext(AuthContext);
+>>>>>>> origin/feature/update

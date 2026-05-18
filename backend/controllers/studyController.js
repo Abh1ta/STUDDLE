@@ -5,16 +5,33 @@ import xpLogModel from "../models/xpLogModel.js";
 import achievementModel from "../models/achievementModel.js";
 import userAchievementModel from "../models/userAchievementModel.js";
 import fileModel from "../models/fileModel.js";
+<<<<<<< HEAD
 import friendshipModel from "../models/friendshipModel.js"; // ← added
+=======
+import friendshipModel from "../models/friendshipModel.js";
+import { tryResolvePenalty } from "../services/penaltyService.js"; // ← ADD
+>>>>>>> origin/feature/update
 
 export const startStudySession = async (req, res) => {
     try {
         const userId = req.userId;
 
+<<<<<<< HEAD
         const activeSession = await studyModel.findOne({ user_id: userId, status: "active" });
         if (activeSession) {
             return res.status(400).json({ message: "Ai deja o sesiune de studiu activă!" });
         }
+=======
+        await studyModel.updateMany(
+            { user_id: userId, status: "active" },
+            { 
+                status: "completed", 
+                end_time: new Date(), 
+                duration_minutes: 0, 
+                xp_earned: 0 
+            }
+        );
+>>>>>>> origin/feature/update
 
         const { subject_id } = req.body;
         const newSession = await studyModel.create({
@@ -41,7 +58,11 @@ export const stopStudySession = async (req, res) => {
 
         const endTime = new Date();
         const diffMs = endTime - session.start_time;
+<<<<<<< HEAD
         const diffMins = Math.floor(diffMs / 60000);
+=======
+        const diffMins = Math.round(diffMs / 60000);
+>>>>>>> origin/feature/update
 
         if (diffMins < 1) {
             session.status = "completed";
@@ -52,7 +73,12 @@ export const stopStudySession = async (req, res) => {
             return res.status(200).json({ 
                 message: "Sesiune prea scurtă, fără XP acordat.", 
                 duration: 0,
+<<<<<<< HEAD
                 xpGained: 0 
+=======
+                xpGained: 0,
+                penaltyResult: null // ← ADD
+>>>>>>> origin/feature/update
             });
         }
 
@@ -87,11 +113,23 @@ export const stopStudySession = async (req, res) => {
             delta: xpGained
         });
 
+<<<<<<< HEAD
+=======
+ 
+        const penaltyResult = await tryResolvePenalty(userId, diffMins); 
+        // ─────────────────────────────────────────────────────────────────────
+
+>>>>>>> origin/feature/update
         res.status(200).json({ 
             message: "Sesiune terminată!", 
             duration: diffMins, 
             xpGained,
+<<<<<<< HEAD
             currentLevel: updatedUser.level 
+=======
+            currentLevel: updatedUser.level,
+            penaltyResult 
+>>>>>>> origin/feature/update
         });
     } catch (error) {
         res.status(500).json({ message: "Eroare la oprirea sesiunii", error: error.message });
@@ -172,7 +210,10 @@ const buildStudyStats = async (userObjId) => {
         start_time: { $gte: sevenDaysAgo }
     });
 
+<<<<<<< HEAD
     //"YYYY-MM-DD"
+=======
+>>>>>>> origin/feature/update
     const minutesByDay = {};
     for (let i = 0; i < 7; i++) {
         const d = new Date(sevenDaysAgo);
@@ -254,7 +295,10 @@ export const getFriendStudyStats = async (req, res) => {
         const userId = new mongoose.Types.ObjectId(req.userId);
         const friendObjId = new mongoose.Types.ObjectId(friendId);
 
+<<<<<<< HEAD
         // Security: only friends can see each other's stats
+=======
+>>>>>>> origin/feature/update
         const friendship = await friendshipModel.findOne({
             status: "accepted",
             $or: [

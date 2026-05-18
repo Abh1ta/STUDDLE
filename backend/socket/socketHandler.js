@@ -10,7 +10,11 @@ export const initSocket = (httpServer, io) => {
 
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+<<<<<<< HEAD
       socket.user = decoded; // { id, username, ... }
+=======
+      socket.user = decoded;
+>>>>>>> origin/feature/update
       next();
     } catch {
       next(new Error("Invalid token"));
@@ -21,10 +25,15 @@ export const initSocket = (httpServer, io) => {
     const userId = socket.user.id;
     console.log(` Socket connected: ${userId}`);
 
+<<<<<<< HEAD
     // Join personal room so we can push notifications to this user
     socket.join(userId);
 
     // Client emits this when opening a conversation window
+=======
+    socket.join(userId);
+
+>>>>>>> origin/feature/update
     socket.on("join_chat", ({ friendId }) => {
       const roomId = getRoomId(userId, friendId);
       socket.join(roomId);
@@ -36,6 +45,7 @@ export const initSocket = (httpServer, io) => {
       socket.leave(roomId);
     });
 
+<<<<<<< HEAD
     socket.on("send_message", async ({ receiverId, content }) => {
       if (!content?.trim()) return;
 
@@ -47,12 +57,37 @@ export const initSocket = (httpServer, io) => {
           type:     "text",
         });
 
+=======
+    socket.on("send_message", async ({ receiverId, content, attachment }) => {
+      if (!content?.trim() && !attachment) return;
+
+      try {
+        const msgData = {
+          sender:   userId,
+          receiver: receiverId,
+          content:  content?.trim() || "",
+          type:     attachment ? "file" : "text",
+        };
+
+        if (attachment) {
+          msgData.attachment = {
+            title:     attachment.title,
+            file_type: attachment.file_type,
+            url:       attachment.url,
+          };
+        }
+
+        const msg = await Message.create(msgData);
+>>>>>>> origin/feature/update
         const populated = await msg.populate("sender", "username avatar");
 
         const roomId = getRoomId(userId, receiverId);
         io.to(roomId).emit("new_message", populated);
 
+<<<<<<< HEAD
         // Also push to receiver's personal room for sidebar badge
+=======
+>>>>>>> origin/feature/update
         io.to(receiverId).emit("conversation_updated", {
           fromUserId: userId,
           lastMessage: populated,
@@ -63,12 +98,19 @@ export const initSocket = (httpServer, io) => {
       }
     });
 
+<<<<<<< HEAD
     // Client sends a fileId from the user's existing Cloudinary files
+=======
+>>>>>>> origin/feature/update
     socket.on("share_file", async ({ receiverId, fileId, caption }) => {
       try {
         const file = await fileModel.findOne({
           _id:     fileId,
+<<<<<<< HEAD
           user_id: userId, // ensure ownership
+=======
+          user_id: userId,
+>>>>>>> origin/feature/update
         });
 
         if (!file) {
@@ -120,7 +162,10 @@ export const initSocket = (httpServer, io) => {
           { sender: senderId, receiver: userId, read: false },
           { $set: { read: true } }
         );
+<<<<<<< HEAD
         // Notify the original sender their messages were read
+=======
+>>>>>>> origin/feature/update
         io.to(senderId).emit("messages_read", { byUserId: userId });
       } catch (err) {
         console.error("mark_read error:", err);

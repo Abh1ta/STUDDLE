@@ -13,10 +13,21 @@ import leaderboardRoutes from './routes/leaderboardRoutes.js';
 import subjectRoutes from './routes/subjectRoutes.js';
 import homeworkRoutes from './routes/homeworkRoutes.js';
 import examRoutes from './routes/examRoutes.js';
+<<<<<<< HEAD
 
 const app = express();
 app.use(express.json());
 app.use(cors());
+=======
+import materialRoutes from './routes/materialRoutes.js';
+import "./jobs/weeklyPenaltyJob.js";
+
+const app = express();
+
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+>>>>>>> origin/feature/update
 
 app.use("/api/settings", settingsRoutes);
 app.use("/api/auth", authRoutes);
@@ -30,5 +41,9 @@ app.use("/api/leaderboard", leaderboardRoutes);
 app.use("/api/subjects", subjectRoutes);
 app.use("/api/homework", homeworkRoutes);
 app.use("/api/exams", examRoutes);
+<<<<<<< HEAD
+=======
+app.use("/api/materials", materialRoutes);
+>>>>>>> origin/feature/update
 
 export default app;

@@ -16,4 +16,8 @@ studyRouter.get('/history', protect, getStudyHistory);
 studyRouter.get('/stats/:friendId', protect, getFriendStudyStats); 
 studyRouter.get('/stats', protect, getStudyStats); 
 
+<<<<<<< HEAD
 export default studyRouter;
+=======
+export default studyRouter;
+>>>>>>> origin/feature/update

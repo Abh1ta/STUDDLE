@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* eslint-disable react-hooks/set-state-in-effect */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
@@ -6,6 +7,13 @@ import { useAuth } from '../context/AuthContext';
 import pisica from '../assets/pisica.png';
 
 import './ActiveTimer.css';
+=======
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import './ActiveTimer.css';
+import { useAvatar } from '../context/AvatarContext';
+import { getCatImage } from '../utils/catImages';
+>>>>>>> origin/feature/update
 
 const API_URL_SUBJECTS = '/api/subjects';
 const API_URL_STUDY = '/api/study';
@@ -35,40 +43,99 @@ const formatTime = (totalSeconds) => {
 function ActiveTimer() {
   const { mode } = useParams();
   const navigate = useNavigate();
+<<<<<<< HEAD
   const { token, refreshUser } = useAuth();
 
   // MATERII
   const [subjects, setSubjects] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null); // obiect { _id, title }
+=======
+  const { avatarData } = useAvatar();
+  const catName = avatarData?.cat_name || 'Studdy';
+  const customCatImage = getCatImage(avatarData?.skin_color, avatarData?.eye_color);
+
+  const [subjects, setSubjects] = useState([]);
+  const [selectedSubject, setSelectedSubject] = useState('');
+>>>>>>> origin/feature/update
   const [newSubjectName, setNewSubjectName] = useState('');
   const [subjectOpen, setSubjectOpen] = useState(false);
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
 
+<<<<<<< HEAD
   // TIMER CORE
+=======
+  const [activeNoteId, setActiveNoteId] = useState(null);
+  const [availableNotes, setAvailableNotes] = useState([]);
+  const [noteDropdownOpen, setNoteDropdownOpen] = useState(false);
+  const [selectedNoteName, setSelectedNoteName] = useState('');
+
+
+  const [penaltyResolved, setPenaltyResolved] = useState(null);
+
+  useEffect(() => {
+    if (selectedSubject) {
+      fetch(`/api/materials/subject/${encodeURIComponent(selectedSubject)}`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setAvailableNotes(data);
+          setActiveNoteId(null);
+          setSelectedNoteName('');
+        } else {
+          setAvailableNotes([]);
+          setActiveNoteId(null);
+          setSelectedNoteName('');
+        }
+      })
+      .catch(() => {
+        setAvailableNotes([]);
+        setActiveNoteId(null);
+        setSelectedNoteName('');
+      });
+    } else {
+      setAvailableNotes([]);
+      setActiveNoteId(null);
+      setSelectedNoteName('');
+    }
+  }, [selectedSubject]);
+
+>>>>>>> origin/feature/update
   const [phase, setPhase] = useState('setup');
   const [timerMode, setTimerMode] = useState('countdown');
   const [secondsLeft, setSecondsLeft] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
 
+<<<<<<< HEAD
   // POPUP & TRACKING LOGIC
+=======
+>>>>>>> origin/feature/update
   const [showPopup, setShowPopup] = useState(false);
   const [showEndPopup, setShowEndPopup] = useState(false);
   const [studyLimit, setStudyLimit] = useState(3600);
   const [continuousStudySecs, setContinuousStudySecs] = useState(0);
   const [snoozeCount, setSnoozeCount] = useState(0);
 
+<<<<<<< HEAD
   // XP din backend
   const [sessionXp, setSessionXp] = useState(0);
   const backendSessionActive = useRef(false);
 
   // SETTINGS
+=======
+  const [sessionXp, setSessionXp] = useState(0);
+  const backendSessionActive = useRef(false);
+
+>>>>>>> origin/feature/update
   const [pomodoroGoal, setPomodoroGoal] = useState(0);
   const [customStudy, setCustomStudy] = useState(50);
   const [customBreak, setCustomBreak] = useState(10);
   const [sessions, setSessions] = useState([]);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
 
+<<<<<<< HEAD
   // FETCH MATERII — salvăm datele exact cum vin din backend (câmpul 'title')
   useEffect(() => {
     const fetchSubjects = async () => {
@@ -77,6 +144,16 @@ function ActiveTimer() {
         const response = await fetch(API_URL_SUBJECTS, { headers: authHeaders });
         const data = await response.json();
         setSubjects(Array.isArray(data) ? data : []);
+=======
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+        const response = await fetch(API_URL_SUBJECTS, { headers: authHeaders });
+        const data = await response.json();
+        setSubjects(data.map((item) => ({ ...item, name: item.title || item.name })));
+>>>>>>> origin/feature/update
       } catch (e) {
         console.error(e);
       } finally {
@@ -84,6 +161,7 @@ function ActiveTimer() {
       }
     };
     fetchSubjects();
+<<<<<<< HEAD
   }, [token]);
 
   const handleAddSubject = async () => {
@@ -129,14 +207,63 @@ function ActiveTimer() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...authHeaders },
         body: JSON.stringify({ subject_id: selectedSubject?._id || null }),
+=======
+  }, []);
+
+  const handleAddSubject = async () => {
+    if (!newSubjectName.trim()) return;
+    try {
+      const token = localStorage.getItem('token');
+      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await fetch(API_URL_SUBJECTS, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders },
+        body: JSON.stringify({ name: newSubjectName }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Eroare backend:', errorData);
+        alert(`Eroare: ${errorData.message || 'Nu s-a putut adăuga materia'}`);
+        return;
+      }
+
+      const saved = await response.json();
+      setSubjects([...subjects, { ...saved, name: saved.title || saved.name }]);
+      setSelectedSubject(saved.title || saved.name);
+      setNewSubjectName('');
+      setSubjectOpen(false);
+    } catch (e) {
+      console.error('Eroare la adăugare materie:', e);
+      alert(`Eroare: ${e.message}`);
+    }
+  };
+
+  const startBackendSession = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+      const subjectObj = subjects.find((s) => s.name === selectedSubject);
+      await fetch(`${API_URL_STUDY}/start`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...authHeaders },
+        body: JSON.stringify({ subject_id: subjectObj ? subjectObj._id : null }),
+>>>>>>> origin/feature/update
       });
     } catch (error) {
       console.error('Eroare la pornirea sesiunii în backend:', error);
     }
   };
 
+<<<<<<< HEAD
   const stopBackendSession = async () => {
     try {
+=======
+  
+  const stopBackendSession = async () => {
+    try {
+      const token = localStorage.getItem('token');
+>>>>>>> origin/feature/update
       const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
       const response = await fetch(`${API_URL_STUDY}/stop`, {
         method: 'POST',
@@ -148,18 +275,31 @@ function ActiveTimer() {
         if (data.xpGained > 0) {
           setSessionXp((prev) => prev + data.xpGained);
         }
+<<<<<<< HEAD
         // Actualizăm datele globale ale user-ului (XP vizibil în Header)
         if (refreshUser) refreshUser();
+=======
+        if (data.penaltyResult?.resolved) {
+          setPenaltyResolved(data.penaltyResult);
+        }
+>>>>>>> origin/feature/update
       }
     } catch (error) {
       console.error('Eroare la oprirea sesiunii în backend:', error);
     }
   };
+<<<<<<< HEAD
 
   // Logica automată care pornește și oprește sesiunea în backend
   useEffect(() => {
     const shouldBeActive = isRunning && phase === 'study';
 
+=======
+  
+
+  useEffect(() => {
+    const shouldBeActive = isRunning && phase === 'study';
+>>>>>>> origin/feature/update
     if (shouldBeActive && !backendSessionActive.current) {
       backendSessionActive.current = true;
       startBackendSession();
@@ -169,7 +309,10 @@ function ActiveTimer() {
     }
   }, [isRunning, phase]);
 
+<<<<<<< HEAD
   // INITIALIZARE MOD
+=======
+>>>>>>> origin/feature/update
   useEffect(() => {
     setIsRunning(false);
     if (intervalRef.current) clearInterval(intervalRef.current);
@@ -178,6 +321,10 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
+<<<<<<< HEAD
+=======
+    setPenaltyResolved(null); 
+>>>>>>> origin/feature/update
 
     if (mode === 'flowmodoro') {
       setPhase('study');
@@ -189,15 +336,23 @@ function ActiveTimer() {
     }
   }, [mode]);
 
+<<<<<<< HEAD
   // MOTORUL PRINCIPAL
   useEffect(() => {
     if (!isRunning) return;
 
+=======
+  useEffect(() => {
+    if (!isRunning) return;
+>>>>>>> origin/feature/update
     intervalRef.current = setInterval(() => {
       setSecondsLeft((prev) => {
         return timerMode === 'countup' ? prev + 1 : prev > 0 ? prev - 1 : 0;
       });
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feature/update
       if (phase === 'study') {
         setContinuousStudySecs((prevContinuous) => {
           const nextContinuous = prevContinuous + 1;
@@ -209,17 +364,26 @@ function ActiveTimer() {
         });
       }
     }, 1000);
+<<<<<<< HEAD
 
     return () => clearInterval(intervalRef.current);
   }, [isRunning, timerMode, phase, studyLimit]);
 
   // TRANZIȚII AUTOMATE
+=======
+    return () => clearInterval(intervalRef.current);
+  }, [isRunning, timerMode, phase, studyLimit]);
+
+>>>>>>> origin/feature/update
   useEffect(() => {
     if (timerMode === 'countdown' && secondsLeft === 0 && isRunning) {
       setIsRunning(false);
       setContinuousStudySecs(0);
       setSnoozeCount(0);
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feature/update
       if (mode === 'pomodoro') {
         const nextIndex = currentSessionIndex + 1;
         if (nextIndex < sessions.length) {
@@ -239,6 +403,7 @@ function ActiveTimer() {
         setSecondsLeft(0);
       }
     }
+<<<<<<< HEAD
   }, [
     secondsLeft,
     timerMode,
@@ -250,6 +415,9 @@ function ActiveTimer() {
     customStudy,
     phase,
   ]);
+=======
+  }, [secondsLeft, timerMode, isRunning, mode, currentSessionIndex, sessions, customBreak, customStudy, phase]);
+>>>>>>> origin/feature/update
 
   const handleSetupStart = () => {
     setContinuousStudySecs(0);
@@ -283,7 +451,10 @@ function ActiveTimer() {
   const handleFinishSession = () => {
     setIsRunning(false);
     setShowPopup(false);
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feature/update
     setTimeout(() => {
       setShowEndPopup(true);
     }, 300);
@@ -294,6 +465,10 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
+<<<<<<< HEAD
+=======
+    setPenaltyResolved(null); 
+>>>>>>> origin/feature/update
     if (mode === 'flowmodoro') {
       setPhase('study');
       setTimerMode('countup');
@@ -302,6 +477,10 @@ function ActiveTimer() {
       setPhase('setup');
     }
   };
+<<<<<<< HEAD
+=======
+  
+>>>>>>> origin/feature/update
 
   const handleSnooze = () => {
     if (snoozeCount < 3) {
@@ -332,6 +511,7 @@ function ActiveTimer() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="active-timer-page">
       {showPopup && (
         <div className="timer-popup-overlay">
@@ -339,6 +519,19 @@ function ActiveTimer() {
             <h3 className="timer-popup-title">Studdy a obosit... luăm o pauză?</h3>
             <div className="timer-popup-img-box">
 <img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
+=======
+    <div
+      className={`active-timer-page${activeNoteId && phase !== 'setup' ? ' with-editor' : ''}`}
+      style={activeNoteId && phase !== 'setup' ? { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', padding: 0 } : {}}
+    >
+    
+      {showPopup && (
+        <div className="timer-popup-overlay">
+          <div className="timer-popup-card">
+            <h3 className="timer-popup-title">{catName} a obosit... luăm o pauză?</h3>
+            <div className="timer-popup-img-box">
+              <img src={customCatImage} alt={catName} className="studdy-avatar-popup" />
+>>>>>>> origin/feature/update
             </div>
             <div className="timer-popup-btns">
               <button
@@ -357,12 +550,16 @@ function ActiveTimer() {
               >
                 Da, am nevoie
               </button>
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/feature/update
               {snoozeCount < 3 ? (
                 <button className="popup-btn-snooze" onClick={handleSnooze}>
                   Încă 2 minute ({3 - snoozeCount} rămase)
                 </button>
               ) : (
+<<<<<<< HEAD
                 <p
                   style={{
                     color: 'rgba(255,255,255,0.5)',
@@ -370,6 +567,9 @@ function ActiveTimer() {
                     margin: '10px 0 0 0',
                   }}
                 >
+=======
+                <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.9rem', margin: '10px 0 0 0' }}>
+>>>>>>> origin/feature/update
                   Ai atins limita de amânări. Ia o pauză!
                 </p>
               )}
@@ -378,6 +578,10 @@ function ActiveTimer() {
         </div>
       )}
 
+<<<<<<< HEAD
+=======
+      
+>>>>>>> origin/feature/update
       {showEndPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
@@ -385,6 +589,7 @@ function ActiveTimer() {
               Sesiune Încheiată!
             </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
+<<<<<<< HEAD
 <img src={pisica} alt="Studdy Fericit" className="studdy-avatar-popup" />
             </div>
             <p
@@ -402,6 +607,36 @@ function ActiveTimer() {
                 {Number(sessionXp).toFixed(1)} XP
               </strong>
             </p>
+=======
+              <img src={customCatImage} alt={`${catName} Fericit`} className="studdy-avatar-popup" />
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', marginBottom: '16px', lineHeight: '1.5' }}>
+              Bravo! Ai acumulat <br />
+              <strong style={{ color: '#ffffff', fontSize: '2.5rem', display: 'block', margin: '10px 0' }}>
+                {sessionXp} XP
+              </strong>
+            </p>
+
+           
+            {penaltyResolved && (
+              <div style={{
+                background: 'rgba(100, 220, 130, 0.15)',
+                border: '1px solid rgba(100, 220, 130, 0.45)',
+                borderRadius: '12px',
+                padding: '10px 16px',
+                marginBottom: '16px',
+                textAlign: 'center',
+              }}>
+                <p style={{ color: '#7fffaa', fontSize: '0.95rem', fontWeight: 'bold', margin: 0 }}>
+                  ✅ Penalizare rezolvată!
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem', margin: '4px 0 0 0' }}>
+                  +{penaltyResolved.xp_restored} XP recuperat din penalizarea săptămânală.
+                </p>
+              </div>
+            )}
+
+>>>>>>> origin/feature/update
             <div className="timer-popup-btns">
               <button className="popup-btn-yes" onClick={closeEndPopup}>
                 Super, mulțumesc!
@@ -411,6 +646,7 @@ function ActiveTimer() {
         </div>
       )}
 
+<<<<<<< HEAD
       <div className="active-timer-content">
         <button className="timer-back-btn" onClick={() => navigate('/timer')}>
           <svg
@@ -421,12 +657,41 @@ function ActiveTimer() {
             stroke="currentColor"
             strokeWidth="2.5"
           >
+=======
+    
+      <div
+        className="active-timer-content"
+        style={activeNoteId && phase !== 'setup' ? {
+          flexDirection: 'row', padding: '6px 18px', justifyContent: 'space-between',
+          alignItems: 'center', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(255,255,255,0.2)', zIndex: 50, margin: 0,
+          maxWidth: '100%', width: '100%', minHeight: 0, gap: '12px',
+        } : {}}
+      >
+        <button
+          className="timer-back-btn"
+          onClick={() => navigate('/timer')}
+          style={activeNoteId && phase !== 'setup' ? { margin: 0 } : {}}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+>>>>>>> origin/feature/update
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Înapoi
         </button>
 
+<<<<<<< HEAD
         <div className="timer-main-card">
+=======
+        <div
+          className="timer-main-card"
+          style={activeNoteId && phase !== 'setup' ? {
+            padding: '4px 10px', flexDirection: 'row', alignItems: 'center', gap: '12px',
+            width: 'auto', margin: 0, background: 'transparent', border: 'none',
+            boxShadow: 'none', backdropFilter: 'none', height: 'auto', minHeight: 0,
+          } : {}}
+        >
+>>>>>>> origin/feature/update
           {phase === 'setup' && mode === 'pomodoro' && (
             <>
               <h2 className="timer-setup-heading">Obiectiv Studiu (min)</h2>
@@ -437,18 +702,26 @@ function ActiveTimer() {
                   inputMode="numeric"
                   placeholder="00"
                   value={pomodoroGoal || ''}
+<<<<<<< HEAD
                   onChange={(e) =>
                     setPomodoroGoal(parseInt(e.target.value.replace(/\D/g, '')) || 0)
                   }
+=======
+                  onChange={(e) => setPomodoroGoal(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
+>>>>>>> origin/feature/update
                 />
                 <span className="timer-setup-colon">:</span>
                 <span className="timer-setup-digit-fixed">00</span>
               </div>
+<<<<<<< HEAD
               <button
                 className="timer-action-btn"
                 onClick={handleSetupStart}
                 disabled={!pomodoroGoal}
               >
+=======
+              <button className="timer-action-btn" onClick={handleSetupStart} disabled={!pomodoroGoal}>
+>>>>>>> origin/feature/update
                 START
               </button>
             </>
@@ -457,9 +730,13 @@ function ActiveTimer() {
           {phase === 'setup' && mode === 'custom' && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
               <div>
+<<<<<<< HEAD
                 <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>
                   Durată Studiu
                 </h2>
+=======
+                <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>Durată Studiu</h2>
+>>>>>>> origin/feature/update
                 <div className="timer-setup-time-row">
                   <input
                     className="timer-setup-digit-input"
@@ -467,6 +744,7 @@ function ActiveTimer() {
                     type="text"
                     inputMode="numeric"
                     value={customStudy || ''}
+<<<<<<< HEAD
                     onChange={(e) =>
                       setCustomStudy(parseInt(e.target.value.replace(/\D/g, '')) || 0)
                     }
@@ -486,6 +764,16 @@ function ActiveTimer() {
                 <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>
                   Durată Pauză
                 </h2>
+=======
+                    onChange={(e) => setCustomStudy(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
+                  />
+                  <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>:</span>
+                  <span className="timer-setup-digit-fixed" style={{ fontSize: '4rem', width: '120px' }}>00</span>
+                </div>
+              </div>
+              <div>
+                <h2 className="timer-setup-heading" style={{ fontSize: '1.2rem' }}>Durată Pauză</h2>
+>>>>>>> origin/feature/update
                 <div className="timer-setup-time-row">
                   <input
                     className="timer-setup-digit-input"
@@ -493,6 +781,7 @@ function ActiveTimer() {
                     type="text"
                     inputMode="numeric"
                     value={customBreak || ''}
+<<<<<<< HEAD
                     onChange={(e) =>
                       setCustomBreak(parseInt(e.target.value.replace(/\D/g, '')) || 0)
                     }
@@ -506,6 +795,12 @@ function ActiveTimer() {
                   >
                     00
                   </span>
+=======
+                    onChange={(e) => setCustomBreak(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
+                  />
+                  <span className="timer-setup-colon" style={{ fontSize: '4rem' }}>:</span>
+                  <span className="timer-setup-digit-fixed" style={{ fontSize: '4rem', width: '120px' }}>00</span>
+>>>>>>> origin/feature/update
                 </div>
               </div>
               <button
@@ -520,6 +815,7 @@ function ActiveTimer() {
 
           {phase !== 'setup' && (
             <>
+<<<<<<< HEAD
               <div className="timer-time-display">{formatTime(secondsLeft)}</div>
               <p className="timer-phase-text">{getPhaseText()}</p>
               <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
@@ -527,18 +823,44 @@ function ActiveTimer() {
                   <button className="timer-action-btn" onClick={handleFinishSession}>
                     FINALIZAT
                   </button>
+=======
+              <div
+                className="timer-time-display"
+                style={activeNoteId && phase !== 'setup' ? { fontSize: '2rem', letterSpacing: '2px', textShadow: 'none', lineHeight: 1 } : {}}
+              >
+                {formatTime(secondsLeft)}
+              </div>
+              {!(activeNoteId && phase !== 'setup') && (
+                <p className="timer-phase-text">{getPhaseText()}</p>
+              )}
+              <div style={{ display: 'flex', gap: activeNoteId && phase !== 'setup' ? '8px' : '16px', justifyContent: 'center' }}>
+                {phase === 'finished' ? (
+                  <button className="timer-action-btn" onClick={handleFinishSession}>FINALIZAT</button>
+>>>>>>> origin/feature/update
                 ) : (
                   <>
                     {mode === 'flowmodoro' && phase === 'study' ? (
                       <>
                         <button
                           className="timer-action-btn"
+<<<<<<< HEAD
+=======
+                          style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+>>>>>>> origin/feature/update
                           onClick={() => setIsRunning(!isRunning)}
                         >
                           {isRunning ? 'STOP' : secondsLeft === 0 ? 'START' : 'CONTINUĂ'}
                         </button>
                         {secondsLeft >= 5 && (
+<<<<<<< HEAD
                           <button className="timer-action-btn stop" onClick={handleFlowmodoroBreak}>
+=======
+                          <button
+                            className="timer-action-btn stop"
+                            style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                            onClick={handleFlowmodoroBreak}
+                          >
+>>>>>>> origin/feature/update
                             IA PAUZĂ (1/5)
                           </button>
                         )}
@@ -547,12 +869,24 @@ function ActiveTimer() {
                       <>
                         <button
                           className="timer-action-btn"
+<<<<<<< HEAD
+=======
+                          style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+>>>>>>> origin/feature/update
                           onClick={() => setIsRunning(!isRunning)}
                         >
                           {isRunning ? 'STOP' : 'CONTINUĂ'}
                         </button>
                         {!isRunning && (
+<<<<<<< HEAD
                           <button className="timer-action-btn stop" onClick={handleFinishSession}>
+=======
+                          <button
+                            className="timer-action-btn stop"
+                            style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                            onClick={handleFinishSession}
+                          >
+>>>>>>> origin/feature/update
                             RENUNȚĂ
                           </button>
                         )}
@@ -565,6 +899,7 @@ function ActiveTimer() {
           )}
         </div>
 
+<<<<<<< HEAD
         <div className="timer-subject-wrapper">
           <div
             className={`timer-subject-bar ${subjectOpen ? 'open' : ''}`}
@@ -630,6 +965,95 @@ function ActiveTimer() {
           )}
         </div>
       </div>
+=======
+        {!(activeNoteId && phase !== 'setup') && (
+          <div className="timer-subject-wrapper">
+            <div
+              className={`timer-subject-bar ${subjectOpen ? 'open' : ''}`}
+              onClick={() => setSubjectOpen(!subjectOpen)}
+            >
+              {selectedSubject || (isLoadingSubjects ? '...' : 'Alege materie')}
+              <svg className="subject-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+            {subjectOpen && (
+              <div className="subject-dropdown">
+                <div className="subject-add-row">
+                  <input
+                    type="text"
+                    className="subject-add-input"
+                    placeholder="Adaugă materie..."
+                    value={newSubjectName}
+                    onChange={(e) => setNewSubjectName(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && handleAddSubject()}
+                  />
+                  <button className="subject-add-btn" onClick={handleAddSubject} disabled={!newSubjectName.trim()}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </button>
+                </div>
+                {subjects.map((s) => (
+                  <div
+                    key={s._id || s.name}
+                    className={`subject-option ${selectedSubject === s.name ? 'selected' : ''}`}
+                    onClick={() => { setSelectedSubject(s.name); setSubjectOpen(false); }}
+                  >
+                    {s.name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {!(activeNoteId && phase !== 'setup') && selectedSubject && availableNotes.length > 0 && (
+          <div className="timer-subject-wrapper">
+            <div
+              className={`timer-subject-bar ${noteDropdownOpen ? 'open' : ''}`}
+              onClick={() => setNoteDropdownOpen(!noteDropdownOpen)}
+            >
+              {selectedNoteName || 'Alege ce notiță deschidem'}
+              <svg className="subject-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </div>
+            {noteDropdownOpen && (
+              <div className="subject-dropdown">
+                {availableNotes.map((note) => (
+                  <div
+                    key={note._id}
+                    className={`subject-option ${activeNoteId === note._id ? 'selected' : ''}`}
+                    onClick={() => { setActiveNoteId(note._id); setSelectedNoteName(note.nume); setNoteDropdownOpen(false); }}
+                  >
+                    {note.nume}
+                  </div>
+                ))}
+                <div
+                  className="subject-option"
+                  style={{ fontStyle: 'italic', opacity: 0.7 }}
+                  onClick={() => { setActiveNoteId(null); setSelectedNoteName('Fără notiță (Doar timer)'); setNoteDropdownOpen(false); }}
+                >
+                  Învață fără notiță
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      {activeNoteId && phase !== 'setup' && (
+        <div style={{ flex: 1, position: 'relative', width: '100%', overflow: 'hidden' }}>
+          <iframe
+            src={`/edit-material/${activeNoteId}`}
+            style={{ width: '100%', height: '100%', border: 'none' }}
+            title="Editor Material"
+          />
+        </div>
+      )}
+>>>>>>> origin/feature/update
     </div>
   );
 }

@@ -19,7 +19,11 @@ const upload = multer({
     },
 });
 
+<<<<<<< HEAD
 // Routes
+=======
+
+>>>>>>> origin/feature/update
 router.post  ("/upload", protect, upload.single("file"), uploadFile);
 router.get   ("/",       protect,                        getFiles);
 router.delete("/:id",   protect,                        deleteFile);

@@ -22,7 +22,11 @@ export const getConversation = async (req, res) => {
       .populate("receiver", "username avatar")
       .populate("file",     "title file_type url size_bytes cloudinary_id");
 
+<<<<<<< HEAD
     // Return in chronological order for the UI
+=======
+   
+>>>>>>> origin/feature/update
     res.status(200).json({ messages: messages.reverse(), page });
   } catch (error) {
     console.error("getConversation error:", error);
@@ -51,7 +55,11 @@ export const getConversationList = async (req, res) => {
   try {
     const userId = req.user._id;
 
+<<<<<<< HEAD
     // Find all messages involving the current user
+=======
+    
+>>>>>>> origin/feature/update
     const messages = await Message.find({
       $or: [{ sender: userId }, { receiver: userId }],
     })

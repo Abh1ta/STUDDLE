@@ -1,9 +1,37 @@
+<<<<<<< HEAD
 import app from './app.js';
 import connectDB from './config/mongodb.js';
 import connectCloudinary from './config/cloudinary.js';
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { initSocket } from "./socket/socketHandler.js";
+=======
+import "dotenv/config";
+import express from 'express';
+import cors from 'cors';
+import connectDB from './config/mongodb.js';
+import authRoutes from './routes/authRoutes.js';
+import fileRoutes from "./routes/fileRoutes.js";
+import connectCloudinary from './config/cloudinary.js';
+import settingsRoutes from "./routes/settingsRoutes.js";
+import friendshipRoutes from "./routes/friendshipRoutes.js";
+import achievementRoutes from "./routes/achievementRoutes.js";
+import userAchievementRoutes from "./routes/userAchievementRoutes.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
+import { initSocket } from "./socket/socketHandler.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import studyRoutes from './routes/studyRoutes.js';
+import leaderboardRoutes from './routes/leaderboardRoutes.js';
+import subjectRoutes from './routes/subjectRoutes.js';
+import homeworkRoutes from './routes/homeworkRoutes.js';
+import examRoutes from './routes/examRoutes.js';
+import materialRoutes from './routes/materialRoutes.js';
+import "./jobs/weeklyPenaltyJob.js";
+
+const app = express();
+const port = process.env.PORT || 5000;
+>>>>>>> origin/feature/update
 
 connectDB();
 connectCloudinary();
@@ -13,7 +41,33 @@ const io = new Server(httpServer, {
   cors: { origin: process.env.CLIENT_URL, credentials: true },
 });
 
+<<<<<<< HEAD
 initSocket(httpServer, io);
 httpServer.listen(process.env.PORT || 5000, () => {
   console.log(`Server is running on port 5000`);
+=======
+app.use(cors());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
+
+app.use("/api/settings", settingsRoutes);
+app.use("/api/auth", authRoutes);
+app.use("/api/friends", friendshipRoutes);
+app.use("/api/achievements", achievementRoutes);
+app.use("/api/user-achievements", userAchievementRoutes);
+app.use("/api/files", fileRoutes);
+app.use("/api/chat", chatRoutes);
+app.use("/api/study", studyRoutes);
+app.use("/api/leaderboard", leaderboardRoutes);
+app.use("/api/subjects", subjectRoutes);
+app.use("/api/homework", homeworkRoutes);
+app.use("/api/exams", examRoutes);
+app.use("/api/materials", materialRoutes);
+
+initSocket(httpServer, io);
+
+httpServer.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+>>>>>>> origin/feature/update
 });

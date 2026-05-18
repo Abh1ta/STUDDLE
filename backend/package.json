@@ -8,24 +8,40 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
+<<<<<<< HEAD
     "server": "nodemon server.js",
 "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "jest": {
     "testEnvironment": "node",
     "transform": {}
+=======
+    "server": "nodemon serve.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest"
+>>>>>>> origin/feature/update
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cloudinary": "^2.10.0",
+<<<<<<< HEAD
+=======
+    "cookie-parser": "^1.4.7",
+>>>>>>> origin/feature/update
     "cors": "^2.8.6",
     "crypto": "^1.0.1",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
+<<<<<<< HEAD
     "mongoose": "^9.5.0",
     "multer": "^2.1.1",
+=======
+    "mongodb-memory-server": "^11.1.0",
+    "mongoose": "^9.6.2",
+    "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
+>>>>>>> origin/feature/update
     "nodemailer": "^8.0.7",
     "nodemon": "^3.1.14",
     "socket.io": "^4.8.3",
@@ -35,4 +51,8 @@
     "jest": "^30.4.2",
     "supertest": "^7.2.2"
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> origin/feature/update
