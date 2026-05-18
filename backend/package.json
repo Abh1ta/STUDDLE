@@ -8,7 +8,8 @@
   "type": "module",
   "scripts": {
     "start": "node server.js",
-    "server": "nodemon serve.js"
+    "server": "nodemon serve.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -23,9 +24,14 @@
     "mongodb-memory-server": "^11.1.0",
     "mongoose": "^9.6.2",
     "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
     "nodemailer": "^8.0.7",
     "nodemon": "^3.1.14",
     "socket.io": "^4.8.3",
     "validator": "^13.15.35"
+  },
+  "devDependencies": {
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
   }
 }

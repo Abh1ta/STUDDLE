@@ -14,11 +14,11 @@ export const startStudySession = async (req, res) => {
 
         await studyModel.updateMany(
             { user_id: userId, status: "active" },
-            {
-                status: "completed",
-                end_time: new Date(),
-                duration_minutes: 0,
-                xp_earned: 0
+            { 
+                status: "completed", 
+                end_time: new Date(), 
+                duration_minutes: 0, 
+                xp_earned: 0 
             }
         );
 
@@ -55,8 +55,8 @@ export const stopStudySession = async (req, res) => {
             session.duration_minutes = 0;
             session.xp_earned = 0;
             await session.save();
-            return res.status(200).json({
-                message: "Sesiune prea scurtă, fără XP acordat.",
+            return res.status(200).json({ 
+                message: "Sesiune prea scurtă, fără XP acordat.", 
                 duration: 0,
                 xpGained: 0,
                 penaltyResult: null // ← ADD
@@ -73,9 +73,9 @@ export const stopStudySession = async (req, res) => {
 
         const updatedUser = await userModel.findByIdAndUpdate(
             userId,
-            {
-                $inc: { xp: xpGained },
-                $set: { last_active: new Date() }
+            { 
+                $inc: { xp: xpGained }, 
+                $set: { last_active: new Date() } 
             },
             { new: true }
         );
@@ -99,9 +99,9 @@ export const stopStudySession = async (req, res) => {
         const penaltyResult = await tryResolvePenalty(userId, diffMins); // ← ADD
         // ─────────────────────────────────────────────────────────────────────
 
-        res.status(200).json({
-            message: "Sesiune terminată!",
-            duration: diffMins,
+        res.status(200).json({ 
+            message: "Sesiune terminată!", 
+            duration: diffMins, 
             xpGained,
             currentLevel: updatedUser.level,
             penaltyResult // ← ADD — frontend reads this to show the green recovery banner
@@ -152,9 +152,9 @@ const checkAndAwardAchievements = async (userId, userXP) => {
                 }
 
                 if (ach.condition_key === "first_session") {
-                    const sessionCount = await studyModel.countDocuments({
-                        user_id: userId,
-                        status: "completed"
+                    const sessionCount = await studyModel.countDocuments({ 
+                        user_id: userId, 
+                        status: "completed" 
                     });
                     conditionMet = sessionCount === 1;
                 }

@@ -19,6 +19,7 @@ import subjectRoutes from './routes/subjectRoutes.js';
 import homeworkRoutes from './routes/homeworkRoutes.js';
 import examRoutes from './routes/examRoutes.js';
 import materialRoutes from './routes/materialRoutes.js';
+import "./jobs/weeklyPenaltyJob.js";
 
 const app = express();
 const port = process.env.PORT || 5000;

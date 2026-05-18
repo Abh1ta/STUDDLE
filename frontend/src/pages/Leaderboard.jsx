@@ -10,7 +10,7 @@ const API_BASE_URL = 'http://localhost:5000/api/leaderboard';
 const PALETTE = {
   navy:     '#344979',
   blue:     '#5d6da5',
-  lavBlue:  '#5d6da5',
+  lavBlue:  '#9896bb',
   lavLight: '#c6c6e8',
   blush:    '#f7e5eb',
 };
@@ -53,6 +53,7 @@ function Leaderboard() {
   const [users, setUsers]         = useState([]);
   const [myRank, setMyRank]       = useState(null);
   const [loading, setLoading]     = useState(true);
+const [penalties, setPenalties] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,6 +66,8 @@ function Leaderboard() {
         setUsers(res.data);
         const rankRes  = await axios.get(`${API_BASE_URL}/my-rank`, config);
         setMyRank(rankRes.data);
+        const penRes = await axios.get("http://localhost:5000/api/penalties", config);
+setPenalties(penRes.data.penalties);
       } catch (err) {
         console.error('Eroare la încărcarea clasamentului:', err);
       } finally {
@@ -81,7 +84,7 @@ function Leaderboard() {
     <div
       className="min-h-screen relative overflow-x-hidden"
       style={{
-        background: 'radial-gradient(circle at center, #8d91c7 0%, #e0c5e6a6 100%)',
+        background: `linear-gradient(135deg, ${PALETTE.blush} 0%, #ffffff 40%, ${PALETTE.lavLight}55 100%)`,
         fontFamily: "'Zilla Slab', serif",
       }}
     >
@@ -182,10 +185,9 @@ function Leaderboard() {
                                 boxShadow: `0 6px 20px ${PALETTE.navy}40`,
                               }
                             : {
-                                background: 'rgba(118,101,173,0.38)',
-                                border: '2px solid #19022055',
+                                background: 'rgba(255,255,255,0.75)',
+                                border: `1px solid ${PALETTE.lavLight}`,
                                 backdropFilter: 'blur(8px)',
-                                boxShadow: '0 2px 12px rgba(52,73,121,0.06)',
                               }
                         }
                       >
@@ -299,6 +301,34 @@ function Leaderboard() {
               ))}
             </div>
 
+          {penalties.length > 0 && (
+  <div
+    className="rounded-3xl p-5 shadow-sm"
+    style={{
+      background: "rgba(255,235,238,0.85)",
+      border: "1px solid #f7b8c4",
+      backdropFilter: "blur(10px)",
+    }}
+  >
+    <p className="text-xs font-bold uppercase tracking-widest mb-3"
+       style={{ color: "#b0334a" }}>
+      ⚠️ Penalizări active
+    </p>
+    {penalties.map((p) => (
+      <div key={p._id} className="mb-2 last:mb-0">
+        <p className="text-sm font-bold" style={{ color: "#7a1f30" }}>
+          -{p.xp_lost} XP
+        </p>
+        <p className="text-xs" style={{ color: "#b0334a" }}>
+          {p.reason}
+        </p>
+        <p className="text-xs mt-0.5" style={{ color: "#b0334a" }}>
+          Studiază {p.challenge_hours}h pentru a recupera XP-ul.
+        </p>
+      </div>
+    ))}
+  </div>
+)}
           </div>
         </div>
       </main>

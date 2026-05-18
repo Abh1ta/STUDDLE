@@ -1,5 +1,4 @@
 import subjectModel from "../models/subjectModel.js";
-// 1. IMPORTĂ modelul vostru de notițe/canvas (ajustează numele fișierului dacă e diferit în folderul models)
 import materialCanvasModel from "../models/MaterialCanvas.js"; 
 
 export const getSubjects = async (req, res) => {

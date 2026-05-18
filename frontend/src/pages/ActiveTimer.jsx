@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ActiveTimer.css';
@@ -42,35 +44,37 @@ function ActiveTimer() {
   const [subjectOpen, setSubjectOpen] = useState(false);
   const [isLoadingSubjects, setIsLoadingSubjects] = useState(true);
 
-  // Stări pentru funcționalitatea de alegere a notiței
   const [activeNoteId, setActiveNoteId] = useState(null);
   const [availableNotes, setAvailableNotes] = useState([]);
   const [noteDropdownOpen, setNoteDropdownOpen] = useState(false);
   const [selectedNoteName, setSelectedNoteName] = useState('');
 
-  // Încărcăm notițele din materie fără să o selectăm automat pe prima
+  // ── NEW: penalty state ──────────────────────────────────────────────────────
+  const [penaltyResolved, setPenaltyResolved] = useState(null);
+  // ───────────────────────────────────────────────────────────────────────────
+
   useEffect(() => {
     if (selectedSubject) {
       fetch(`/api/materials/subject/${encodeURIComponent(selectedSubject)}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       })
-        .then(r => r.json())
-        .then(data => {
-          if (data && data.length > 0) {
-            setAvailableNotes(data);
-            setActiveNoteId(null);
-            setSelectedNoteName('');
-          } else {
-            setAvailableNotes([]);
-            setActiveNoteId(null);
-            setSelectedNoteName('');
-          }
-        })
-        .catch(e => {
+      .then(r => r.json())
+      .then(data => {
+        if (data && data.length > 0) {
+          setAvailableNotes(data);
+          setActiveNoteId(null);
+          setSelectedNoteName('');
+        } else {
           setAvailableNotes([]);
           setActiveNoteId(null);
           setSelectedNoteName('');
-        });
+        }
+      })
+      .catch(() => {
+        setAvailableNotes([]);
+        setActiveNoteId(null);
+        setSelectedNoteName('');
+      });
     } else {
       setAvailableNotes([]);
       setActiveNoteId(null);
@@ -96,7 +100,6 @@ function ActiveTimer() {
   const [pomodoroGoal, setPomodoroGoal] = useState(0);
   const [customStudy, setCustomStudy] = useState(50);
   const [customBreak, setCustomBreak] = useState(10);
-  const [flowmodoroLimit, setFlowmodoroLimit] = useState(0);
   const [sessions, setSessions] = useState([]);
   const [currentSessionIndex, setCurrentSessionIndex] = useState(0);
 
@@ -105,9 +108,7 @@ function ActiveTimer() {
       try {
         const token = localStorage.getItem('token');
         const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-        const response = await fetch(API_URL_SUBJECTS, {
-          headers: authHeaders,
-        });
+        const response = await fetch(API_URL_SUBJECTS, { headers: authHeaders });
         const data = await response.json();
         setSubjects(data.map((item) => ({ ...item, name: item.title || item.name })));
       } catch (e) {
@@ -124,13 +125,9 @@ function ActiveTimer() {
     try {
       const token = localStorage.getItem('token');
       const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
-
       const response = await fetch(API_URL_SUBJECTS, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders,
-        },
+        headers: { 'Content-Type': 'application/json', ...authHeaders },
         body: JSON.stringify({ name: newSubjectName }),
       });
 
@@ -157,13 +154,9 @@ function ActiveTimer() {
       const token = localStorage.getItem('token');
       const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
       const subjectObj = subjects.find((s) => s.name === selectedSubject);
-
       await fetch(`${API_URL_STUDY}/start`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...authHeaders,
-        },
+        headers: { 'Content-Type': 'application/json', ...authHeaders },
         body: JSON.stringify({ subject_id: subjectObj ? subjectObj._id : null }),
       });
     } catch (error) {
@@ -171,6 +164,7 @@ function ActiveTimer() {
     }
   };
 
+  // ── UPDATED: stopBackendSession now reads penaltyResult ───────────────────
   const stopBackendSession = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -185,15 +179,19 @@ function ActiveTimer() {
         if (data.xpGained > 0) {
           setSessionXp((prev) => prev + data.xpGained);
         }
+        // If the study session resolved an active penalty, store it to show in popup
+        if (data.penaltyResult?.resolved) {
+          setPenaltyResolved(data.penaltyResult);
+        }
       }
     } catch (error) {
       console.error('Eroare la oprirea sesiunii în backend:', error);
     }
   };
+  // ─────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     const shouldBeActive = isRunning && phase === 'study';
-
     if (shouldBeActive && !backendSessionActive.current) {
       backendSessionActive.current = true;
       startBackendSession();
@@ -211,19 +209,24 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-    setPhase('setup');
-    setTimerMode('countdown');
-    setSecondsLeft(0);
+    setPenaltyResolved(null); // reset penalty on mode change
+
+    if (mode === 'flowmodoro') {
+      setPhase('study');
+      setTimerMode('countup');
+      setSecondsLeft(0);
+    } else {
+      setPhase('setup');
+      setTimerMode('countdown');
+    }
   }, [mode]);
 
   useEffect(() => {
     if (!isRunning) return;
-
     intervalRef.current = setInterval(() => {
       setSecondsLeft((prev) => {
         return timerMode === 'countup' ? prev + 1 : prev > 0 ? prev - 1 : 0;
       });
-
       if (phase === 'study') {
         setContinuousStudySecs((prevContinuous) => {
           const nextContinuous = prevContinuous + 1;
@@ -235,7 +238,6 @@ function ActiveTimer() {
         });
       }
     }, 1000);
-
     return () => clearInterval(intervalRef.current);
   }, [isRunning, timerMode, phase, studyLimit]);
 
@@ -244,7 +246,6 @@ function ActiveTimer() {
       setIsRunning(false);
       setContinuousStudySecs(0);
       setSnoozeCount(0);
-
       if (mode === 'pomodoro') {
         const nextIndex = currentSessionIndex + 1;
         if (nextIndex < sessions.length) {
@@ -264,17 +265,7 @@ function ActiveTimer() {
         setSecondsLeft(0);
       }
     }
-  }, [
-    secondsLeft,
-    timerMode,
-    isRunning,
-    mode,
-    currentSessionIndex,
-    sessions,
-    customBreak,
-    customStudy,
-    phase,
-  ]);
+  }, [secondsLeft, timerMode, isRunning, mode, currentSessionIndex, sessions, customBreak, customStudy, phase]);
 
   const handleSetupStart = () => {
     setContinuousStudySecs(0);
@@ -308,21 +299,27 @@ function ActiveTimer() {
   const handleFinishSession = () => {
     setIsRunning(false);
     setShowPopup(false);
-
     setTimeout(() => {
       setShowEndPopup(true);
     }, 300);
   };
 
+  // ── UPDATED: closeEndPopup resets penaltyResolved ─────────────────────────
   const closeEndPopup = () => {
     setShowEndPopup(false);
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-    setPhase('setup');
-    setTimerMode('countdown');
-    setSecondsLeft(0);
+    setPenaltyResolved(null); // reset penalty banner
+    if (mode === 'flowmodoro') {
+      setPhase('study');
+      setTimerMode('countup');
+      setSecondsLeft(0);
+    } else {
+      setPhase('setup');
+    }
   };
+  // ─────────────────────────────────────────────────────────────────────────
 
   const handleSnooze = () => {
     if (snoozeCount < 3) {
@@ -353,18 +350,17 @@ function ActiveTimer() {
   };
 
   return (
-    <div className={`active-timer-page${activeNoteId && phase !== 'setup' ? ' with-editor' : ''}`} style={activeNoteId && phase !== 'setup' ? { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', padding: 0 } : {}}>
-
+    <div
+      className={`active-timer-page${activeNoteId && phase !== 'setup' ? ' with-editor' : ''}`}
+      style={activeNoteId && phase !== 'setup' ? { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', padding: 0 } : {}}
+    >
+      {/* ── Break popup ── */}
       {showPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
             <h3 className="timer-popup-title">{catName} a obosit... luăm o pauză?</h3>
             <div className="timer-popup-img-box">
-              <img
-                src={customCatImage}
-                alt={catName}
-                className="studdy-avatar-popup"
-              />
+              <img src={customCatImage} alt={catName} className="studdy-avatar-popup" />
             </div>
             <div className="timer-popup-btns">
               <button
@@ -383,7 +379,6 @@ function ActiveTimer() {
               >
                 Da, am nevoie
               </button>
-
               {snoozeCount < 3 ? (
                 <button className="popup-btn-snooze" onClick={handleSnooze}>
                   Încă 2 minute ({3 - snoozeCount} rămase)
@@ -398,47 +393,80 @@ function ActiveTimer() {
         </div>
       )}
 
+      {/* ── UPDATED: End session popup with penalty recovery banner ── */}
       {showEndPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
-            <h3 className="timer-popup-title" style={{ color: '#c9a0f0' }}> Sesiune Încheiată! </h3>
+            <h3 className="timer-popup-title" style={{ color: '#c9a0f0' }}>
+              Sesiune Încheiată!
+            </h3>
             <div className="timer-popup-img-box" style={{ borderColor: '#c9a0f0' }}>
-              <img
-                src={customCatImage}
-                alt={`${catName} Fericit`}
-                className="studdy-avatar-popup"
-              />
+              <img src={customCatImage} alt={`${catName} Fericit`} className="studdy-avatar-popup" />
             </div>
-            <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', marginBottom: '24px', lineHeight: '1.5' }}>
+            <p style={{ color: 'rgba(255,255,255,0.9)', fontSize: '1.2rem', marginBottom: '16px', lineHeight: '1.5' }}>
               Bravo! Ai acumulat <br />
               <strong style={{ color: '#ffffff', fontSize: '2.5rem', display: 'block', margin: '10px 0' }}>
                 {sessionXp} XP
               </strong>
             </p>
+
+            {/* Penalty recovery banner — only shown when a penalty was resolved */}
+            {penaltyResolved && (
+              <div style={{
+                background: 'rgba(100, 220, 130, 0.15)',
+                border: '1px solid rgba(100, 220, 130, 0.45)',
+                borderRadius: '12px',
+                padding: '10px 16px',
+                marginBottom: '16px',
+                textAlign: 'center',
+              }}>
+                <p style={{ color: '#7fffaa', fontSize: '0.95rem', fontWeight: 'bold', margin: 0 }}>
+                  ✅ Penalizare rezolvată!
+                </p>
+                <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem', margin: '4px 0 0 0' }}>
+                  +{penaltyResolved.xp_restored} XP recuperat din penalizarea săptămânală.
+                </p>
+              </div>
+            )}
+
             <div className="timer-popup-btns">
-              <button className="popup-btn-yes" onClick={closeEndPopup}> Super, mulțumesc! </button>
+              <button className="popup-btn-yes" onClick={closeEndPopup}>
+                Super, mulțumesc!
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="active-timer-content" style={activeNoteId && phase !== 'setup' ? {
-        flexDirection: 'row', padding: '6px 18px', justifyContent: 'space-between', alignItems: 'center',
-        background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)', borderBottom: '1px solid rgba(255,255,255,0.2)',
-        zIndex: 50, margin: 0, maxWidth: '100%', width: '100%', minHeight: 0, gap: '12px'
-      } : {}}>
-
-        <button className="timer-back-btn" onClick={() => navigate('/timer')} style={activeNoteId && phase !== 'setup' ? { margin: 0 } : {}}>
+      {/* ── Main content ── */}
+      <div
+        className="active-timer-content"
+        style={activeNoteId && phase !== 'setup' ? {
+          flexDirection: 'row', padding: '6px 18px', justifyContent: 'space-between',
+          alignItems: 'center', background: 'rgba(255,255,255,0.1)', backdropFilter: 'blur(10px)',
+          borderBottom: '1px solid rgba(255,255,255,0.2)', zIndex: 50, margin: 0,
+          maxWidth: '100%', width: '100%', minHeight: 0, gap: '12px',
+        } : {}}
+      >
+        <button
+          className="timer-back-btn"
+          onClick={() => navigate('/timer')}
+          style={activeNoteId && phase !== 'setup' ? { margin: 0 } : {}}
+        >
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
             <polyline points="15 18 9 12 15 6" />
           </svg>
           Înapoi
         </button>
 
-        <div className="timer-main-card" style={activeNoteId && phase !== 'setup' ? {
-          padding: '4px 10px', flexDirection: 'row', alignItems: 'center', gap: '12px', width: 'auto',
-          margin: 0, background: 'transparent', border: 'none', boxShadow: 'none', backdropFilter: 'none', height: 'auto', minHeight: 0
-        } : {}}>
+        <div
+          className="timer-main-card"
+          style={activeNoteId && phase !== 'setup' ? {
+            padding: '4px 10px', flexDirection: 'row', alignItems: 'center', gap: '12px',
+            width: 'auto', margin: 0, background: 'transparent', border: 'none',
+            boxShadow: 'none', backdropFilter: 'none', height: 'auto', minHeight: 0,
+          } : {}}
+        >
           {phase === 'setup' && mode === 'pomodoro' && (
             <>
               <h2 className="timer-setup-heading">Obiectiv Studiu (min)</h2>
@@ -454,7 +482,9 @@ function ActiveTimer() {
                 <span className="timer-setup-colon">:</span>
                 <span className="timer-setup-digit-fixed">00</span>
               </div>
-              <button className="timer-action-btn" onClick={handleSetupStart} disabled={!pomodoroGoal}>START</button>
+              <button className="timer-action-btn" onClick={handleSetupStart} disabled={!pomodoroGoal}>
+                START
+              </button>
             </>
           )}
 
@@ -490,42 +520,27 @@ function ActiveTimer() {
                   <span className="timer-setup-digit-fixed" style={{ fontSize: '4rem', width: '120px' }}>00</span>
                 </div>
               </div>
-              <button className="timer-action-btn" onClick={handleSetupStart} disabled={!customStudy || !customBreak}>START</button>
+              <button
+                className="timer-action-btn"
+                onClick={handleSetupStart}
+                disabled={!customStudy || !customBreak}
+              >
+                START
+              </button>
             </div>
-          )}
-
-          {phase === 'setup' && mode === 'flowmodoro' && (
-            <>
-              <h2 className="timer-setup-heading">Obiectiv Studiu (min)</h2>
-              <div className="timer-setup-time-row">
-                <input
-                  className="timer-setup-digit-input"
-                  type="text"
-                  inputMode="numeric"
-                  placeholder="00"
-                  value={flowmodoroLimit || ''}
-                  onChange={(e) => setFlowmodoroLimit(parseInt(e.target.value.replace(/\D/g, '')) || 0)}
-                />
-                <span className="timer-setup-colon">:</span>
-                <span className="timer-setup-digit-fixed">00</span>
-              </div>
-              <button className="timer-action-btn" onClick={() => {
-                setStudyLimit((flowmodoroLimit || 60) * 60);
-                setContinuousStudySecs(0);
-                setSessionXp(0);
-                setSnoozeCount(0);
-                setPhase('study');
-                setTimerMode('countup');
-                setSecondsLeft(0);
-                setIsRunning(true);
-              }}>START</button>
-            </>
           )}
 
           {phase !== 'setup' && (
             <>
-              <div className="timer-time-display" style={activeNoteId && phase !== 'setup' ? { fontSize: '2rem', letterSpacing: '2px', textShadow: 'none', lineHeight: 1 } : {}}>{formatTime(secondsLeft)}</div>
-              {!(activeNoteId && phase !== 'setup') && mode !== 'flowmodoro' && <p className="timer-phase-text">{getPhaseText()}</p>}
+              <div
+                className="timer-time-display"
+                style={activeNoteId && phase !== 'setup' ? { fontSize: '2rem', letterSpacing: '2px', textShadow: 'none', lineHeight: 1 } : {}}
+              >
+                {formatTime(secondsLeft)}
+              </div>
+              {!(activeNoteId && phase !== 'setup') && (
+                <p className="timer-phase-text">{getPhaseText()}</p>
+              )}
               <div style={{ display: 'flex', gap: activeNoteId && phase !== 'setup' ? '8px' : '16px', justifyContent: 'center' }}>
                 {phase === 'finished' ? (
                   <button className="timer-action-btn" onClick={handleFinishSession}>FINALIZAT</button>
@@ -533,22 +548,38 @@ function ActiveTimer() {
                   <>
                     {mode === 'flowmodoro' && phase === 'study' ? (
                       <>
-                        <button className="timer-action-btn" style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}} onClick={() => setIsRunning(!isRunning)}>
+                        <button
+                          className="timer-action-btn"
+                          style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                          onClick={() => setIsRunning(!isRunning)}
+                        >
                           {isRunning ? 'STOP' : secondsLeft === 0 ? 'START' : 'CONTINUĂ'}
                         </button>
                         {secondsLeft >= 5 && (
-                          <button className="timer-action-btn stop" style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}} onClick={handleFlowmodoroBreak}>
+                          <button
+                            className="timer-action-btn stop"
+                            style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                            onClick={handleFlowmodoroBreak}
+                          >
                             IA PAUZĂ (1/5)
                           </button>
                         )}
                       </>
                     ) : (
                       <>
-                        <button className="timer-action-btn" style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}} onClick={() => setIsRunning(!isRunning)}>
+                        <button
+                          className="timer-action-btn"
+                          style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                          onClick={() => setIsRunning(!isRunning)}
+                        >
                           {isRunning ? 'STOP' : 'CONTINUĂ'}
                         </button>
                         {!isRunning && (
-                          <button className="timer-action-btn stop" style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}} onClick={handleFinishSession}>
+                          <button
+                            className="timer-action-btn stop"
+                            style={activeNoteId && phase !== 'setup' ? { padding: '6px 20px', fontSize: '0.78rem', letterSpacing: '1px' } : {}}
+                            onClick={handleFinishSession}
+                          >
                             RENUNȚĂ
                           </button>
                         )}
@@ -561,10 +592,12 @@ function ActiveTimer() {
           )}
         </div>
 
-        {/* 🔥 PASUL COMPATIBIL: Scoaterea containerelor exterioare. Dropdown-urile devin frați direcți în container conform CSS-ului (.timer-subject-wrapper) */}
         {!(activeNoteId && phase !== 'setup') && (
           <div className="timer-subject-wrapper">
-            <div className={`timer-subject-bar ${subjectOpen ? 'open' : ''}`} onClick={() => setSubjectOpen(!subjectOpen)}>
+            <div
+              className={`timer-subject-bar ${subjectOpen ? 'open' : ''}`}
+              onClick={() => setSubjectOpen(!subjectOpen)}
+            >
               {selectedSubject || (isLoadingSubjects ? '...' : 'Alege materie')}
               <svg className="subject-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="6 9 12 15 18 9" />
@@ -589,11 +622,10 @@ function ActiveTimer() {
                   </button>
                 </div>
                 {subjects.map((s) => (
-                  <div key={s._id || s.name} className={`subject-option ${selectedSubject === s.name ? 'selected' : ''}`}
-                    onClick={() => {
-                      setSelectedSubject(s.name);
-                      setSubjectOpen(false);
-                    }}
+                  <div
+                    key={s._id || s.name}
+                    className={`subject-option ${selectedSubject === s.name ? 'selected' : ''}`}
+                    onClick={() => { setSelectedSubject(s.name); setSubjectOpen(false); }}
                   >
                     {s.name}
                   </div>
@@ -603,10 +635,12 @@ function ActiveTimer() {
           </div>
         )}
 
-        {/* Dropdown-ul pentru Notițe este așezat ca un frate independent pentru a respecta lățimea și spațierea stilizată */}
         {!(activeNoteId && phase !== 'setup') && selectedSubject && availableNotes.length > 0 && (
           <div className="timer-subject-wrapper">
-            <div className={`timer-subject-bar ${noteDropdownOpen ? 'open' : ''}`} onClick={() => setNoteDropdownOpen(!noteDropdownOpen)}>
+            <div
+              className={`timer-subject-bar ${noteDropdownOpen ? 'open' : ''}`}
+              onClick={() => setNoteDropdownOpen(!noteDropdownOpen)}
+            >
               {selectedNoteName || 'Alege ce notiță deschidem'}
               <svg className="subject-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="6 9 12 15 18 9" />
@@ -615,22 +649,18 @@ function ActiveTimer() {
             {noteDropdownOpen && (
               <div className="subject-dropdown">
                 {availableNotes.map((note) => (
-                  <div key={note._id} className={`subject-option ${activeNoteId === note._id ? 'selected' : ''}`}
-                    onClick={() => {
-                      setActiveNoteId(note._id);
-                      setSelectedNoteName(note.nume);
-                      setNoteDropdownOpen(false);
-                    }}
+                  <div
+                    key={note._id}
+                    className={`subject-option ${activeNoteId === note._id ? 'selected' : ''}`}
+                    onClick={() => { setActiveNoteId(note._id); setSelectedNoteName(note.nume); setNoteDropdownOpen(false); }}
                   >
                     {note.nume}
                   </div>
                 ))}
-                <div className="subject-option" style={{ fontStyle: 'italic', opacity: 0.7 }}
-                  onClick={() => {
-                    setActiveNoteId(null);
-                    setSelectedNoteName('Fără notiță (Doar timer)');
-                    setNoteDropdownOpen(false);
-                  }}
+                <div
+                  className="subject-option"
+                  style={{ fontStyle: 'italic', opacity: 0.7 }}
+                  onClick={() => { setActiveNoteId(null); setSelectedNoteName('Fără notiță (Doar timer)'); setNoteDropdownOpen(false); }}
                 >
                   Învață fără notiță
                 </div>
