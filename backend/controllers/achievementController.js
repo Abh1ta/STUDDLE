@@ -58,11 +58,7 @@ export const updateAchievement = async (req, res) => {
     const updateData = { ...req.body };
 
     if (req.file) {
-<<<<<<< HEAD
-      // Delete old icon from Cloudinary if it exists
-=======
      
->>>>>>> origin/feature/update
       const existing = await achievementModel.findById(req.params.id);
       if (existing?.icon) {
         const publicId = existing.icon.split("/").pop().split(".")[0];
