@@ -1,4 +1,4 @@
-/* --- RESETĂRI GENERALE --- */
+
 * {
   margin: 0;
   padding: 0;
@@ -12,7 +12,7 @@
   overflow-x: hidden;
 }
 
-/* header */
+
 .header {
   width: 100%;
   height: 100px;
@@ -38,7 +38,6 @@
 .imglogo {
   height: 70px;
   width: auto;
-  /* Schimbă valoarea de aici ca să muți logo-ul stânga/dreapta fără nicio înghesuire */
   transform: translateX(-117px);
 }
 
@@ -116,7 +115,6 @@
   font-weight: 500;
   margin-left: -10px;
   margin-bottom: 50px;
-  /* Corectat din +50px */
 }
 
 .pozaBaiat {
@@ -175,7 +173,7 @@
   transform: translateY(-5px);
 }
 
-/* iconite */
+
 .feature-icon {
   width: 80px;
   height: 80px;
@@ -204,7 +202,7 @@
   opacity: 0.9;
 }
 
-/* sectiune pisica */
+
 .cat-section {
   padding: 80px 10%;
   background-color: #ffffff;
@@ -283,7 +281,7 @@
   transform: scale(1.05);
 }
 
-/* --- FOOTER --- */
+
 .footer {
   padding: 25px 10%;
   background-color: #e3f2ff;

@@ -1,4 +1,4 @@
-/* ===== SIDEBAR ===== */
+
 .sidebar-studdle {
   width: 210px;
   min-height: 100vh;
@@ -24,7 +24,7 @@
   background: linear-gradient(180deg, #1e2b4a 0%, #111e36 100%);
 }
 
-/* Logo */
+
 .sidebar-logo-box {
   padding: 0 14px 24px 14px;
   border-bottom: 1px solid rgba(198, 198, 232, 0.15);
@@ -55,7 +55,7 @@
   opacity: 0.95;
 }
 
-/* Toggle button */
+
 .sidebar-toggle-btn {
   background: rgba(198, 198, 232, 0.12);
   border: 1px solid rgba(198, 198, 232, 0.2);
@@ -81,7 +81,7 @@
   border-color: rgba(198, 198, 232, 0.4);
 }
 
-/* Nav */
+
 .sidebar-nav {
   flex: 1;
   display: flex;
@@ -135,7 +135,7 @@
   flex: 1;
 }
 
-/* Avatar */
+
 .sidebar-avatar-box {
   padding: 20px 20px 0 20px;
   border-top: 1px solid rgba(198, 198, 232, 0.15);
@@ -174,7 +174,7 @@
   transform: scale(3.4) translate(2.2%, 9%);
 }
 
-/* ===== PAGE CONTENT ===== */
+
 .page-content {
   min-height: 100vh;
 }

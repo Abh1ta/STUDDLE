@@ -1,12 +1,12 @@
 import { jest } from '@jest/globals';
 
-// 1. Setup a chainable mock for Mongoose queries (handles .find().sort().skip().limit().populate())
+
 const mockQueryChain = {
   sort: jest.fn().mockReturnThis(),
   skip: jest.fn().mockReturnThis(),
   limit: jest.fn().mockReturnThis(),
   populate: jest.fn().mockReturnThis(),
-  // Simulates the array returned when the chain is awaited
+ 
   then: function(onFulfilled) {
     return Promise.resolve([
       { _id: 'msg123', content: 'Hey there!', sender: { _id: 'friend1' }, receiver: { _id: 'user123' } }
@@ -34,7 +34,7 @@ jest.unstable_mockModule('../models/fileModel.js', () => ({
   }
 }));
 
-// Mock Auth Middleware to auto-authorize requests
+
 jest.unstable_mockModule('jsonwebtoken', () => ({
   default: { verify: jest.fn().mockReturnValue({ id: 'user123' }) }
 }));

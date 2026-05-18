@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import './ActiveTimer.css';
@@ -49,9 +47,8 @@ function ActiveTimer() {
   const [noteDropdownOpen, setNoteDropdownOpen] = useState(false);
   const [selectedNoteName, setSelectedNoteName] = useState('');
 
-  // ── NEW: penalty state ──────────────────────────────────────────────────────
+
   const [penaltyResolved, setPenaltyResolved] = useState(null);
-  // ───────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     if (selectedSubject) {
@@ -164,7 +161,7 @@ function ActiveTimer() {
     }
   };
 
-  // ── UPDATED: stopBackendSession now reads penaltyResult ───────────────────
+  
   const stopBackendSession = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -179,7 +176,6 @@ function ActiveTimer() {
         if (data.xpGained > 0) {
           setSessionXp((prev) => prev + data.xpGained);
         }
-        // If the study session resolved an active penalty, store it to show in popup
         if (data.penaltyResult?.resolved) {
           setPenaltyResolved(data.penaltyResult);
         }
@@ -188,7 +184,7 @@ function ActiveTimer() {
       console.error('Eroare la oprirea sesiunii în backend:', error);
     }
   };
-  // ─────────────────────────────────────────────────────────────────────────
+  
 
   useEffect(() => {
     const shouldBeActive = isRunning && phase === 'study';
@@ -209,7 +205,7 @@ function ActiveTimer() {
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-    setPenaltyResolved(null); // reset penalty on mode change
+    setPenaltyResolved(null); 
 
     if (mode === 'flowmodoro') {
       setPhase('study');
@@ -304,13 +300,12 @@ function ActiveTimer() {
     }, 300);
   };
 
-  // ── UPDATED: closeEndPopup resets penaltyResolved ─────────────────────────
   const closeEndPopup = () => {
     setShowEndPopup(false);
     setContinuousStudySecs(0);
     setSessionXp(0);
     setSnoozeCount(0);
-    setPenaltyResolved(null); // reset penalty banner
+    setPenaltyResolved(null); 
     if (mode === 'flowmodoro') {
       setPhase('study');
       setTimerMode('countup');
@@ -319,7 +314,7 @@ function ActiveTimer() {
       setPhase('setup');
     }
   };
-  // ─────────────────────────────────────────────────────────────────────────
+  
 
   const handleSnooze = () => {
     if (snoozeCount < 3) {
@@ -354,7 +349,7 @@ function ActiveTimer() {
       className={`active-timer-page${activeNoteId && phase !== 'setup' ? ' with-editor' : ''}`}
       style={activeNoteId && phase !== 'setup' ? { display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden', padding: 0 } : {}}
     >
-      {/* ── Break popup ── */}
+    
       {showPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
@@ -393,7 +388,7 @@ function ActiveTimer() {
         </div>
       )}
 
-      {/* ── UPDATED: End session popup with penalty recovery banner ── */}
+      
       {showEndPopup && (
         <div className="timer-popup-overlay">
           <div className="timer-popup-card">
@@ -410,7 +405,7 @@ function ActiveTimer() {
               </strong>
             </p>
 
-            {/* Penalty recovery banner — only shown when a penalty was resolved */}
+           
             {penaltyResolved && (
               <div style={{
                 background: 'rgba(100, 220, 130, 0.15)',
@@ -438,7 +433,7 @@ function ActiveTimer() {
         </div>
       )}
 
-      {/* ── Main content ── */}
+    
       <div
         className="active-timer-content"
         style={activeNoteId && phase !== 'setup' ? {

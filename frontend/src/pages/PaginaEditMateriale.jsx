@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as fabric from 'fabric';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSidebar } from '../context/SidebarContext';
-import { useAuth } from '../context/AuthContext'; // 1. Importat Auth
+import { useAuth } from '../context/AuthContext'; 
 
 import creionIcon from '../assets/creion.png';
 import gumaIcon from '../assets/gumasters.png';
@@ -53,11 +53,10 @@ function PaginaEditMateriale() {
   const params = useParams();
   const location = useLocation();
   const { collapsed } = useSidebar();
-  const { token } = useAuth(); // 2. Extras Token
+  const { token } = useAuth(); 
   const isIframe = window.self !== window.top;
   const sidebarWidth = isIframe ? 0 : (collapsed ? 64 : 210);
 
-  // 3. Modificat: materialId este ID-ul unic, numeMaterie vine din backend
   const materialId = params.id; 
   const [numeMaterie, setNumeMaterie] = useState('Se încarcă...'); 
 
@@ -89,7 +88,7 @@ function PaginaEditMateriale() {
 
   const [uploadedFileName, setUploadedFileName] = useState('');
   const [uploadedFileType, setUploadedFileType] = useState('');
-  const [nativePdfUrl, setNativePdfUrl] = useState(null); // New state for native PDF
+  const [nativePdfUrl, setNativePdfUrl] = useState(null); 
   const [canvasHeight, setCanvasHeight] = useState(CANVAS_HEIGHT);
   const [saveStatus, setSaveStatus] = useState('');
   const [topBarsHidden, setTopBarsHidden] = useState(false);
@@ -177,7 +176,7 @@ function PaginaEditMateriale() {
           try { parsed = JSON.parse(data.canvasData); } catch(e) {}
         }
 
-        // Setăm URL-ul PDF pe canvas ÎNAINTE de orice altceva
+        // Setăm URL-ul PDF pe canvas 
         const savedPdfUrl = parsed?.nativePdfUrl || null;
         if (savedPdfUrl) {
           setNativePdfUrl(savedPdfUrl);
@@ -187,7 +186,7 @@ function PaginaEditMateriale() {
 
         isRestoringRef.current = true;
 
-        // Încărcăm obiectele din canvas (fără imagini PDF, că le-am filtrat la salvare)
+        // incarcam obiectele din canvas 
         const result = canvas.loadFromJSON(parsed || data.canvasData);
         if (result && typeof result.then === 'function') {
           await result;
@@ -195,7 +194,7 @@ function PaginaEditMateriale() {
 
         isRestoringRef.current = false;
 
-        // Dacă există PDF salvat, îl re-renderăm din URL
+        // Daca exista PDF salvat, il re-renderam din URL
         if (savedPdfUrl) {
           const fileName = parsed?.pdfFileName || 'document.pdf';
           setUploadedFileName(fileName);
@@ -215,7 +214,7 @@ function PaginaEditMateriale() {
   const salveazaCanvasInBackend = async () => {
     const canvas = fabricRef.current;
 
-    // 7. Protecție token şi nume placeholder
+   
     if (!canvas || !materialId || isRestoringRef.current || !token || numeMaterie === 'Se încarcă...') return;
 
     try {
@@ -243,17 +242,17 @@ function PaginaEditMateriale() {
         'pageNumber',
       ]);
 
-      // Excludem imaginile PDF (sunt mari, se re-randează din URL la încărcare)
+      // Excludem imaginile PDF 
       canvasDataObj.objects = (canvasDataObj.objects || []).filter(
         (obj) => obj.customType !== 'pdfPage' && obj.customType !== 'pdfBackground'
       );
 
-      // Salvăm URL-ul PDF și textul extras pentru viitor
+      // Salvam URL-ul PDF și textul extras 
       const pdfUrlToSave = nativePdfUrl || canvas.nativePdfUrl || null;
       if (pdfUrlToSave) {
         canvasDataObj.nativePdfUrl = pdfUrlToSave;
         canvasDataObj.pdfFileName = uploadedFileName || '';
-        // Textul extras per pagină (pentru funcții viitoare de search/AI)
+        // Textul extras per pagina
         if (canvas.pdfTextContent) {
           canvasDataObj.pdfTextContent = canvas.pdfTextContent;
         }
@@ -267,7 +266,7 @@ function PaginaEditMateriale() {
         canvasData: canvasDataObj,
       };
 
-      // 8. Rută modificată către /note/:id
+      //  Ruta modificata catre /note/:id
       const res = await fetch(`${API_URL_MATERIALS}/note/${materialId}`, {
         method: 'PUT',
         headers: {
@@ -747,7 +746,7 @@ function PaginaEditMateriale() {
     cursors.forEach((c) => canvas.add(c));
     isRestoringRef.current = false;
 
-    programeazaSalvareCanvas(); // 9. Trigger Autosave
+    programeazaSalvareCanvas(); //  Autosave
   };
 
   const restoreCanvas = async (json) => {
@@ -1430,8 +1429,7 @@ function PaginaEditMateriale() {
     try {
       setSaveStatus('Se încarcă PDF...');
 
-      // PASUL 1: Uploadăm PDF-ul la Cloudinary pentru a obține URL permanent
-      // (necesar pentru ca PDF-ul să apară și la redeschiderea materialului)
+      // upload pdf la cloudinary pt URL permanent
       let secureUrl = null;
       try {
         const formData = new FormData();
@@ -1452,13 +1450,13 @@ function PaginaEditMateriale() {
         console.warn('Eroare la upload PDF:', uploadErr);
       }
 
-      // Salvăm URL-ul în state și pe canvas (folosit de salveazaCanvasInBackend)
+      // salvam URL-ul in state si pe canvas 
       if (secureUrl) {
         setNativePdfUrl(secureUrl);
         canvas.nativePdfUrl = secureUrl;
       }
 
-      // PASUL 2: Randăm paginile PDF local cu pdfjs
+      // randam paginile PDF local cu pdfjs
       const pdfjsLib = await loadPdfJs();
       const arrayBuffer = await file.arrayBuffer();
 
@@ -1466,7 +1464,7 @@ function PaginaEditMateriale() {
         data: arrayBuffer,
       }).promise;
 
-      // Extragem textul din fiecare pagină (pentru funcții viitoare — search, AI etc.)
+      // extragem textul din fiecare pagina
       const pdfTextContent = [];
       for (let pn = 1; pn <= pdf.numPages; pn++) {
         try {
@@ -1482,7 +1480,7 @@ function PaginaEditMateriale() {
       }
       canvas.pdfTextContent = pdfTextContent;
 
-      // PASUL 3: Randăm vizual paginile pe canvas ca imagini
+      // randam vizual paginile pe canvas ca imagini
       isRestoringRef.current = true;
       stergePdfVechi(canvas);
 
@@ -1578,7 +1576,7 @@ function PaginaEditMateriale() {
 
       isRestoringRef.current = false;
 
-      // PASUL 4: Salvăm imediat în backend (cu URL-ul PDF pentru persistență)
+      // salvam imediat în backend
       await salveazaCanvasInBackend();
 
       const msg = secureUrl
@@ -1679,10 +1677,8 @@ function PaginaEditMateriale() {
           gap: '12px',
         }}
       >
-        {/* Stânga: nume + separator + fișier încărcat */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0, flex: 1 }}>
           
-          {/* 12. Input pentru redenumire (Schimbat din div) */}
           <input 
             value={numeMaterie === 'Se încarcă...' ? '' : numeMaterie}
             onChange={(e) => setNumeMaterie(e.target.value)}
@@ -1723,7 +1719,7 @@ function PaginaEditMateriale() {
           )}
         </div>
 
-        {/* Dreapta: status + save + undo/redo */}
+        
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexShrink: 0 }}>
           {saveStatus && (
             <span style={{ color: 'rgba(198,198,232,0.9)', fontSize: '12px', fontWeight: 600, fontFamily: "'Zilla Slab', serif", whiteSpace: 'nowrap' }}>

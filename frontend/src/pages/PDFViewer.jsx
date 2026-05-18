@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -38,17 +37,17 @@ export default function PDFViewer() {
   const [loading,   setLoading]   = useState(true);
   const [pdfError,  setPdfError]  = useState('');
 
-  // annotations
+  // annot
   const [annotations,  setAnnotations]  = useState([]);   
   const [saving,       setSaving]       = useState(false);
 
-  // tool state
+
   const [tool,         setTool]         = useState('highlight'); 
   const [activeColor,  setActiveColor]  = useState(HIGHLIGHT_COLORS[0]);
   const [noteText,     setNoteText]     = useState('');
   const [noteDraft,    setNoteDraft]    = useState(null);  
   const [hovered,      setHovered]      = useState(null);  
-  // drawing
+
   const drawing   = useRef(false);
   const startPos  = useRef({ x: 0, y: 0 });
   const pageRefs  = useRef({});   
@@ -159,7 +158,7 @@ export default function PDFViewer() {
       if (next.length !== annotations.length) updateAnnotations(next);
       return;
     }
-    // highlight
+  
     drawing.current = true;
     startPos.current = getPos(e, pageNum);
   };
@@ -229,7 +228,7 @@ export default function PDFViewer() {
       </div>
 
       <div style={styles.toolbar}>
-        {/* Tools */}
+       
         <div style={styles.toolGroup}>
           {[
             { id: 'highlight', label: '🖊 Evidențiere' },
@@ -274,7 +273,7 @@ export default function PDFViewer() {
         </button>
       </div>
 
-      {/* ── BODY ── */}
+    
       <div
         style={styles.body}
         onWheel={e => {
@@ -313,13 +312,13 @@ export default function PDFViewer() {
             <div key={pageNum} style={styles.pageWrap}>
               <div style={styles.pageLabel}>Pagina {pageNum}</div>
               <div style={{ position: 'relative', display: 'inline-block' }}>
-                {/* PDF canvas */}
+                {/* PDF canva */}
                 <canvas
                   ref={el => { pageRefs.current[pageNum] = el; }}
                   style={styles.canvas}
                 />
 
-                {/* Annotation overlay */}
+              
                 <div
                   ref={el => { overlayRefs.current[pageNum] = el; }}
                   style={{ ...styles.overlay, cursor: cursorForTool }}
@@ -327,7 +326,7 @@ export default function PDFViewer() {
                   onMouseUp={e => onMouseUp(e, pageNum)}
                   onClick={e => onOverlayClick(e, pageNum)}
                 >
-                  {/* Highlights */}
+               
                   {pageAnnotations
                     .filter(a => a.type === 'highlight')
                     .map(a => (
@@ -348,7 +347,7 @@ export default function PDFViewer() {
                       />
                     ))}
 
-                  {/* Notes */}
+                  {/* note */}
                   {pageAnnotations
                     .filter(a => a.type === 'note')
                     .map(a => (
@@ -384,7 +383,7 @@ export default function PDFViewer() {
         })}
       </div>
 
-      {/* ── NOTE DIALOG ── */}
+      {/* note */}
       {noteDraft && (
         <div style={styles.modalOverlay} onClick={() => setNoteDraft(null)}>
           <div style={styles.noteModal} onClick={e => e.stopPropagation()}>

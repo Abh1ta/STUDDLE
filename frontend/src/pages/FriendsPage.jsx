@@ -128,7 +128,7 @@ function FriendsPage() {
       <main className="relative z-10 flex flex-row gap-10 pt-10 px-10 pb-20">
         <div className="flex-1 max-w-2xl">
 
-          {/* Prietenii tăi */}
+          {/* prietenii tai */}
           <div className="flex items-center gap-3 mb-3">
             <img src={prieteniiTai} alt="" className="w-11 h-11 object-contain" />
             <h2 className="text-xl font-bold uppercase tracking-tight" style={{ color: P.navy }}>Prietenii tăi</h2>
@@ -169,7 +169,7 @@ function FriendsPage() {
             ))}
           </div>
 
-          {/* Adaugă prieteni */}
+          {/* adaugă prieteni */}
           <div className="flex items-center gap-3 mb-3">
             <img src={adaugaPrieteni} alt="" className="w-11 h-11 object-contain" />
             <h2 className="text-xl font-bold uppercase tracking-tight" style={{ color: P.navy }}>Adaugă prieteni</h2>
@@ -215,7 +215,7 @@ function FriendsPage() {
           </div>
         </div>
 
-        {/* Sidebar Top Studdle */}
+        {/* sidebar */}
         <div className="w-80 flex-shrink-0">
           <div className="sticky top-28 rounded-3xl p-8 shadow-md"
             style={{ background: 'rgba(255,255,255,0.75)', border: `1px solid ${P.lavLight}`, backdropFilter: 'blur(10px)' }}>

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import './Header.css';

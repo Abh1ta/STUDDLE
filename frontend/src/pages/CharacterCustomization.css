@@ -33,7 +33,7 @@
   margin: 0;
 }
 
-/* ── Main Content Layout ── */
+
 .customization-content {
   display: flex;
   align-items: flex-start;
@@ -43,7 +43,7 @@
   flex: 1;
 }
 
-/* ── Preview Panel (Left) ── */
+
 .preview-panel {
   flex: 0 0 520px;
   background: rgba(255,255,255,0.85);
@@ -106,7 +106,7 @@
 
 .cat-preview-img.switching { opacity: 0.4; }
 
-/* ── Controls Panel (Right) ── */
+
 .controls-panel {
   flex: 1;
   display: flex;
@@ -144,7 +144,7 @@
   border-radius: 2px;
 }
 
-/* ── Color Swatches ── */
+
 .swatches-flex {
   display: flex;
   flex-wrap: wrap;
@@ -167,7 +167,7 @@
   transform: scale(1.08);
 }
 
-/* ── Action Buttons ── */
+
 .customization-actions {
   display: flex;
   gap: 16px;
@@ -212,7 +212,7 @@
   opacity: 0.92;
 }
 
-/* Responsive */
+
 @media (max-width: 1100px) {
   .customization-content {
     flex-direction: column;

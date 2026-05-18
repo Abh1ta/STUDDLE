@@ -19,7 +19,7 @@ const PALETTE = {
 function PodiumCard({ user, index, isMe }) {
   const heights = ['h-36', 'h-28', 'h-24'];
   const sizes  = ['w-20 h-20', 'w-16 h-16', 'w-14 h-14'];
-  const order  = [1, 0, 2]; // vizual: 2nd, 1st, 3rd
+  const order  = [1, 0, 2]; 
 
   return (
     <div className="flex flex-col items-center gap-2">
@@ -88,7 +88,7 @@ setPenalties(penRes.data.penalties);
         fontFamily: "'Zilla Slab', serif",
       }}
     >
-      {/* Blob decorativ */}
+   
       <div
         className="absolute top-0 right-0 w-[480px] h-[480px] rounded-full pointer-events-none"
         style={{
@@ -108,7 +108,6 @@ setPenalties(penRes.data.penalties);
 
       <main className="relative z-10 pt-10 px-6 md:px-12 pb-20 max-w-6xl mx-auto">
 
-        {/* Header pagina */}
         <div className="mb-8">
           <h1 className="text-3xl font-black tracking-tight" style={{ color: PALETTE.navy }}>
             Clasament XP
@@ -119,7 +118,7 @@ setPenalties(penRes.data.penalties);
           <div className="mt-3 h-[2px] w-48 rounded-full" style={{ background: `linear-gradient(90deg, ${PALETTE.navy}, ${PALETTE.lavLight})` }} />
         </div>
 
-        {/* Layout principal: stânga conținut, dreapta card rank */}
+        {/* dreapta card rank */}
         <div className="flex flex-col lg:flex-row gap-8">
 
           {/* === COLOANA STÂNGA === */}
@@ -149,7 +148,7 @@ setPenalties(penRes.data.penalties);
               </p>
             ) : (
               <>
-                {/* Podium top 3 */}
+                {/*top 3 */}
                 {top3.length === 3 && (
                   <div
                     className="rounded-3xl p-6 mb-8 shadow-md"
@@ -235,10 +234,10 @@ setPenalties(penRes.data.penalties);
             )}
           </div>
 
-          {/* === COLOANA DREAPTA === */}
+          
           <div className="lg:w-72 flex flex-col gap-5">
 
-            {/* Cardul "Locul tău" */}
+            {/* "Locul tău" */}
             {myRank && activeTab === 'global' && (
               <div
                 className="rounded-3xl p-6 shadow-md"
@@ -276,7 +275,7 @@ setPenalties(penRes.data.penalties);
               </div>
             )}
 
-            {/* Card info XP */}
+            {/* info XP */}
             <div
               className="rounded-3xl p-6 shadow-sm"
               style={{

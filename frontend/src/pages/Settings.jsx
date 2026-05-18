@@ -87,7 +87,7 @@ function Settings() {
             </Link>
           </div>
 
-          {/* Acțiuni periculoase */}
+       
           <div className="rounded-3xl overflow-hidden shadow-sm"
             style={{ background: 'rgba(255,255,255,0.75)', border: `1px solid ${P.lavLight}`, backdropFilter: 'blur(10px)' }}>
             <button onClick={handleLogout}

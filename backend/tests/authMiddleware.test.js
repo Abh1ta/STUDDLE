@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 
-// 1. Mock the User model and jsonwebtoken
+
 const mockFindById = jest.fn();
 jest.unstable_mockModule('../models/userModel.js', () => ({
   default: {
@@ -41,7 +41,7 @@ describe('Protect Auth Middleware', () => {
 
   it('should return 401 if the token is invalid or expired', async () => {
     req.headers.authorization = 'Bearer bad-token';
-    // Force jwt.verify to throw an error simulating an invalid signature
+  
     jwt.verify.mockImplementation(() => { throw new Error('jwt expired'); });
 
     await protect(req, res, next);
@@ -55,7 +55,7 @@ describe('Protect Auth Middleware', () => {
     req.headers.authorization = 'Bearer good-token';
     jwt.verify.mockReturnValue({ id: 'mockedUserId123' });
     
-    // Mimic mongoose chaining behavior: User.findById().select()
+
     const mockSelect = jest.fn().mockResolvedValue({ 
       _id: { toString: () => 'mockedUserId123' },
       username: 'testuser'

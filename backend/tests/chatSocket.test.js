@@ -1,6 +1,6 @@
 import { jest } from '@jest/globals';
 
-// 1. Mock DB Models and JSON Web Tokens
+
 const mockCreateMessage = jest.fn();
 jest.unstable_mockModule('../models/messageModel.js', () => ({
   default: {
@@ -22,7 +22,7 @@ describe('Chat Socket.io Event Handlers', () => {
     jest.clearAllMocks();
     registeredEvents = {};
 
-    // Synthetic Socket.io instances to trace listeners
+  
     mockSocket = {
       handshake: { auth: { token: 'valid-socket-token' } },
       user: { id: 'user123' },
@@ -44,7 +44,7 @@ describe('Chat Socket.io Event Handlers', () => {
       emit: jest.fn()
     };
 
-    // Initialize your socket logic with our mock test anchors
+   
     initSocket({}, mockIo);
   });
 
@@ -53,10 +53,10 @@ describe('Chat Socket.io Event Handlers', () => {
   });
 
   it('should process join_chat and build sorted room assignments', () => {
-    // Fire the join_chat handler captured by our initializer mock
+    
     registeredEvents['join_chat']({ friendId: 'friend456' });
     
-    // Room ID is sorted dynamically: ['user123', 'friend456'].sort() -> 'friend456_user123'
+   
     expect(mockSocket.join).toHaveBeenCalledWith('friend456_user123');
   });
 

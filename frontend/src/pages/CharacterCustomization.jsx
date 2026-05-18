@@ -28,7 +28,7 @@ const CharacterCustomization = () => {
   const navigate = useNavigate();
   const { avatarData, refreshAvatar } = useAvatar();
 
-  // Incarca din Context cand intri pe pagina
+ 
   useEffect(() => {
     if (avatarData) {
       if (avatarData.skin_color) setCoat(avatarData.skin_color);

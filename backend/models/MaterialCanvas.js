@@ -2,13 +2,12 @@ import mongoose from "mongoose";
 
 const materialCanvasSchema = new mongoose.Schema(
   {
-    // materialId va fi numele materiei (ex: "mate", "romana")
     materialId: {
       type: String,
       required: true,
-      index: true // index în loc de unique
+      index: true 
     },
-    // Titlul specific al notiței (ex: "Curs 1", "Recapitulare")
+
     nume: {
       type: String,
       default: "Notiță nouă"

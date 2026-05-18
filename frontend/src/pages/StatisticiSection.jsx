@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/immutability */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 
 const P = { navy: '#344979', blue: '#5d6da5', lav: '#5d6da5', lavLight: '#c6c6e8', blush: '#f7e5eb' };
@@ -134,7 +132,7 @@ const StatisticiSection = ({ token }) => {
 
   return (
     <div>
-      {/* Summary row */}
+     
       <div style={{ display: 'flex', gap: '14px', marginBottom: '18px', flexWrap: 'wrap' }}>
         {[
           { label: 'Ore studiate săptămâna aceasta', value: `${stats.totalHoursThisWeek}h`, color: P.blue },
@@ -152,7 +150,7 @@ const StatisticiSection = ({ token }) => {
         ))}
       </div>
 
-      {/* Charts */}
+  
       <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
         <div style={cardStyle}>
           <p style={subtitleStyle}>Ore de studiu — ultimele 7 zile</p>

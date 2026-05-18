@@ -32,13 +32,13 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           <SidebarProvider>
             <SocketProvider>
               <Routes>
-              {/* Pagini fără sidebar */}
+              {/* fara sidebar */}
               <Route path="/" element={<StartPage />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/pdf-viewer" element={<PDFViewer />} />
 
-              {/* Pagini cu sidebar (Layout) */}
+              {/*cu sidebar */}
               <Route element={<Layout />}>
                 <Route path="/home" element={<App />} />
                 <Route path="/friends" element={<FriendsPage />} />

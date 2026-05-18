@@ -39,11 +39,9 @@ export const deleteSubject = async (req, res) => {
             return res.status(404).json({ message: "Materia nu a fost găsită." });
         }
 
-        // 2. ȘTERGEREA ÎN CASCADĂ: Curățăm notițele asociate numelui acestei materii
-        // Căutăm după 'materialId' fiindcă frontend-ul trimite titlul materiei când creează o notiță nouă
+      
         await materialCanvasModel.deleteMany({ materialId: subject.title });
 
-        // 3. Abia acum ștergem materia propriu-zisă
         await subject.deleteOne();
         
         res.status(200).json({ message: "Materia și toate notițele sale au fost șterse." });

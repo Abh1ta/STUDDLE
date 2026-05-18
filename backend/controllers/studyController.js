@@ -94,9 +94,8 @@ export const stopStudySession = async (req, res) => {
             delta: xpGained
         });
 
-        // ── Penalty resolve ───────────────────────────────────────────────────
-        // If user had an active weekly penalty and studied 60+ min, recover XP.
-        const penaltyResult = await tryResolvePenalty(userId, diffMins); // ← ADD
+ 
+        const penaltyResult = await tryResolvePenalty(userId, diffMins); 
         // ─────────────────────────────────────────────────────────────────────
 
         res.status(200).json({ 
@@ -104,7 +103,7 @@ export const stopStudySession = async (req, res) => {
             duration: diffMins, 
             xpGained,
             currentLevel: updatedUser.level,
-            penaltyResult // ← ADD — frontend reads this to show the green recovery banner
+            penaltyResult 
         });
     } catch (error) {
         res.status(500).json({ message: "Eroare la oprirea sesiunii", error: error.message });
@@ -185,7 +184,6 @@ const buildStudyStats = async (userObjId) => {
         start_time: { $gte: sevenDaysAgo }
     });
 
-    // "YYYY-MM-DD"
     const minutesByDay = {};
     for (let i = 0; i < 7; i++) {
         const d = new Date(sevenDaysAgo);

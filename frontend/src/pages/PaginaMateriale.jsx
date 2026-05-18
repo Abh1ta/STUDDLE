@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './PaginaMateriale.css';
@@ -53,14 +52,14 @@ const PaginaMateriale = () => {
   const [loading, setLoading] = useState(true);
   const [toast,   setToast]   = useState(null);
 
-  // Stări pentru funcționalitatea de notițe (Modal)
+  //  funcționalitatea de notițe
   const [selectedSubject, setSelectedSubject] = useState(null); 
   const [notesList, setNotesList] = useState([]); 
   const [showNotesModal, setShowNotesModal] = useState(false);
 
   const showToast = (msg, type = 'ok') => { setToast({ msg, type }); setTimeout(() => setToast(null), 3000); };
 
-  /* ── normalizers ── */
+  /* normalizare */
   const normMaterie = (item) => ({ ...item, id: item._id || item.id, nume: item.title || item.name || 'Materie', culoare: item.color || item.culoare || '#7c83b3' });
   const normTema    = (item) => ({ ...item, id: item._id || item.id, nume: item.title || item.name || 'Temă',    culoare: item.color || item.culoare || '#5ca0e8' });
   const normExamen  = (item) => {
@@ -70,7 +69,7 @@ const PaginaMateriale = () => {
     return { ...item, id: item._id || item.id, nume: item.title || item.name || 'Examen', culoare: item.color || item.culoare || '#f03a17', data: String(raw).slice(0, 10), dataText };
   };
 
-  /* ── fetch ── */
+ 
   useEffect(() => {
     if (!token) return;
     const fetchAll = async () => {
@@ -90,7 +89,7 @@ const PaginaMateriale = () => {
     fetchAll();
   }, [token]);
 
-  /* ── file pickers ── */
+
   const handleAlegeFisierMaterie = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -109,7 +108,6 @@ const PaginaMateriale = () => {
     if (!numeNouTema.trim()) setNumeNouTema(numeDinFisier(file));
   };
 
-  /* ── CRUD ── */
   const adaugaMaterie = async () => {
     const numeFinal = numeNou.trim() || numeDinFisier(fisierMaterie);
     if (!numeFinal) return;
@@ -169,7 +167,7 @@ const PaginaMateriale = () => {
   const stergeTema    = async (id) => { const r = await apiFetch(`/api/homework/${id}`, token, { method: 'DELETE' }); if (r.ok) setTeme(p => p.filter(t => (t._id || t.id) !== id)); };
   const stergeExamen  = async (id) => { const r = await apiFetch(`/api/exams/${id}`, token, { method: 'DELETE' }); if (r.ok) setExamene(p => p.filter(ex => (ex._id || ex.id) !== id)); };
 
-  // Logica de deschidere a listei de notițe din a doua versiune
+  // deschidere a listei de notite 
   const handleSubjectClick = async (materie) => {
     setSelectedSubject(materie);
     try {
@@ -211,7 +209,7 @@ const PaginaMateriale = () => {
     }
   };
 
-  /* ── calendar ── */
+  /*calendar */
   const an = dataCalendar.getFullYear();
   const lunaIdx = dataCalendar.getMonth();
   const zileInLuna = new Date(an, lunaIdx + 1, 0).getDate();
@@ -244,7 +242,7 @@ const PaginaMateriale = () => {
   return (
     <div className="pm-wrapper">
 
-      {/* ── TOPBAR STRUCTURĂ ȘI CULORI DIN PRIMA VERSIUNE ── */}
+     
       <div className="pm-topbar">
         <div>
           <h1 className="pm-page-title" style={{ 
@@ -262,7 +260,6 @@ const PaginaMateriale = () => {
           <p className="pm-page-sub" style={{ color: '#465a8a', fontSize: '13px', margin: '4px 0 0 0', display: 'flex', alignItems: 'center', gap: '4px' }}></p>
         </div>
         
-        {/* Butoanele au toate aceeași clasă primară, conform primei variante */}
         <div className="pm-topbar-actions">
           <button className="pm-btn-add" onClick={() => setShowPopup(true)}>+ Materie</button>
           <button className="pm-btn-add" onClick={() => setShowPopupTeme(true)}>+ Temă</button>
@@ -272,10 +269,10 @@ const PaginaMateriale = () => {
 
       <div className="pm-body">
 
-        {/* ── MAIN ── */}
+        
         <div className="pm-main">
 
-          {/* MATERII */}
+          {/* materii */}
           <section className="pm-section">
             <h2 className="pm-section-title">Materiile tale</h2>
             <div className="pm-cards-list">
@@ -294,7 +291,7 @@ const PaginaMateriale = () => {
             </div>
           </section>
 
-          {/* TEME (Fără imaginea cu spirale din a doua variantă, păstrând stilul curat) */}
+          {/* teme */}
           <section className="pm-section">
             <h2 className="pm-section-title">Temele tale</h2>
             <div className="pm-cards-list">
@@ -315,7 +312,7 @@ const PaginaMateriale = () => {
 
         </div>
 
-        {/* ── ASIDE ── */}
+      
         <aside className="pm-aside">
 
           <div className="pm-aside-card" id="calendar">
@@ -354,7 +351,6 @@ const PaginaMateriale = () => {
         </aside>
       </div>
 
-      {/* MODALUL INTEGRAT PENTRU LISTA DE NOTIȚE */}
       {showNotesModal && (
         <div className="modal-overlay" onClick={() => setShowNotesModal(false)}>
           <div className="pm-popup" onClick={e => e.stopPropagation()} style={{ width: '450px' }}>
@@ -391,7 +387,7 @@ const PaginaMateriale = () => {
         </div>
       )}
 
-      {/* ── POPUP MATERIE (Păstrat textul placeholder-ului extins din prima variantă) ── */}
+      {/*popup materie */}
       {showPopup && (
         <div className="modal-overlay" onClick={() => { setShowPopup(false); setNumeNou(''); setFisierMaterie(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
@@ -410,7 +406,7 @@ const PaginaMateriale = () => {
         </div>
       )}
 
-      {/* ── POPUP TEMĂ ── */}
+      {/*popup tema */}
       {showPopupTeme && (
         <div className="modal-overlay" onClick={() => { setShowPopupTeme(false); setNumeNouTema(''); setFisierTema(null); }}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>
@@ -429,7 +425,7 @@ const PaginaMateriale = () => {
         </div>
       )}
 
-      {/* ── POPUP EXAMEN ── */}
+      {/*popup examen */}
       {showPopupExamen && (
         <div className="modal-overlay" onClick={() => setShowPopupExamen(false)}>
           <div className="pm-popup" onClick={e => e.stopPropagation()}>

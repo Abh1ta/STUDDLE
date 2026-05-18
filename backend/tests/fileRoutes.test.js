@@ -41,7 +41,6 @@ jest.unstable_mockModule('../models/userModel.js', () => ({
   }
 }));
 
-// 5. Import dependencies after mocks are registered
 const { default: request } = await import('supertest');
 const { default: app } = await import('../app.js');
 

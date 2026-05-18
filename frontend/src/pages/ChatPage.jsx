@@ -7,9 +7,7 @@ const API = import.meta.env.VITE_API_URL || "http://localhost:5000";
 const P = { navy: '#344979', blue: '#5d6da5', lav: '#5d6da5', lavLight: '#c6c6e8', blush: '#f7e5eb' };
 const pdfInlineUrl = (url) => {
   if (!url) return url;
-  // Transformă URL-ul Cloudinary pentru a forța vizualizare inline
-  // din: https://res.cloudinary.com/dz57om6az/raw/upload/v.../fisier.pdf
-  // în:  https://res.cloudinary.com/dz57om6az/raw/upload/fl_attachment:false/v.../fisier.pdf
+ 
   return url.replace('/upload/', '/upload/fl_attachment:false/');
 };
 const fmt = (bytes) => {
@@ -57,7 +55,6 @@ function MessageBubble({ msg, currentUserId }) {
       )}
       <div style={{ maxWidth: "70%", display: "flex", flexDirection: "column", alignItems: isMine ? "flex-end" : "flex-start" }}>
         
-        {/* Render Atașament PDF/TXT stilizat */}
        {msg.attachment && (
   
     <a href={`https://docs.google.com/viewer?url=${encodeURIComponent(msg.attachment.url)}&embedded=true`}
@@ -117,7 +114,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
   const [statusText, setStatusText] = useState(""); // Pentru starea de upload
   const bottomRef = useRef(null);
   
-  // 1. Ref pentru File Input-ul ascuns
+
   const fileInputRef = useRef(null);
 
   useEffect(() => {
@@ -153,7 +150,6 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
     setInput("");
   };
 
-  // 2. Funcția care uploadează fișierul prin API-ul tău și trimite mesajul prin Socket
   const handleFileChange = async (e) => {
   const file = e.target.files[0];
   if (!file || !activeFriend) return;
@@ -178,7 +174,6 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
       throw new Error(errorResponse.message || "Upload-ul a eșuat");
     }
     
-    // Corectat: fetch folosește direct res.json()
     const uploadResult = await res.json(); 
 
     if (socketRef.current) {
@@ -205,7 +200,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
       display: "flex", height: "100vh",
       background: `linear-gradient(135deg, ${P.blush} 0%, #ffffff 50%, #c6c6e830 100%)`,
     }}>
-      {/* Sidebar */}
+     
       <div style={{
         width: 290, flexShrink: 0,
         background: "rgba(243, 245, 250, 0.75)",
@@ -247,7 +242,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
         </div>
       </div>
 
-      {/* Main Chat */}
+      {/* main chat */}
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         {activeFriend ? (
           <>
@@ -272,7 +267,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
               backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)",
             }}>
               
-              {/* 3. Butonul Drăguț de Galerie / File Attachment */}
+             
               <button type="button" onClick={() => fileInputRef.current?.click()} style={{ background: 'none', border: 'none', padding: '4px', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'transform 0.15s' }}
                 onMouseEnter={(e) => e.currentTarget.style.transform = "scale(1.1)"}
                 onMouseLeave={(e) => e.currentTarget.style.transform = "scale(1)"}
@@ -280,7 +275,7 @@ export default function ChatPage({ token, currentUserId, friendList = [] }) {
                 <img src={galleryIcon} style={{ width: '28px', height: '28px', opacity: 0.7 }} alt="Atașează fișier" />
               </button>
               
-              {/* Input-ul file ascuns (acceptă doar .pdf și .txt conform filtrului Multer) */}
+             
               <input 
                 type="file" 
                 ref={fileInputRef} 

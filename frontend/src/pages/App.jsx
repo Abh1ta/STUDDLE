@@ -19,7 +19,7 @@ function App() {
       position: 'relative',
       overflow: 'hidden',
     }}>
-      {/* Background Glows */}
+     
       <div style={{ position: 'absolute', bottom: '-100px', left: '150px', width: '600px', height: '600px', borderRadius: '60%', background: `radial-gradient(circle, ${P.lavLight} 0%, ${P.lav} 60%)`, filter: 'blur(60px)', opacity: 0.3, zIndex: 0, pointerEvents: 'none' }} />
       <div style={{ position: 'absolute', top: '-100px', right: '120px', width: '600px', height: '600px', borderRadius: '60%', background: `radial-gradient(circle, ${P.blush} 0%, ${P.lavLight} 80%)`, filter: 'blur(50px)', opacity: 0.45, zIndex: 0, pointerEvents: 'none' }} />
 
@@ -30,7 +30,7 @@ function App() {
             style={{ position: 'absolute', height: 'auto', width: '65%', left: collapsed ? '15%' : '8%', bottom: '23%', zIndex: 5, pointerEvents: 'none', userSelect: 'none', transition: 'left 0.3s ease' }}
           />
 
-          {/* Central message */}
+   
           <div style={{ position: 'absolute', top: '30%', left: collapsed ? '40%' : '50%', width: collapsed ? '600px' : '500px', textAlign: 'center', zIndex: 20, display: 'flex', flexDirection: 'column', alignItems: 'center', transition: 'all 0.3s ease' }}>
             <h1 style={{ fontSize: collapsed ? '42px' : '36px', fontWeight: 800, color: P.navy, marginBottom: '2.5rem', lineHeight: '1.2', transition: 'font-size 0.3s ease' }}>
               Transformă învățatul într-o<br />aventură cu Studdle
@@ -61,7 +61,7 @@ function App() {
         </div>
       </main>
 
-      {/* Interactive bottom circles */}
+      
       <div onMouseEnter={(e) => e.currentTarget.style.bottom = '-70px'} onMouseLeave={(e) => e.currentTarget.style.bottom = '-100px'}
         style={{ position: 'absolute', left: '-20px', bottom: '-80px', width: '250px', height: '250px', backgroundColor: P.navy, borderRadius: '50%', opacity: 0.6, filter: 'blur(2px)', transition: 'bottom 0.6s ease-out', cursor: 'pointer', zIndex: 10 }} />
       <div onMouseEnter={(e) => e.currentTarget.style.bottom = '-50px'} onMouseLeave={(e) => e.currentTarget.style.bottom = '-100px'}

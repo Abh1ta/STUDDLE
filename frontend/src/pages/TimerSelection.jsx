@@ -58,7 +58,7 @@ function TimerSelection() {
               }}
             >
               
-              {/* --- 1. CERCUL PENTRU CARDUL DIN STÂNGA (Pomodoro) --- */}
+         
               {mode.id === 'pomodoro' && (
                 <div style={{
                   position: 'absolute',
@@ -66,14 +66,14 @@ function TimerSelection() {
                   left: '0.7rem',
                   width: '28px',
                   height: '28px',
-                  backgroundColor: '#D6C7E4', // MODIFICĂ AICI DOAR PENTRU STÂNGA
+                  backgroundColor: '#D6C7E4', 
                   borderRadius: '50%',
                   border: '2px solid #332D51',
-                  zIndex: 9, // Am pus zIndex mai mare să fie sigur vizibil
+                  zIndex: 9, 
                 }}></div>
               )}
 
-              {/* --- 2. CERCUL PENTRU CARDUL DIN MIJLOC (Flowmodoro) --- */}
+              {/*Flowmodoro*/}
               {mode.id === 'flowmodoro' && (
                 <div style={{
                   position: 'absolute',
@@ -88,7 +88,7 @@ function TimerSelection() {
                 }}></div>
               )}
 
-              {/* --- 3. CERCUL PENTRU CARDUL DIN DREAPTA (Ritm propriu) --- */}
+              {/*Ritm propriu */}
               {mode.id === 'custom' && (
                 <div style={{
                   position: 'absolute',
@@ -96,7 +96,7 @@ function TimerSelection() {
                   left: '0.7rem',
                   width: '28px',
                   height: '28px',
-                  backgroundColor: '#ADAAD5', // MODIFICĂ AICI DOAR PENTRU DREAPTA
+                  backgroundColor: '#ADAAD5', 
                   borderRadius: '50%',
                   border: '2px solid #332D51',
                   zIndex: 9,

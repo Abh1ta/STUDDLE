@@ -1,6 +1,3 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-/* eslint-disable react-hooks/immutability */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
@@ -229,7 +226,7 @@ function FriendsChat() {
       <div style={{ position: 'absolute', top: '-60px', right: '-60px', width: '500px', height: '500px', borderRadius: '50%', background: `radial-gradient(circle, ${P.blush}80 0%, transparent 70%)`, filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }} />
 
       <div style={{ position: 'relative', zIndex: 1, padding: '32px 32px 0' }}>
-        {/* HEADER */}
+       
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
           <div style={{ position: 'relative' }}>
             <img
@@ -253,10 +250,10 @@ function FriendsChat() {
         </div>
         <div style={{ height: '1.5px', background: `linear-gradient(90deg, ${P.lavLight}, transparent)`, marginBottom: '24px', width: '500px' }} />
 
-        {/* MAIN LAYOUT */}
+       
         <div style={{ display: 'flex', gap: '32px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
-          {/* CHAT COLUMN */}
+          {/* chat */}
           <div style={{ width: '520px', flexShrink: 0 }}>
           <div style={{
               background: 'rgba(118,101,173,0.38)',
@@ -320,7 +317,7 @@ function FriendsChat() {
             </div>
           </div>
 
-          {/* STATS COLUMN */}
+          {/* stats */}
           <div style={{ flex: 1, maxWidth: '380px', paddingTop: '4px' }}>
             <p style={{ fontSize: '0.8rem', fontWeight: 800, color: P.lav, textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 14px', borderLeft: `3px solid ${P.blue}`, paddingLeft: '10px' }}>
               Statisticile lui {selectedFriend?.username || 'prietenului'}

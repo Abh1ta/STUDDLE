@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -93,13 +92,13 @@ function MyAccount() {
       position: 'relative',
       overflowX: 'hidden',
     }}>
-      {/* bg blobs */}
+      
       <div style={{ position: 'absolute', top: '-100px', right: '-100px', width: '500px', height: '500px', borderRadius: '50%', background: `radial-gradient(circle, ${P.lavLight}70, transparent 70%)`, filter: 'blur(60px)', pointerEvents: 'none', zIndex: 0 }} />
       <div style={{ position: 'absolute', bottom: '-80px', left: '-80px', width: '400px', height: '400px', borderRadius: '50%', background: `radial-gradient(circle, ${P.blush}80, transparent 70%)`, filter: 'blur(50px)', pointerEvents: 'none', zIndex: 0 }} />
 
       <main style={{ position: 'relative', zIndex: 1, paddingTop: '36px' }}>
 
-        {/* TOPBAR */}
+      
         <div style={{ padding: '0 32px 20px', display: 'flex', alignItems: 'center', gap: '16px', borderBottom: `1.5px solid ${P.lavLight}55` }}>
           <img src={contulMeu} alt="" style={{ width: '36px', height: '36px', objectFit: 'contain' }} />
           <div>
@@ -110,7 +109,7 @@ function MyAccount() {
 
         <div style={{ padding: '36px 32px', maxWidth: '760px' }}>
 
-          {/* FIELDS */}
+       
           <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', marginBottom: '40px' }}>
             {[
               { label: 'Nume de utilizator', value: userData.username, type: 'text' },
@@ -130,7 +129,7 @@ function MyAccount() {
             ))}
           </div>
 
-          {/* STATISTICI */}
+          {/*statistici */}
           <div style={{ marginBottom: '40px' }}>
             <h2 style={{ fontSize: '0.85rem', fontWeight: 800, color: P.navy, textTransform: 'uppercase', letterSpacing: '1px', margin: '0 0 20px', borderLeft: `3px solid ${P.blue}`, paddingLeft: '10px' }}>
               Statistici studiu
@@ -140,7 +139,7 @@ function MyAccount() {
             </div>
           </div>
 
-          {/* DANGER ZONE */}
+         
           <div style={{ borderTop: `1.5px solid ${P.lavLight}55`, paddingTop: '28px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
             <button onClick={handleLogout} style={{ display: 'flex', alignItems: 'center', gap: '14px', padding: '12px 8px', background: 'none', border: 'none', cursor: 'pointer', borderRadius: '12px', transition: 'background 0.15s', fontFamily: 'inherit', textAlign: 'left', width: 'fit-content' }}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(229,62,62,0.06)'}

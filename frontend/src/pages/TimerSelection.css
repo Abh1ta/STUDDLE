@@ -33,7 +33,7 @@
   }
 }
 
-/* ── Individual Card ── */
+
 .timer-card {
   background: rgba(200, 195, 220, 0.45);
   backdrop-filter: blur(8px);
@@ -54,7 +54,7 @@
   background: rgba(200, 195, 220, 0.65);
 }
 
-/* Clock icon */
+
 .timer-card-icon {
   flex-shrink: 0;
   width: 36px;
